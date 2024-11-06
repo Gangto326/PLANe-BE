@@ -70,6 +70,7 @@ public class UserControllerTest {
 	}
 	
 	@Test
+//	@Disabled
 	void testUserProfile() throws Exception {
 		System.out.println("==== Profile Test Start ====");
 		
