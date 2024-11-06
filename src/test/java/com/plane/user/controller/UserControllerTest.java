@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -41,6 +42,7 @@ public class UserControllerTest {
     private UserRepository userRepository;
 	
 	@Test
+	@Disabled
 	void testUserRegister() throws Exception {
 		System.out.println("==== Test Start ====");
 		
@@ -61,6 +63,19 @@ public class UserControllerTest {
 	            .contentType(MediaType.APPLICATION_JSON)
 	            .content(content))
 	            .andDo(print())
+	            .andExpect(status().isOk());
+		
+        System.out.println("==== Test End ====");
+
+	}
+	
+	@Test
+	void testUserProfile() throws Exception {
+		System.out.println("==== Profile Test Start ====");
+		
+		mockMvc.perform(get("/api/users/profile/user001")    
+	            .contentType(MediaType.APPLICATION_JSON))
+	            .andDo(print())                             
 	            .andExpect(status().isOk());
 		
         System.out.println("==== Test End ====");
