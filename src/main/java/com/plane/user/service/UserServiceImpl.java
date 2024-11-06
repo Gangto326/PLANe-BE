@@ -6,8 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.plane.common.exception.DuplicatePhoneException;
 import com.plane.common.exception.InvalidPasswordException;
+import com.plane.common.exception.UserNotFoundException;
 import com.plane.common.util.HashUtil;
 import com.plane.user.dto.UserLoginResponse;
+import com.plane.user.dto.UserProfileResponse;
 import com.plane.user.dto.UserSignupRequest;
 import com.plane.user.repository.UserRepository;
 
@@ -48,9 +50,23 @@ public class UserServiceImpl implements UserService{
         
         if (userRepository.save(userSignupRequest) == 1) {
         	userLoginResponse = new UserLoginResponse(userSignupRequest.getUserId());
+        	return userLoginResponse;
         }
         
-		return userLoginResponse;
+		throw new UserNotFoundException("회원가입 실패.");
+	}
+
+
+	@Override
+	public UserProfileResponse getProfile(String userId) {
+		
+		UserProfileResponse userProfileResponse = userRepository.selectUserProfile(userId);
+		
+		if (userProfileResponse == null) {
+			throw new UserNotFoundException("사용자를 찾을 수 없습니다.");
+		}
+		
+		return userRepository.selectUserProfile(userId);
 	}
 	
 }

@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.plane.common.response.ApiResponse;
 import com.plane.user.dto.UserLoginRequest;
 import com.plane.user.dto.UserLoginResponse;
+import com.plane.user.dto.UserProfileResponse;
 import com.plane.user.dto.UserSignupRequest;
+import com.plane.user.dto.MannerTagDto;
+import com.plane.user.dto.TripStyleDto;
 import com.plane.user.service.UserService;
 
 import jakarta.validation.Valid;
@@ -60,9 +63,10 @@ public class UserController {
 	}
 	
 	@GetMapping("/profile/{userId}")
-	public ResponseEntity<ApiResponse<?>> profile(@PathVariable String userId) {
+	public ResponseEntity<ApiResponse<UserProfileResponse>> profile(@PathVariable String userId) {
 		
-		return null;
+		UserProfileResponse userProfileResponse = userService.getProfile(userId);
+		return ResponseEntity.ok(ApiResponse.success(userProfileResponse, "프로필 정보를 정상적으로 불러왔습니다."));
 	}
 	
 	@GetMapping("/myPage")

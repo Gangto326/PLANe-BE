@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+// 꺽쇠 날리기 적용 XSS 검색
 public class UserSignupRequest {
 	
 	@NotBlank(message = "아이디는 필수입니다")

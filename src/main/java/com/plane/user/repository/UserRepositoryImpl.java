@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.plane.user.domain.User;
 import com.plane.user.dto.UserLoginResponse;
+import com.plane.user.dto.UserProfileResponse;
 import com.plane.user.dto.UserSignupRequest;
 import com.plane.user.mapper.UserMapper;
 
@@ -28,6 +29,12 @@ public class UserRepositoryImpl implements UserRepository{
 	public int save(UserSignupRequest userSignupRequest) {
 		
 		return userMapper.insertUser(userSignupRequest);
+	}
+
+	@Override
+	public UserProfileResponse selectUserProfile(String userId) {
+		
+		return userMapper.selectUserProfile(userId);
 	}
 	
 }
