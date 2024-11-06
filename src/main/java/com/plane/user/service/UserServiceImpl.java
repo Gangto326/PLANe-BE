@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.plane.common.exception.DuplicatePhoneException;
-import com.plane.common.exception.InvalidPasswordException;
-import com.plane.common.exception.UserNotFoundException;
+import com.plane.common.exception.custom.DuplicateUserException;
+import com.plane.common.exception.custom.InvalidPasswordException;
+import com.plane.common.exception.custom.UserNotFoundException;
 import com.plane.common.util.HashUtil;
 import com.plane.user.dto.UserLoginResponse;
 import com.plane.user.dto.UserProfileResponse;
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService{
         String hashedPhone = hashUtil.hashPhone(userSignupRequest.getPhone());
         
         if (userRepository.selectByPhone(hashedPhone) != null) {
-            throw new DuplicatePhoneException("이미 가입된 번호입니다.");
+            throw new DuplicateUserException("이미 가입된 번호입니다.");
         }
         
         // 엔티티 생성 및 저장
