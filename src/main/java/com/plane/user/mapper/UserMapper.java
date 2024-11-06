@@ -14,6 +14,8 @@ import com.plane.user.dto.UserProfileResponse;
 import com.plane.user.dto.UserSignupRequest;
 import com.plane.user.dto.MannerTagDto;
 import com.plane.user.dto.TripStyleDto;
+import com.plane.user.dto.TripThemaDto;
+import com.plane.user.dto.UserMyPageResponse;
 
 @Mapper
 public interface UserMapper {
@@ -60,4 +62,29 @@ public interface UserMapper {
 		    LIMIT 3
 		    """)
 	List<MannerTagDto> selectMannerTags(String userId);
+	
+	@Select("""
+		    SELECT tt.themaId as id, tt.themaName
+		    FROM TripThema tt
+		    JOIN UsersTripThema utt ON tt.themaId = utt.themaId
+		    WHERE utt.userId = #{userId}
+		    """)
+	List<TripThemaDto> selectTripThemas(String userId);
+
+	
+	@Select("""
+		    SELECT userId, nickName, manner, profileUrl, introduce, isPublic
+		    FROM Users
+		    WHERE userId = #{userId}
+		    """)
+	@Results({
+		@Result(property = "userId", column = "userId"),
+	    @Result(property = "tripStyle", column = "userId", many = @Many(select = "selectTripStyles")),
+	    @Result(property = "tripThema", column = "userId", many = @Many(select = "selectTripThemas")),
+	    @Result(property = "mannerTags", column = "userId", many = @Many(select = "selectMannerTags"))
+	})
+	UserMyPageResponse selectUserMyPage(String userId);
+	
+	
+	
 }

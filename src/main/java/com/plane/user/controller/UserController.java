@@ -16,6 +16,7 @@ import com.plane.user.dto.UserLoginRequest;
 import com.plane.user.dto.UserLoginResponse;
 import com.plane.user.dto.UserProfileResponse;
 import com.plane.user.dto.UserSignupRequest;
+import com.plane.user.dto.UserMyPageResponse;
 import com.plane.user.dto.MannerTagDto;
 import com.plane.user.dto.TripStyleDto;
 import com.plane.user.service.UserService;
@@ -69,10 +70,11 @@ public class UserController {
 		return ResponseEntity.ok(ApiResponse.success(userProfileResponse, "프로필 정보를 정상적으로 불러왔습니다."));
 	}
 	
-	@GetMapping("/myPage")
-	public ResponseEntity<ApiResponse<?>> myPage() {
+	@GetMapping("/myPage/{userId}")
+	public ResponseEntity<ApiResponse<UserMyPageResponse>> myPage(@PathVariable String userId) {
 		
-		return null;
+		UserMyPageResponse userMyPageResponse = userService.getMyPage(userId);
+		return ResponseEntity.ok(ApiResponse.success(userMyPageResponse, "마이페이지 정보를 정상적으로 불러왔습니다."));
 	}
 	
 	@PatchMapping("/myPage")

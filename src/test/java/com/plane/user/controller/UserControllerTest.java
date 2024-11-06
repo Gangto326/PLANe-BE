@@ -70,11 +70,25 @@ public class UserControllerTest {
 	}
 	
 	@Test
-//	@Disabled
+	@Disabled
 	void testUserProfile() throws Exception {
 		System.out.println("==== Profile Test Start ====");
 		
 		mockMvc.perform(get("/api/users/profile/user001")    
+	            .contentType(MediaType.APPLICATION_JSON))
+	            .andDo(print())                             
+	            .andExpect(status().isOk());
+		
+        System.out.println("==== Test End ====");
+
+	}
+	
+	@Test
+//	@Disabled
+	void testUserMyPage() throws Exception {
+		System.out.println("==== MyPage Test Start ====");
+		
+		mockMvc.perform(get("/api/users/myPage/user001")    
 	            .contentType(MediaType.APPLICATION_JSON))
 	            .andDo(print())                             
 	            .andExpect(status().isOk());
