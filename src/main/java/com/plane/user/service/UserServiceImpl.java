@@ -9,6 +9,7 @@ import com.plane.common.exception.custom.InvalidPasswordException;
 import com.plane.common.exception.custom.UserNotFoundException;
 import com.plane.common.util.HashUtil;
 import com.plane.user.dto.UserLoginResponse;
+import com.plane.user.dto.UserMyPageResponse;
 import com.plane.user.dto.UserProfileResponse;
 import com.plane.user.dto.UserSignupRequest;
 import com.plane.user.repository.UserRepository;
@@ -66,7 +67,20 @@ public class UserServiceImpl implements UserService{
 			throw new UserNotFoundException("사용자를 찾을 수 없습니다.");
 		}
 		
-		return userRepository.selectUserProfile(userId);
+		return userProfileResponse;
+	}
+
+
+	@Override
+	public UserMyPageResponse getMyPage(String userId) {
+		
+		UserMyPageResponse userMyPageResponse = userRepository.selectUserMyPage(userId);
+		
+		if (userMyPageResponse == null) {
+			throw new UserNotFoundException("사용자를 찾을 수 없습니다.");
+		}
+		
+		return userMyPageResponse;
 	}
 	
 }

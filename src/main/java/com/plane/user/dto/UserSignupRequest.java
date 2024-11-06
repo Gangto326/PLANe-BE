@@ -40,8 +40,7 @@ public class UserSignupRequest {
 	private String hashedPhone;
 	
 	
-	public UserSignupRequest() {
-	}
+	public UserSignupRequest() {}
 	
 	public UserSignupRequest(String userId, String password, String confirmPassword, String nickName, String phone,
 			String email) {
