@@ -132,6 +132,7 @@ public class UserServiceImpl implements UserService{
         }
         
         userRepository.deleteTripStyle(userId);
+        
         if (!tripStyle.isEmpty()) {
             userRepository.insertTripStyle(userId, tripStyle);
         }
@@ -147,11 +148,23 @@ public class UserServiceImpl implements UserService{
         }
         
         userRepository.deleteTripThema(userId);
+        
         if (!tripThema.isEmpty()) {
             userRepository.insertTripThema(userId, tripThema);
         }
         
         return true;
     }
+
+
+	@Override
+	public boolean checkDuplicatedId(String userId) {
+		
+		if (userRepository.findUserById(userId) == 0) {
+			return true;
+		}
+		
+		throw new DuplicateUserException("이미 가입된 아이디입니다.");
+	}
 	
 }

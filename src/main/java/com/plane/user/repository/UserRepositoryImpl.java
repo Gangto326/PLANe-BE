@@ -76,5 +76,11 @@ public class UserRepositoryImpl implements UserRepository{
 		
 		return userMapper.insertTripThema(userId, tripThema);
 	}
+
+	@Override
+	public int findUserById(String userId) {
+		
+		return userMapper.findUserById(userId);
+	}
 	
 }

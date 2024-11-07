@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -47,6 +48,7 @@ public class UserControllerTest {
     private UserRepository userRepository;
 	
 	@Test
+	@DisplayName("회원 가입하기")
 	@Disabled
 	void testUserRegister() throws Exception {
 		System.out.println("==== Test Start ====");
@@ -75,6 +77,7 @@ public class UserControllerTest {
 	}
 	
 	@Test
+	@DisplayName("유저 프로필 확인하기")
 	@Disabled
 	void testUserProfile() throws Exception {
 		System.out.println("==== Profile Test Start ====");
@@ -89,6 +92,7 @@ public class UserControllerTest {
 	}
 	
 	@Test
+	@DisplayName("마이페이지 확인하기")
 	@Disabled
 	void testUserMyPage() throws Exception {
 		System.out.println("==== MyPage Test Start ====");
@@ -104,6 +108,7 @@ public class UserControllerTest {
 	
 	
 	@Test
+	@DisplayName("마이페이지 수정하기")
 //	@Disabled
 	void testUpdateMyPage() throws Exception {
 		System.out.println("==== UpdateMyPage Test Start ====");

@@ -101,7 +101,7 @@ public class UserController {
 	
 	
 	// 계정 찾기 & 변경, 탈퇴
-	@DeleteMapping("/signOut")
+	@DeleteMapping("/signout")
 	public ResponseEntity<ApiResponse<?>> signOut() {
 		
 		return null;
@@ -120,9 +120,10 @@ public class UserController {
 	}
 	
 	@GetMapping("/checkId/{userId}")
-	public ResponseEntity<ApiResponse<?>> checkId(@PathVariable String userId) {
+	public ResponseEntity<ApiResponse<Boolean>> checkId(@PathVariable String userId) {
 		
-		return null;
+		userService.checkDuplicatedId(userId);
+		return ResponseEntity.ok(ApiResponse.success(true, "사용할 수 있는 아이디입니다."));
 	}
 	
 	@PatchMapping("/changePassword")
