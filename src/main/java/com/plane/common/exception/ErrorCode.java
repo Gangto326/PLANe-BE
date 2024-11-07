@@ -15,6 +15,7 @@ public enum ErrorCode {
     // 서버 오류
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류가 발생했습니다."),
     DATABASE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "데이터베이스 오류가 발생했습니다."),
+    EMAIL_SEND_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "이메일 발송 중 문제가 발생했습니다."),
     
 	VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "VALIDATION_ERROR");
 

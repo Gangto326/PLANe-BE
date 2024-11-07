@@ -18,8 +18,10 @@ import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserProfileResponse;
 import com.plane.user.dto.UserSignupRequest;
 import com.plane.user.dto.UserMyPageResponse;
+import com.plane.user.dto.FindPasswordRequest;
 import com.plane.user.dto.MannerTagDto;
 import com.plane.user.dto.TripStyleDto;
+import com.plane.user.service.UserEmailService;
 import com.plane.user.service.UserService;
 
 import jakarta.validation.Valid;
@@ -29,10 +31,12 @@ import jakarta.validation.Valid;
 public class UserController {
 	
 	private final UserService userService;
+	private final UserEmailService userEmailService;
 	
 	@Autowired
-	public UserController(UserService userService) {
+	public UserController(UserService userService, UserEmailService userEmailService) {
 		this.userService = userService;
+		this.userEmailService = userEmailService;
 	}
 	
 	// 로그인 & 인증 관련
@@ -114,9 +118,11 @@ public class UserController {
 	}
 	
 	@PostMapping("/find/password")
-	public ResponseEntity<ApiResponse<?>> findPassword() {
+	public ResponseEntity<ApiResponse<Boolean>> findPassword(@Valid @RequestBody FindPasswordRequest findPasswordRequest) {
 		
-		return null;
+		userEmailService.sendNewPassword(findPasswordRequest.getUserId(), findPasswordRequest.getEmail());
+        
+        return ResponseEntity.ok(ApiResponse.success(true, "비밀번호가 발송되었습니다"));
 	}
 	
 	@GetMapping("/checkId/{userId}")

@@ -31,4 +31,6 @@ public interface UserRepository {
 
 	int findUserById(String userId);
 
+	int updateUserPassword(String userId, String newPassword);
+
 }

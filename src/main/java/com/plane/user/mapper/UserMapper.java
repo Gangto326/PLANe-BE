@@ -147,6 +147,14 @@ public interface UserMapper {
 			WHERE userId = #{userId}
 			""")
 	int findUserById(String userId);
+
+	
+	@Update("""
+			UPDATE Users 
+	        SET password = #{newPassword}
+			WHERE userId = #{userId}
+			""")
+	int updateUserPassword(@Param("userId") String userId, @Param("newPassword") String newPassword);
 	
 	
 }
