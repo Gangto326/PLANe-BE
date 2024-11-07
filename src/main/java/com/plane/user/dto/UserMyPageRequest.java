@@ -32,10 +32,10 @@ public class UserMyPageRequest {
 	private boolean isPublic;
 	
 	@Size(max = 3, message = "여행 스타일은 최대 3개까지 선택 가능합니다")
-	private List<TripStyleDto> tripStyle;
+	private List<Integer> tripStyle;
 	
 	@Size(max = 3, message = "여행 테마는 최대 3개까지 선택 가능합니다")
-	private List<TripThemaDto> tripThema;
+	private List<Integer> tripThema;
 	
 	
 	public UserMyPageRequest() {}
@@ -81,19 +81,19 @@ public class UserMyPageRequest {
 		this.isPublic = isPublic;
 	}
 
-	public List<TripStyleDto> getTripStyle() {
+	public List<Integer> getTripStyle() {
 		return tripStyle;
 	}
 
-	public void setTripStyle(List<TripStyleDto> tripStyle) {
+	public void setTripStyle(List<Integer> tripStyle) {
 		this.tripStyle = tripStyle;
 	}
 
-	public List<TripThemaDto> getTripThema() {
+	public List<Integer> getTripThema() {
 		return tripThema;
 	}
 
-	public void setTripThema(List<TripThemaDto> tripThema) {
+	public void setTripThema(List<Integer> tripThema) {
 		this.tripThema = tripThema;
 	}
 		

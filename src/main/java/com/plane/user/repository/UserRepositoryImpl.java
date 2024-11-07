@@ -1,10 +1,13 @@
 package com.plane.user.repository;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.plane.user.domain.User;
 import com.plane.user.dto.UserLoginResponse;
+import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserMyPageResponse;
 import com.plane.user.dto.UserProfileResponse;
 import com.plane.user.dto.UserSignupRequest;
@@ -42,6 +45,36 @@ public class UserRepositoryImpl implements UserRepository{
 	public UserMyPageResponse selectUserMyPage(String userId) {
 		
 		return userMapper.selectUserMyPage(userId);
+	}
+
+	@Override
+	public int updateUser(UserMyPageRequest userMyPageRequest) {
+		
+		return userMapper.updateUser(userMyPageRequest);
+	}
+
+	@Override
+	public int deleteTripStyle(String userId) {
+		
+		return userMapper.deleteTripStyle(userId);
+	}
+
+	@Override
+	public int deleteTripThema(String userId) {
+		
+		return userMapper.deleteTripThema(userId);
+	}
+
+	@Override
+	public int insertTripStyle(String userId, List<Integer> tripStyle) {
+		
+		return userMapper.insertTripStyle(userId, tripStyle);
+	}
+
+	@Override
+	public int insertTripThema(String userId, List<Integer> tripThema) {
+		
+		return userMapper.insertTripThema(userId, tripThema);
 	}
 	
 }
