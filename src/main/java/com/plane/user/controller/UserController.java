@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.plane.common.response.ApiResponse;
 import com.plane.user.dto.UserLoginRequest;
 import com.plane.user.dto.UserLoginResponse;
+import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserProfileResponse;
 import com.plane.user.dto.UserSignupRequest;
 import com.plane.user.dto.UserMyPageResponse;
@@ -78,9 +79,10 @@ public class UserController {
 	}
 	
 	@PatchMapping("/myPage")
-	public ResponseEntity<ApiResponse<?>> updateMyPage() {
+	public ResponseEntity<ApiResponse<UserMyPageResponse>> updateMyPage(@Valid @RequestBody UserMyPageRequest userMyPageRequest) {
 		
-		return null;
+		UserMyPageResponse userMyPageResponse = userService.updateMyPage(userMyPageRequest);
+		return ResponseEntity.ok(ApiResponse.success(userMyPageResponse, "마이페이지 수정이 정상적으로 처리되었습니다."));
 	}
 	
 	

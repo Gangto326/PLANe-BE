@@ -34,6 +34,8 @@ public class UserSignupRequest {
 	
 	
 	@NotBlank(message = "닉네임은 필수입니다")
+	@Size(max = 30, message = "닉네임은 30자를 초과할 수 없습니다")
+	@Pattern(regexp = "^[a-zA-Z0-9가-힣]{2,30}$", message = "닉네임은 2-30자의 영문, 숫자, 한글만 가능합니다")
 	private String nickName;
 	
 	private String hashedPassword;
