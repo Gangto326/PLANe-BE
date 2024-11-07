@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.plane.user.domain.User;
 import com.plane.user.dto.UserLoginResponse;
@@ -14,6 +15,7 @@ import com.plane.user.dto.UserSignupRequest;
 import com.plane.user.mapper.UserMapper;
 
 @Repository
+@Transactional
 public class UserRepositoryImpl implements UserRepository{
 	
 	private final UserMapper userMapper;

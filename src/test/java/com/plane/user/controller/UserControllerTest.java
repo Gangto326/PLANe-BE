@@ -109,7 +109,7 @@ public class UserControllerTest {
 	
 	@Test
 	@DisplayName("마이페이지 수정하기")
-//	@Disabled
+	@Disabled
 	void testUpdateMyPage() throws Exception {
 		System.out.println("==== UpdateMyPage Test Start ====");
 		List<Integer> tripStyle = new ArrayList<>();
@@ -140,6 +140,22 @@ public class UserControllerTest {
 	            .contentType(MediaType.APPLICATION_JSON)
 	            .content(content))
 	            .andDo(print())
+	            .andExpect(status().isOk());
+		
+        System.out.println("==== Test End ====");
+
+	}
+	
+	
+	@Test
+	@DisplayName("아이디 중복 확인하기 & 유효성 검사")
+//	@Disabled
+	void testCheckId() throws Exception {
+		System.out.println("==== CheckId Test Start ====");
+		
+		mockMvc.perform(get("/api/users/checkId/user105")    
+	            .contentType(MediaType.APPLICATION_JSON))
+	            .andDo(print())                             
 	            .andExpect(status().isOk());
 		
         System.out.println("==== Test End ====");
