@@ -141,4 +141,12 @@ public interface UserMapper {
 	int updateUser(UserMyPageRequest userMyPageRequest);
 	
 	
+	@Select("""
+			SELECT COUNT(*)
+			FROM Users
+			WHERE userId = #{userId}
+			""")
+	int findUserById(String userId);
+	
+	
 }

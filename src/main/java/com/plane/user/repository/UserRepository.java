@@ -29,4 +29,6 @@ public interface UserRepository {
 
 	int insertTripThema(String userId, List<Integer> tripThema);
 
+	int findUserById(String userId);
+
 }

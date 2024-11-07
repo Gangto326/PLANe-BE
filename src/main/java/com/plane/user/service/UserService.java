@@ -18,5 +18,7 @@ public interface UserService {
 	UserMyPageResponse getMyPage(String userId);
 	
 	UserMyPageResponse updateMyPage(UserMyPageRequest userMyPageRequest);
+
+	boolean checkDuplicatedId(String userId);
 	
 }
