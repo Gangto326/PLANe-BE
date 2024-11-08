@@ -2,6 +2,9 @@ package com.plane.common.util;
 
 import java.security.SecureRandom;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class PasswordGenerator {
 	
 	private static final String LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
