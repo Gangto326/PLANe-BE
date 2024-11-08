@@ -26,6 +26,7 @@ import org.springframework.http.MediaType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.plane.user.controller.UserController;
+import com.plane.user.dto.ChangePasswordRequest;
 import com.plane.user.dto.FindPasswordRequest;
 import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserSignupRequest;
@@ -57,12 +58,12 @@ public class UserControllerTest {
 		System.out.println("==== Test Start ====");
 		
 		UserSignupRequest userSignupRequest = new UserSignupRequest();
-		userSignupRequest.setUserId("jjuj99");
+		userSignupRequest.setUserId("kangsansam");
 		userSignupRequest.setPassword("ssafy1234!");
 		userSignupRequest.setConfirmPassword("ssafy1234!");
-		userSignupRequest.setEmail("jjuj99@naver.com");
-		userSignupRequest.setNickName("정유진");
-		userSignupRequest.setPhone("01084896329");
+		userSignupRequest.setEmail("kangsansam@naver.com");
+		userSignupRequest.setNickName("김강토");
+		userSignupRequest.setPhone("01012341234");
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		String content = objectMapper.writeValueAsString(userSignupRequest);
@@ -97,7 +98,7 @@ public class UserControllerTest {
 	
 	@Test
 	@DisplayName("마이페이지 확인하기")
-//	@Disabled
+	@Disabled
 	void testUserMyPage() throws Exception {
 		System.out.println("==== MyPage Test Start ====");
 		
@@ -192,6 +193,36 @@ public class UserControllerTest {
 	            .andExpect(status().isOk());
 		
         System.out.println("==== Test End ====");
+
+	}
+	
+	
+	@Test
+	@DisplayName("비밀번호 변경하기")
+	@Disabled
+	void testChangePassword() throws Exception {
+		System.out.println("==== ChangePassword Test Start ====");
+		
+		ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest();
+		
+		changePasswordRequest.setUserId("kangsansam");
+		changePasswordRequest.setPassword("ssafy1234!");
+		changePasswordRequest.setNewPassword("ssafy1234!!");
+		changePasswordRequest.setConfirmPassword("ssafy1234!!");
+		
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		String content = objectMapper.writeValueAsString(changePasswordRequest);
+		
+		System.out.println(content);
+		
+		mockMvc.perform(patch("/api/users/changePassword")
+	            .contentType(MediaType.APPLICATION_JSON)
+	            .content(content))
+	            .andDo(print())
+	            .andExpect(status().isOk());
+		
+        System.out.println("==== ChangePassword Test End ====");
 
 	}
 	

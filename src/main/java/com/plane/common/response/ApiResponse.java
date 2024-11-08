@@ -21,8 +21,8 @@ public class ApiResponse<T> {
     }
 
     // 에러 응답용 정적 팩토리 메서드
-    public static <T> ApiResponse<T> error(ErrorCode errorCode) {
-        return new ApiResponse<>(ERROR_STATUS, (T) new ErrorResponse(errorCode) , errorCode.getMessage());
+    public static <T> ApiResponse<T> error(ErrorCode errorCode, String message) {
+        return new ApiResponse<>(ERROR_STATUS, (T) new ErrorResponse(errorCode) , message);
     }
 
     // 생성자는 private으로 설정하여 팩토리 메서드 사용 유도

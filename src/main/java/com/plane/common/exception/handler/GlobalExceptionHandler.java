@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
     	
         return ResponseEntity
                 .status(e.getErrorCode().getStatus())
-                .body(ApiResponse.error(e.getErrorCode()));
+                .body(ApiResponse.error(e.getErrorCode(), e.getMessage()));
     }
     
     
@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
     	
     	return ResponseEntity
                 .status(e.getErrorCode().getStatus())
-                .body(ApiResponse.error(e.getErrorCode()));
+                .body(ApiResponse.error(e.getErrorCode(), e.getMessage()));
     }
     
     
@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
 
     	return ResponseEntity
                 .status(e.getErrorCode().getStatus())
-                .body(ApiResponse.error(e.getErrorCode()));
+                .body(ApiResponse.error(e.getErrorCode(), e.getMessage()));
     }
     
     
@@ -54,6 +54,6 @@ public class GlobalExceptionHandler {
             
     	return ResponseEntity
                 .status(1000)
-                .body(ApiResponse.error(ErrorCode.VALIDATION_ERROR));
+                .body(ApiResponse.error(ErrorCode.VALIDATION_ERROR, e.getMessage()));
     }
 }

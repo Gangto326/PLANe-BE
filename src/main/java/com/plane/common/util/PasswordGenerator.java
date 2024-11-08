@@ -14,7 +14,6 @@ public class PasswordGenerator {
     
     public String generatePassword() {
     	
-        // 최소 8자리, 각 문자 유형별 최소 1개 포함
         StringBuilder password = new StringBuilder();
         SecureRandom random = new SecureRandom();
         

@@ -1,6 +1,7 @@
 package com.plane.user.mapper;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -43,9 +44,9 @@ public interface UserMapper {
 		    WHERE userId = #{userId}
 		    """)
 	@Results({
-		@Result(property = "userId", column = "userId")
-//	    @Result(property = "tripStyle", column = "userId", many = @Many(select = "selectTripStyles")),
-//	    @Result(property = "mannerTags", column = "userId", many = @Many(select = "selectMannerTags"))
+		@Result(property = "userId", column = "userId"),
+	    @Result(property = "tripStyle", column = "userId", many = @Many(select = "selectTripStyles")),
+	    @Result(property = "mannerTags", column = "userId", many = @Many(select = "selectMannerTags"))
 	})
 	UserProfileResponse selectUserProfile(String userId);
 
@@ -155,6 +156,15 @@ public interface UserMapper {
 			WHERE userId = #{userId}
 			""")
 	int updateUserPassword(@Param("userId") String userId, @Param("newPassword") String newPassword);
+
+
+	@Select("""
+		       SELECT userId
+		       FROM users
+		       WHERE userId = #{userId}
+		   """)
+	Optional<String> selectUserIdById(String userId);
+	
 	
 	
 }
