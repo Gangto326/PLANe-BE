@@ -68,15 +68,15 @@ public class UserController {
 		return ResponseEntity.ok(ApiResponse.success(userLoginResponse, "회원이 정상적으로 등록되었습니다."));
 	}
 	
-	@GetMapping("/profile/{userId}")
-	public ResponseEntity<ApiResponse<UserProfileResponse>> profile(@PathVariable String userId) {
+	@PostMapping("/profile")
+	public ResponseEntity<ApiResponse<UserProfileResponse>> profile(@RequestBody String userId) {
 		
 		UserProfileResponse userProfileResponse = userService.getProfile(userId);
 		return ResponseEntity.ok(ApiResponse.success(userProfileResponse, "프로필 정보를 정상적으로 불러왔습니다."));
 	}
 	
-	@GetMapping("/myPage/{userId}")
-	public ResponseEntity<ApiResponse<UserMyPageResponse>> myPage(@PathVariable String userId) {
+	@PostMapping("/myPage")
+	public ResponseEntity<ApiResponse<UserMyPageResponse>> myPage(@RequestBody String userId) {
 		
 		UserMyPageResponse userMyPageResponse = userService.getMyPage(userId);
 		return ResponseEntity.ok(ApiResponse.success(userMyPageResponse, "마이페이지 정보를 정상적으로 불러왔습니다."));
@@ -121,7 +121,6 @@ public class UserController {
 	public ResponseEntity<ApiResponse<Boolean>> findPassword(@Valid @RequestBody FindPasswordRequest findPasswordRequest) {
 		
 		userEmailService.sendNewPassword(findPasswordRequest.getUserId(), findPasswordRequest.getEmail());
-        
         return ResponseEntity.ok(ApiResponse.success(true, "비밀번호가 발송되었습니다"));
 	}
 	

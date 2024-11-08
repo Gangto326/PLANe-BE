@@ -40,6 +40,10 @@ public class UserRepositoryImpl implements UserRepository{
 	@Override
 	public UserProfileResponse selectUserProfile(String userId) {
 		
+		UserProfileResponse asd = userMapper.selectUserProfile(userId);
+		
+		System.out.println(asd == null? "asd": "123");
+		
 		return userMapper.selectUserProfile(userId);
 	}
 

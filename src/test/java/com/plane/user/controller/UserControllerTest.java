@@ -10,7 +10,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -83,8 +85,9 @@ public class UserControllerTest {
 	void testUserProfile() throws Exception {
 		System.out.println("==== Profile Test Start ====");
 		
-		mockMvc.perform(get("/api/users/profile/user001")    
-	            .contentType(MediaType.APPLICATION_JSON))
+		mockMvc.perform(post("/api/users/profile")    
+	            .contentType(MediaType.APPLICATION_JSON)
+				.content("jjuj99"))
 	            .andDo(print())                             
 	            .andExpect(status().isOk());
 		
@@ -94,12 +97,13 @@ public class UserControllerTest {
 	
 	@Test
 	@DisplayName("마이페이지 확인하기")
-	@Disabled
+//	@Disabled
 	void testUserMyPage() throws Exception {
 		System.out.println("==== MyPage Test Start ====");
 		
-		mockMvc.perform(get("/api/users/myPage/user001")    
-	            .contentType(MediaType.APPLICATION_JSON))
+		mockMvc.perform(post("/api/users/myPage")    
+	            .contentType(MediaType.APPLICATION_JSON)
+	            .content("jjuj99"))
 	            .andDo(print())                             
 	            .andExpect(status().isOk());
 		
@@ -165,7 +169,7 @@ public class UserControllerTest {
 	
 	@Test
 	@DisplayName("비밀번호 찾기")
-//	@Disabled
+	@Disabled
 	void testFindPassword() throws Exception {
 		System.out.println("==== Test Start ====");
 		
