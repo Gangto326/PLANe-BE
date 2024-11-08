@@ -43,9 +43,9 @@ public interface UserMapper {
 		    WHERE userId = #{userId}
 		    """)
 	@Results({
-		@Result(property = "userId", column = "userId"),
-	    @Result(property = "tripStyle", column = "userId", many = @Many(select = "selectTripStyles")),
-	    @Result(property = "mannerTags", column = "userId", many = @Many(select = "selectMannerTags"))
+		@Result(property = "userId", column = "userId")
+//	    @Result(property = "tripStyle", column = "userId", many = @Many(select = "selectTripStyles")),
+//	    @Result(property = "mannerTags", column = "userId", many = @Many(select = "selectMannerTags"))
 	})
 	UserProfileResponse selectUserProfile(String userId);
 
@@ -147,6 +147,14 @@ public interface UserMapper {
 			WHERE userId = #{userId}
 			""")
 	int findUserById(String userId);
+
+	
+	@Update("""
+			UPDATE Users 
+	        SET password = #{newPassword}
+			WHERE userId = #{userId}
+			""")
+	int updateUserPassword(@Param("userId") String userId, @Param("newPassword") String newPassword);
 	
 	
 }

@@ -10,7 +10,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -24,6 +26,7 @@ import org.springframework.http.MediaType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.plane.user.controller.UserController;
+import com.plane.user.dto.FindPasswordRequest;
 import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserSignupRequest;
 import com.plane.user.repository.UserRepository;
@@ -54,12 +57,12 @@ public class UserControllerTest {
 		System.out.println("==== Test Start ====");
 		
 		UserSignupRequest userSignupRequest = new UserSignupRequest();
-		userSignupRequest.setUserId("ssafy");
+		userSignupRequest.setUserId("jjuj99");
 		userSignupRequest.setPassword("ssafy1234!");
 		userSignupRequest.setConfirmPassword("ssafy1234!");
-		userSignupRequest.setEmail("ssafy@ssafy.com");
-		userSignupRequest.setNickName("김싸피");
-		userSignupRequest.setPhone("01012345678");
+		userSignupRequest.setEmail("jjuj99@naver.com");
+		userSignupRequest.setNickName("정유진");
+		userSignupRequest.setPhone("01084896329");
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		String content = objectMapper.writeValueAsString(userSignupRequest);
@@ -82,8 +85,9 @@ public class UserControllerTest {
 	void testUserProfile() throws Exception {
 		System.out.println("==== Profile Test Start ====");
 		
-		mockMvc.perform(get("/api/users/profile/user001")    
-	            .contentType(MediaType.APPLICATION_JSON))
+		mockMvc.perform(post("/api/users/profile")    
+	            .contentType(MediaType.APPLICATION_JSON)
+				.content("jjuj99"))
 	            .andDo(print())                             
 	            .andExpect(status().isOk());
 		
@@ -93,12 +97,13 @@ public class UserControllerTest {
 	
 	@Test
 	@DisplayName("마이페이지 확인하기")
-	@Disabled
+//	@Disabled
 	void testUserMyPage() throws Exception {
 		System.out.println("==== MyPage Test Start ====");
 		
-		mockMvc.perform(get("/api/users/myPage/user001")    
-	            .contentType(MediaType.APPLICATION_JSON))
+		mockMvc.perform(post("/api/users/myPage")    
+	            .contentType(MediaType.APPLICATION_JSON)
+	            .content("jjuj99"))
 	            .andDo(print())                             
 	            .andExpect(status().isOk());
 		
@@ -149,13 +154,41 @@ public class UserControllerTest {
 	
 	@Test
 	@DisplayName("아이디 중복 확인하기 & 유효성 검사")
-//	@Disabled
+	@Disabled
 	void testCheckId() throws Exception {
 		System.out.println("==== CheckId Test Start ====");
 		
 		mockMvc.perform(get("/api/users/checkId/user105")    
 	            .contentType(MediaType.APPLICATION_JSON))
 	            .andDo(print())                             
+	            .andExpect(status().isOk());
+		
+        System.out.println("==== Test End ====");
+
+	}
+	
+	@Test
+	@DisplayName("비밀번호 찾기")
+	@Disabled
+	void testFindPassword() throws Exception {
+		System.out.println("==== Test Start ====");
+		
+		FindPasswordRequest findPasswordRequest = new FindPasswordRequest();
+		
+		findPasswordRequest.setUserId("jjuj99");
+		findPasswordRequest.setEmail("jjuj99@naver.com");
+		findPasswordRequest.setPhone("01084896329");
+		
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		String content = objectMapper.writeValueAsString(findPasswordRequest);
+		
+		System.out.println(content);
+		
+		mockMvc.perform(post("/api/users/find/password")
+	            .contentType(MediaType.APPLICATION_JSON)
+	            .content(content))
+	            .andDo(print())
 	            .andExpect(status().isOk());
 		
         System.out.println("==== Test End ====");
