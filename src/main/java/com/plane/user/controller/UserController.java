@@ -18,6 +18,8 @@ import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserProfileResponse;
 import com.plane.user.dto.UserSignupRequest;
 import com.plane.user.dto.UserMyPageResponse;
+import com.plane.user.dto.ChangePasswordRequest;
+import com.plane.user.dto.FindIdRequest;
 import com.plane.user.dto.FindPasswordRequest;
 import com.plane.user.dto.MannerTagDto;
 import com.plane.user.dto.TripStyleDto;
@@ -106,13 +108,13 @@ public class UserController {
 	
 	// 계정 찾기 & 변경, 탈퇴
 	@DeleteMapping("/signout")
-	public ResponseEntity<ApiResponse<?>> signOut() {
+	public ResponseEntity<ApiResponse<?>> signout() {
 		
 		return null;
 	}
 	
 	@PostMapping("/find/id")
-	public ResponseEntity<ApiResponse<?>> findId() {
+	public ResponseEntity<ApiResponse<?>> findId(@Valid @RequestBody FindIdRequest findIdRequest) {
 		
 		return null;
 	}
@@ -121,7 +123,7 @@ public class UserController {
 	public ResponseEntity<ApiResponse<Boolean>> findPassword(@Valid @RequestBody FindPasswordRequest findPasswordRequest) {
 		
 		userEmailService.sendNewPassword(findPasswordRequest.getUserId(), findPasswordRequest.getEmail());
-        return ResponseEntity.ok(ApiResponse.success(true, "비밀번호가 발송되었습니다"));
+        return ResponseEntity.ok(ApiResponse.success(true, "비밀번호가 발송되었습니다."));
 	}
 	
 	@GetMapping("/checkId/{userId}")
@@ -132,8 +134,9 @@ public class UserController {
 	}
 	
 	@PatchMapping("/changePassword")
-	public ResponseEntity<ApiResponse<?>> changePassword() {
+	public ResponseEntity<ApiResponse<Boolean>> changePassword(@Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
 		
-		return null;
+		userService.changePassword(changePasswordRequest);
+		return ResponseEntity.ok(ApiResponse.success(true, "비밀번호가 정상적으로 변경되었습니다."));
 	}
 }

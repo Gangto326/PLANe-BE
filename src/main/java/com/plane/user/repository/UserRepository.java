@@ -33,4 +33,6 @@ public interface UserRepository {
 
 	int updateUserPassword(String userId, String newPassword);
 
+	boolean existsById(String userId);
+
 }

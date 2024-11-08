@@ -13,6 +13,7 @@ import com.plane.common.exception.custom.InvalidPasswordException;
 import com.plane.common.exception.custom.UserNotFoundException;
 import com.plane.common.exception.custom.UserUpdateException;
 import com.plane.common.util.HashUtil;
+import com.plane.user.dto.ChangePasswordRequest;
 import com.plane.user.dto.UserLoginResponse;
 import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserMyPageResponse;
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService{
             throw new DuplicateUserException("이미 가입된 번호입니다.");
         }
         
-        // 엔티티 생성 및 저장
+        // Hash
         userSignupRequest.setHashedPassword(hashUtil.hashPassword(userSignupRequest.getPassword()));
         userSignupRequest.setHashedPhone(hashUtil.hashPhone(userSignupRequest.getPhone()));
         
@@ -103,12 +104,10 @@ public class UserServiceImpl implements UserService{
 	    final int THEMA_UPDATE = 4;
 		int result = 0;
 
-        // TripStyle 업데이트
         if (updateTripStyles(userId, userMyPageRequest.getTripStyle())) {
         	result |= STYLE_UPDATE;
         }
 
-        // TripThema 업데이트
         if (updateTripThemas(userId, userMyPageRequest.getTripThema())) {
         	result |= THEMA_UPDATE;
         }
@@ -118,8 +117,7 @@ public class UserServiceImpl implements UserService{
 		}
         
         if (result > 0) {
-        	System.out.println(Integer.toBinaryString(result));
-        	
+//        	System.out.println(Integer.toBinaryString(result));
         	return userRepository.selectUserMyPage(userId);
         }
         
@@ -179,19 +177,43 @@ public class UserServiceImpl implements UserService{
 	    final Pattern ID_PATTERN = Pattern.compile("^[a-zA-Z0-9]*$");
 		
 		if (userId == null || userId.isBlank()) {
-	        throw new InvalidParameterException("아이디는 필수입니다");
+	        throw new InvalidParameterException("아이디는 필수입니다.");
 	    }
 	
 	    if (userId.length() < MIN_LENGTH || userId.length() > MAX_LENGTH) {
 	        throw new InvalidParameterException(
-	            String.format("아이디는 %d~%d자 사이여야 합니다", MIN_LENGTH, MAX_LENGTH)
+	            String.format("아이디는 %d~%d자 사이여야 합니다.", MIN_LENGTH, MAX_LENGTH)
 	        );
 	    }
 	
 	    if (!ID_PATTERN.matcher(userId).matches()) {
-	        throw new InvalidParameterException("아이디는 영문과 숫자만 가능합니다");
+	        throw new InvalidParameterException("아이디는 영문과 숫자만 가능합니다.");
 	    }
 	    
+	}
+
+
+	@Override
+	public boolean changePassword(ChangePasswordRequest changePasswordRequest) {
+		
+		// 아이디 존재 여부 확인 --> login 로직 사용 (id, password && password != newPassword 모두 확인 필요)
+		if (!userRepository.existsById(changePasswordRequest.getUserId())) {
+			throw new UserNotFoundException("해당 ID를 사용하는 회원이 없습니다.");
+		}
+		
+		// 비밀번호 일치 여부 확인
+		if (!changePasswordRequest.getNewPassword().equals(changePasswordRequest.getConfirmPassword())) {
+			throw new InvalidPasswordException("Password != ConfirmPassword");
+		}
+		
+		// Hash
+		changePasswordRequest.setHashedPassword(hashUtil.hashPassword(changePasswordRequest.getNewPassword()));
+		
+		if (userRepository.updateUserPassword(changePasswordRequest.getUserId(), changePasswordRequest.getHashedPassword()) >= 0) {
+			return true;
+		}
+		
+		throw new UserUpdateException("비밀번호 변경 실패");
 	}
 	
 }

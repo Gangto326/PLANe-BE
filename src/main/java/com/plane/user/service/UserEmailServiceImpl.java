@@ -6,6 +6,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.plane.common.exception.custom.EmailException;
+import com.plane.common.exception.custom.UserNotFoundException;
 import com.plane.common.util.HashUtil;
 import com.plane.common.util.PasswordGenerator;
 import com.plane.user.repository.UserRepository;
@@ -15,11 +16,9 @@ import jakarta.mail.internet.MimeMessage;
 @Service
 public class UserEmailServiceImpl implements UserEmailService {
 	
-	private final UserRepository userRepository;
-	
 	private static final String SENDER_EMAIL = "gwan1039@gmail.com";
 	private final JavaMailSender javaMailSender;
-	
+	private final UserRepository userRepository;
 	private final PasswordGenerator passwordGenerator;
 	private final HashUtil hashUtil;
 	
@@ -49,6 +48,10 @@ public class UserEmailServiceImpl implements UserEmailService {
 	@Async
 	@Override
 	public void sendNewPassword(String userId, String receiver) {
+		
+		if (!userRepository.existsById(userId)) {
+			throw new UserNotFoundException("해당 ID를 사용하는 회원이 없습니다.");
+		}
 		
 		String newPassword = passwordGenerator.generatePassword();
 

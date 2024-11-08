@@ -94,5 +94,11 @@ public class UserRepositoryImpl implements UserRepository{
 		
 		return userMapper.updateUserPassword(userId, newPassword);
 	}
+
+	@Override
+	public boolean existsById(String userId) {
+		System.out.println(userId);
+		return userMapper.selectUserIdById(userId).isPresent();
+	}
 	
 }
