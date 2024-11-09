@@ -3,7 +3,9 @@ package com.plane.user.repository;
 import java.util.List;
 
 import com.plane.user.domain.User;
+import com.plane.user.dto.FindIdRequest;
 import com.plane.user.dto.TripStyleDto;
+import com.plane.user.dto.UserIdResponse;
 import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserMyPageResponse;
 import com.plane.user.dto.UserProfileResponse;
@@ -34,5 +36,13 @@ public interface UserRepository {
 	int updateUserPassword(String userId, String newPassword);
 
 	boolean existsById(String userId);
+
+	boolean existsByEmail(String email);
+
+	int insertVerificationCode(String email, String verificationCode);
+
+	boolean existsCodeByEmail(FindIdRequest findIdRequest);
+
+	List<String> selectIdByEmail(FindIdRequest findIdRequest);
 
 }

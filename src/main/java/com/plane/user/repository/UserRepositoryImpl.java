@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.plane.user.domain.User;
+import com.plane.user.dto.FindIdRequest;
+import com.plane.user.dto.UserIdResponse;
 import com.plane.user.dto.UserLoginResponse;
 import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserMyPageResponse;
@@ -97,8 +99,32 @@ public class UserRepositoryImpl implements UserRepository{
 
 	@Override
 	public boolean existsById(String userId) {
-		System.out.println(userId);
+		
 		return userMapper.selectUserIdById(userId).isPresent();
+	}
+
+	@Override
+	public boolean existsByEmail(String email) {
+		
+		return !userMapper.selectUserIdByEmail(email).isEmpty();
+	}
+
+	@Override
+	public int insertVerificationCode(String email, String verificationCode) {
+		
+		return userMapper.insertVerificationCode(email, verificationCode);
+	}
+
+	@Override
+	public boolean existsCodeByEmail(FindIdRequest findIdRequest) {
+		
+		return userMapper.selectCodeByEmail(findIdRequest).isPresent();
+	}
+
+	@Override
+	public List<String> selectIdByEmail(FindIdRequest findIdRequest) {
+		
+		return userMapper.selectUserIdByEmail(findIdRequest.getEmail());
 	}
 	
 }

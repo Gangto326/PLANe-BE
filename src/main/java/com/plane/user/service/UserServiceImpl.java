@@ -12,8 +12,11 @@ import com.plane.common.exception.custom.InvalidParameterException;
 import com.plane.common.exception.custom.InvalidPasswordException;
 import com.plane.common.exception.custom.UserNotFoundException;
 import com.plane.common.exception.custom.UserUpdateException;
+import com.plane.common.exception.custom.VerificationCodeException;
 import com.plane.common.util.HashUtil;
 import com.plane.user.dto.ChangePasswordRequest;
+import com.plane.user.dto.FindIdRequest;
+import com.plane.user.dto.UserIdResponse;
 import com.plane.user.dto.UserLoginResponse;
 import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserMyPageResponse;
@@ -214,6 +217,21 @@ public class UserServiceImpl implements UserService{
 		}
 		
 		throw new UserUpdateException("비밀번호 변경 실패");
+	}
+
+
+	@Override
+	public UserIdResponse findId(FindIdRequest findIdRequest) {
+		
+		// 인증번호 확인
+		if (!userRepository.existsCodeByEmail(findIdRequest)) {
+			throw new VerificationCodeException("인증코드가 일치하지 않거나 유효기간이 만료된 코드입니다.");
+		}
+		
+		UserIdResponse userIdResponse = new UserIdResponse();
+		userIdResponse.setIdList(userRepository.selectIdByEmail(findIdRequest));
+		
+		return userIdResponse;
 	}
 	
 }

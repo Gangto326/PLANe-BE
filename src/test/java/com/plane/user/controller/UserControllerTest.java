@@ -27,6 +27,8 @@ import org.springframework.http.MediaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.plane.user.controller.UserController;
 import com.plane.user.dto.ChangePasswordRequest;
+import com.plane.user.dto.EmailVerificationRequest;
+import com.plane.user.dto.FindIdRequest;
 import com.plane.user.dto.FindPasswordRequest;
 import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserSignupRequest;
@@ -223,6 +225,60 @@ public class UserControllerTest {
 	            .andExpect(status().isOk());
 		
         System.out.println("==== ChangePassword Test End ====");
+
+	}
+	
+	
+	@Test
+	@DisplayName("인증번호 발송")
+	@Disabled
+	void testVerificationCode() throws Exception {
+		System.out.println("==== VerificationCode Test Start ====");
+		
+		EmailVerificationRequest emailVerificationRequest = new EmailVerificationRequest();
+		
+		emailVerificationRequest.setEmail("kangsansam@naver.com");
+		
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		String content = objectMapper.writeValueAsString(emailVerificationRequest);
+		
+		System.out.println(content);
+		
+		mockMvc.perform(post("/api/users/verification")
+	            .contentType(MediaType.APPLICATION_JSON)
+	            .content(content))
+	            .andDo(print())
+	            .andExpect(status().isOk());
+		
+        System.out.println("==== VerificationCode Test End ====");
+
+	}
+	
+	@Test
+	@DisplayName("아이디 찾기")
+//	@Disabled
+	void testFindId() throws Exception {
+		System.out.println("==== FindId Test Start ====");
+		
+		FindIdRequest findIdRequest = new FindIdRequest();
+		
+		findIdRequest.setEmail("kangsansam@naver.com");
+		findIdRequest.setVerificationCode("$H939t%Fxa");
+		
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		String content = objectMapper.writeValueAsString(findIdRequest);
+		
+		System.out.println(content);
+		
+		mockMvc.perform(post("/api/users//find/id")
+	            .contentType(MediaType.APPLICATION_JSON)
+	            .content(content))
+	            .andDo(print())
+	            .andExpect(status().isOk());
+		
+        System.out.println("==== FindId Test End ====");
 
 	}
 	
