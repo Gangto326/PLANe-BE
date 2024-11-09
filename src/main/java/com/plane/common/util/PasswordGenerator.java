@@ -23,9 +23,9 @@ public class PasswordGenerator {
         password.append(DIGITS.charAt(random.nextInt(DIGITS.length())));
         password.append(SPECIAL.charAt(random.nextInt(SPECIAL.length())));
         
-        // 나머지 4자리는 모든 문자열에서 랜덤 선택
+        // 나머지 6자리는 모든 문자열에서 랜덤 선택
         String allChars = LOWERCASE + UPPERCASE + DIGITS + SPECIAL;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 6; i++) {
             password.append(allChars.charAt(random.nextInt(allChars.length())));
         }
         

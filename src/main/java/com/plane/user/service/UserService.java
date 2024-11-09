@@ -1,6 +1,8 @@
 package com.plane.user.service;
 
 import com.plane.user.dto.ChangePasswordRequest;
+import com.plane.user.dto.FindIdRequest;
+import com.plane.user.dto.UserIdResponse;
 import com.plane.user.dto.UserLoginResponse;
 import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserMyPageResponse;
@@ -25,5 +27,7 @@ public interface UserService {
 	boolean checkDuplicatedId(String userId);
 
 	boolean changePassword(ChangePasswordRequest changePasswordRequest);
+
+	UserIdResponse findId(FindIdRequest findIdRequest);
 	
 }

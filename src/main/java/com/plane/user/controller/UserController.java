@@ -19,10 +19,12 @@ import com.plane.user.dto.UserProfileResponse;
 import com.plane.user.dto.UserSignupRequest;
 import com.plane.user.dto.UserMyPageResponse;
 import com.plane.user.dto.ChangePasswordRequest;
+import com.plane.user.dto.EmailVerificationRequest;
 import com.plane.user.dto.FindIdRequest;
 import com.plane.user.dto.FindPasswordRequest;
 import com.plane.user.dto.MannerTagDto;
 import com.plane.user.dto.TripStyleDto;
+import com.plane.user.dto.UserIdResponse;
 import com.plane.user.service.UserEmailService;
 import com.plane.user.service.UserService;
 
@@ -114,16 +116,26 @@ public class UserController {
 	}
 	
 	@PostMapping("/find/id")
-	public ResponseEntity<ApiResponse<?>> findId(@Valid @RequestBody FindIdRequest findIdRequest) {
+	public ResponseEntity<ApiResponse<UserIdResponse>> findId(@Valid @RequestBody FindIdRequest findIdRequest) {
 		
-		return null;
+		UserIdResponse userIdResponse = null;
+		userIdResponse = userService.findId(findIdRequest);
+		
+		return ResponseEntity.ok(ApiResponse.success(userIdResponse, "아이디를 정상적으로 반환했습니다."));
+	}
+	
+	@PostMapping("/verification")
+	public ResponseEntity<ApiResponse<Void>> requestVerificationCode(@Valid @RequestBody EmailVerificationRequest emailVerificationRequest) {
+		
+		userEmailService.sendVerificationCode(emailVerificationRequest);
+		return ResponseEntity.ok(ApiResponse.success(null, "인증번호가 발송되었습니다."));
 	}
 	
 	@PostMapping("/find/password")
-	public ResponseEntity<ApiResponse<Boolean>> findPassword(@Valid @RequestBody FindPasswordRequest findPasswordRequest) {
+	public ResponseEntity<ApiResponse<Void>> findPassword(@Valid @RequestBody FindPasswordRequest findPasswordRequest) {
 		
-		userEmailService.sendNewPassword(findPasswordRequest.getUserId(), findPasswordRequest.getEmail());
-        return ResponseEntity.ok(ApiResponse.success(true, "비밀번호가 발송되었습니다."));
+		userEmailService.sendNewPassword(findPasswordRequest);
+        return ResponseEntity.ok(ApiResponse.success(null, "비밀번호가 발송되었습니다."));
 	}
 	
 	@GetMapping("/checkId/{userId}")
@@ -134,9 +146,9 @@ public class UserController {
 	}
 	
 	@PatchMapping("/changePassword")
-	public ResponseEntity<ApiResponse<Boolean>> changePassword(@Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
+	public ResponseEntity<ApiResponse<Void>> changePassword(@Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
 		
 		userService.changePassword(changePasswordRequest);
-		return ResponseEntity.ok(ApiResponse.success(true, "비밀번호가 정상적으로 변경되었습니다."));
+		return ResponseEntity.ok(ApiResponse.success(null, "비밀번호가 정상적으로 변경되었습니다."));
 	}
 }

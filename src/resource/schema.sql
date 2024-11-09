@@ -26,7 +26,7 @@ CREATE TABLE `Notification` (
 	`isRead` BOOL NOT NULL DEFAULT FALSE,
 	`notificationType` VARCHAR(100) NOT NULL DEFAULT '기본' COMMENT '기본, 동행, 신고, 매너 등',
 	`details` VARCHAR(255) NOT NULL,
-	`createdDate` TIMESTAMP NOT NULL,
+	`createdDate` TIMESTAMP NOT NULL DEFAULT NOW(),
 	PRIMARY KEY (`noId`),
 	FOREIGN KEY (`userId`) REFERENCES `Users`(`userId`)
 );
@@ -261,6 +261,14 @@ CREATE TABLE `CopyOfReport` (
 	FOREIGN KEY (`reporterId`) REFERENCES `Users`(`userId`)
 );
 
+
+CREATE TABLE `VerificationCodes` (
+	`codeId` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT 'PK',
+	`email` VARCHAR(100) NULL COMMENT '코드를 받을 email',
+    `verificationCode` VARCHAR(100) NOT NULL COMMENT '인증코드',
+	`createdDate` TIMESTAMP NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (`codeId`)
+);
 
 -- Users
 INSERT INTO `Users` (`userId`, `password`, `nickName`, `phone`, `role`, `email`, `manner`, `profileUrl`, `introduce`, `authentication`, `createdDate`, `state`, `isPublic`, `loginAttempts`)

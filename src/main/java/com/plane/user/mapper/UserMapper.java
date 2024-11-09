@@ -16,9 +16,11 @@ import org.apache.ibatis.annotations.Many;
 import com.plane.user.domain.User;
 import com.plane.user.dto.UserProfileResponse;
 import com.plane.user.dto.UserSignupRequest;
+import com.plane.user.dto.FindIdRequest;
 import com.plane.user.dto.MannerTagDto;
 import com.plane.user.dto.TripStyleDto;
 import com.plane.user.dto.TripThemaDto;
+import com.plane.user.dto.UserIdResponse;
 import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserMyPageResponse;
 
@@ -164,7 +166,31 @@ public interface UserMapper {
 		       WHERE userId = #{userId}
 		   """)
 	Optional<String> selectUserIdById(String userId);
+
 	
+	@Select("""
+		       SELECT userId
+		       FROM users
+		       WHERE email = #{email}
+		   """)
+	List<String> selectUserIdByEmail(String email);
+
 	
+	@Insert("""
+			INSERT INTO VerificationCodes (email, verificationCode)
+			VALUES (#{email}, #{verificationCode})
+			""")
+	int insertVerificationCode(@Param("email") String email, @Param("verificationCode") String verificationCode);
+
+	
+	@Select("""
+		       SELECT *
+		       FROM VerificationCodes
+		       WHERE email = #{email}
+		       AND verificationCode = #{verificationCode}
+               AND createdDate > DATE_SUB(NOW(), INTERVAL 10 MINUTE)
+               LIMIT 1;
+		   """)
+	Optional<String> selectCodeByEmail(FindIdRequest findIdRequest);
 	
 }
