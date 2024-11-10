@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.plane.common.response.ApiResponse;
+import com.plane.trip.domain.TripStyle;
 import com.plane.user.dto.UserLoginRequest;
 import com.plane.user.dto.UserLoginResponse;
 import com.plane.user.dto.UserMyPageRequest;
@@ -23,7 +24,6 @@ import com.plane.user.dto.EmailVerificationRequest;
 import com.plane.user.dto.FindIdRequest;
 import com.plane.user.dto.FindPasswordRequest;
 import com.plane.user.dto.MannerTagDto;
-import com.plane.user.dto.TripStyleDto;
 import com.plane.user.dto.UserIdResponse;
 import com.plane.user.service.UserEmailService;
 import com.plane.user.service.UserService;

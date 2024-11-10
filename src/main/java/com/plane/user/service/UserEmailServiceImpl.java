@@ -18,7 +18,7 @@ import jakarta.mail.internet.MimeMessage;
 @Service
 public class UserEmailServiceImpl implements UserEmailService {
 	
-	private static final String SENDER_EMAIL = "gwan1039@gmail.com";
+	private static final String SENDER_EMAIL = "PLANeService@gmail.com";
 	private final JavaMailSender javaMailSender;
 	private final UserRepository userRepository;
 	private final PasswordGenerator passwordGenerator;

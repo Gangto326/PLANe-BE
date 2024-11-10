@@ -60,12 +60,12 @@ public class UserControllerTest {
 		System.out.println("==== Test Start ====");
 		
 		UserSignupRequest userSignupRequest = new UserSignupRequest();
-		userSignupRequest.setUserId("kangsansam");
+		userSignupRequest.setUserId("kangsansam1");
 		userSignupRequest.setPassword("ssafy1234!");
 		userSignupRequest.setConfirmPassword("ssafy1234!");
-		userSignupRequest.setEmail("kangsansam@naver.com");
+		userSignupRequest.setEmail("kangsansam1@naver.com");
 		userSignupRequest.setNickName("김강토");
-		userSignupRequest.setPhone("01012341234");
+		userSignupRequest.setPhone("01012341239");
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		String content = objectMapper.writeValueAsString(userSignupRequest);
@@ -90,7 +90,7 @@ public class UserControllerTest {
 		
 		mockMvc.perform(post("/api/users/profile")    
 	            .contentType(MediaType.APPLICATION_JSON)
-				.content("jjuj99"))
+				.content("user001"))
 	            .andDo(print())                             
 	            .andExpect(status().isOk());
 		
@@ -130,8 +130,8 @@ public class UserControllerTest {
 		tripThema.add(3);
 		
 		UserMyPageRequest userMyPageRequest = new UserMyPageRequest();
-		userMyPageRequest.setUserId("user001");
-		userMyPageRequest.setNickName("김싸피");
+		userMyPageRequest.setUserId("jjuj99");
+		userMyPageRequest.setNickName("유진유진유진");
 		userMyPageRequest.setProfileUrl("https://example.com/profile001.jpg");
 		userMyPageRequest.setIntroduce("수정수정수정수정");
 		userMyPageRequest.setPublic(true);
@@ -178,9 +178,9 @@ public class UserControllerTest {
 		
 		FindPasswordRequest findPasswordRequest = new FindPasswordRequest();
 		
-		findPasswordRequest.setUserId("jjuj99");
-		findPasswordRequest.setEmail("jjuj99@naver.com");
-		findPasswordRequest.setPhone("01084896329");
+		findPasswordRequest.setUserId("kangsansam");
+		findPasswordRequest.setEmail("kangsansam@naver.com");
+		findPasswordRequest.setPhone("01012341234");
 		
 		
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -257,7 +257,7 @@ public class UserControllerTest {
 	
 	@Test
 	@DisplayName("아이디 찾기")
-//	@Disabled
+	@Disabled
 	void testFindId() throws Exception {
 		System.out.println("==== FindId Test Start ====");
 		

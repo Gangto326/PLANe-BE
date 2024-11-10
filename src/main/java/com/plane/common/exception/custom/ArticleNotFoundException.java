@@ -3,10 +3,9 @@ package com.plane.common.exception.custom;
 import com.plane.common.exception.BusinessException;
 import com.plane.common.exception.ErrorCode;
 
-public class UserNotFoundException extends BusinessException {
+public class ArticleNotFoundException extends BusinessException {
 
-	public UserNotFoundException(String message) {
+	public ArticleNotFoundException(String message) {
 		super(ErrorCode.NOT_FOUND, message);
 	}
-	
 }

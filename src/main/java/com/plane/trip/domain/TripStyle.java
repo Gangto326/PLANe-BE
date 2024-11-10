@@ -1,13 +1,12 @@
-package com.plane.user.dto;
+package com.plane.trip.domain;
 
-public class TripStyleDto {
+public class TripStyle {
 	
 	private Integer id;
-	
 	private String styleName;
 	
 	
-	public TripStyleDto() {}
+	public TripStyle() {}
 	
 	
 	public Integer getId() {

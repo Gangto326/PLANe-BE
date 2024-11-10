@@ -1,13 +1,12 @@
-package com.plane.user.dto;
+package com.plane.trip.domain;
 
-public class TripThemaDto {
+public class TripThema {
 
 	private Integer id;
-	
 	private String themaName;
 	
 	
-	public TripThemaDto() {}
+	public TripThema() {}
 
 
 	public Integer getId() {

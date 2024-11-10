@@ -1,6 +1,5 @@
 package com.plane.user.service;
 
-import java.util.List;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,17 +29,41 @@ import com.plane.user.repository.UserRepository;
 public class UserServiceImpl implements UserService{
 	
 	private final UserRepository userRepository;
+	private final UserPreferenceService userPreferenceService;
 	private final HashUtil hashUtil;
 	
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository, HashUtil hashUtil) {
+	public UserServiceImpl(UserRepository userRepository, UserPreferenceService userPreferenceService, HashUtil hashUtil) {
 		this.userRepository = userRepository;
+		this.userPreferenceService = userPreferenceService;
 		this.hashUtil = hashUtil;
 	}
 	
 	
+	private void validateUserId(String userId) {
+		
+		final int MIN_LENGTH = 4;
+	    final int MAX_LENGTH = 20;
+	    final Pattern ID_PATTERN = Pattern.compile("^[a-zA-Z0-9]*$");
+		
+		if (userId == null || userId.isBlank()) {
+	        throw new InvalidParameterException("아이디는 필수입니다.");
+	    }
+	
+	    if (userId.length() < MIN_LENGTH || userId.length() > MAX_LENGTH) {
+	        throw new InvalidParameterException(
+	            String.format("아이디는 %d~%d자 사이여야 합니다.", MIN_LENGTH, MAX_LENGTH)
+	        );
+	    }
+	
+	    if (!ID_PATTERN.matcher(userId).matches()) {
+	        throw new InvalidParameterException("아이디는 영문과 숫자만 가능합니다.");
+	    }
+	    
+	}
+
+	
 	@Override
-	@Transactional
 	public UserLoginResponse signup(UserSignupRequest userSignupRequest) {
 		
 		// 비밀번호 일치 여부 확인
@@ -61,7 +84,7 @@ public class UserServiceImpl implements UserService{
         
         UserLoginResponse userLoginResponse = null;
         
-        if (userRepository.save(userSignupRequest) == 1) {
+        if (userRepository.saveUser(userSignupRequest) == 1) {
         	userLoginResponse = new UserLoginResponse(userSignupRequest.getUserId());
         	return userLoginResponse;
         }
@@ -107,11 +130,11 @@ public class UserServiceImpl implements UserService{
 	    final int THEMA_UPDATE = 4;
 		int result = 0;
 
-        if (updateTripStyles(userId, userMyPageRequest.getTripStyle())) {
+        if (userPreferenceService.updateTripStyles(userId, userMyPageRequest.getTripStyle())) {
         	result |= STYLE_UPDATE;
         }
 
-        if (updateTripThemas(userId, userMyPageRequest.getTripThema())) {
+        if (userPreferenceService.updateTripThemas(userId, userMyPageRequest.getTripThema())) {
         	result |= THEMA_UPDATE;
         }
         
@@ -126,38 +149,6 @@ public class UserServiceImpl implements UserService{
         
         throw new UserUpdateException("마이페이지 업데이트 중 오류가 발생했습니다.");
 	}
-	
-	
-	private boolean updateTripStyles(String userId, List<Integer> tripStyle) {
-		
-        if (tripStyle == null) {
-            return false;
-        }
-        
-        userRepository.deleteTripStyle(userId);
-        
-        if (!tripStyle.isEmpty()) {
-            userRepository.insertTripStyle(userId, tripStyle);
-        }
-        
-        return true;
-    }
-
-	
-	private boolean updateTripThemas(String userId, List<Integer> tripThema) {
-		
-        if (tripThema == null) {
-            return false;
-        }
-        
-        userRepository.deleteTripThema(userId);
-        
-        if (!tripThema.isEmpty()) {
-            userRepository.insertTripThema(userId, tripThema);
-        }
-        
-        return true;
-    }
 
 
 	@Override
@@ -170,29 +161,6 @@ public class UserServiceImpl implements UserService{
 		}
 		
 		throw new DuplicateUserException("이미 가입된 아이디입니다.");
-	}
-	
-	
-	private void validateUserId(String userId) {
-		
-		final int MIN_LENGTH = 4;
-	    final int MAX_LENGTH = 20;
-	    final Pattern ID_PATTERN = Pattern.compile("^[a-zA-Z0-9]*$");
-		
-		if (userId == null || userId.isBlank()) {
-	        throw new InvalidParameterException("아이디는 필수입니다.");
-	    }
-	
-	    if (userId.length() < MIN_LENGTH || userId.length() > MAX_LENGTH) {
-	        throw new InvalidParameterException(
-	            String.format("아이디는 %d~%d자 사이여야 합니다.", MIN_LENGTH, MAX_LENGTH)
-	        );
-	    }
-	
-	    if (!ID_PATTERN.matcher(userId).matches()) {
-	        throw new InvalidParameterException("아이디는 영문과 숫자만 가능합니다.");
-	    }
-	    
 	}
 
 
