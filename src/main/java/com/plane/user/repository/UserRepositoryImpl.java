@@ -17,7 +17,6 @@ import com.plane.user.dto.UserSignupRequest;
 import com.plane.user.mapper.UserMapper;
 
 @Repository
-@Transactional
 public class UserRepositoryImpl implements UserRepository{
 	
 	private final UserMapper userMapper;
@@ -34,7 +33,7 @@ public class UserRepositoryImpl implements UserRepository{
 	}
 
 	@Override
-	public int save(UserSignupRequest userSignupRequest) {
+	public int saveUser(UserSignupRequest userSignupRequest) {
 		
 		return userMapper.insertUser(userSignupRequest);
 	}
@@ -43,8 +42,6 @@ public class UserRepositoryImpl implements UserRepository{
 	public UserProfileResponse selectUserProfile(String userId) {
 		
 		UserProfileResponse asd = userMapper.selectUserProfile(userId);
-		
-		System.out.println(asd == null? "asd": "123");
 		
 		return userMapper.selectUserProfile(userId);
 	}

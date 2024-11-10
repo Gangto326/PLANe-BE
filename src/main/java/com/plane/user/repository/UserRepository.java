@@ -2,9 +2,9 @@ package com.plane.user.repository;
 
 import java.util.List;
 
+import com.plane.trip.domain.TripStyle;
 import com.plane.user.domain.User;
 import com.plane.user.dto.FindIdRequest;
-import com.plane.user.dto.TripStyleDto;
 import com.plane.user.dto.UserIdResponse;
 import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserMyPageResponse;
@@ -15,7 +15,7 @@ public interface UserRepository {
 
 	User selectByPhone(String hashedPhone);
 
-	int save(UserSignupRequest userSignupRequest);
+	int saveUser(UserSignupRequest userSignupRequest);
 	
 	UserProfileResponse selectUserProfile(String userId);
 

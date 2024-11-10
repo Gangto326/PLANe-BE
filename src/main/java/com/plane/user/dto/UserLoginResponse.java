@@ -7,7 +7,6 @@ public class UserLoginResponse {
 	
 
 	public UserLoginResponse(String userId) {
-		super();
 		this.userId = userId;
 	}
 

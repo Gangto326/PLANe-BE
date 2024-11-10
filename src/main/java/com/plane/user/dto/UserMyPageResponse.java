@@ -2,6 +2,9 @@ package com.plane.user.dto;
 
 import java.util.List;
 
+import com.plane.trip.domain.TripStyle;
+import com.plane.trip.domain.TripThema;
+
 public class UserMyPageResponse {
 	
 	private String userId;
@@ -10,8 +13,8 @@ public class UserMyPageResponse {
 	private String profileUrl;
 	private String introduce;
 	private boolean isPublic;
-	private List<TripStyleDto> tripStyle;
-	private List<TripThemaDto> tripThema;
+	private List<TripStyle> tripStyle;
+	private List<TripThema> tripThema;
 	private List<MannerTagDto> mannerTags;
 	
 	
@@ -66,19 +69,19 @@ public class UserMyPageResponse {
 		this.isPublic = isPublic;
 	}
 
-	public List<TripStyleDto> getTripStyle() {
+	public List<TripStyle> getTripStyle() {
 		return tripStyle;
 	}
 
-	public void setTripStyle(List<TripStyleDto> tripStyle) {
+	public void setTripStyle(List<TripStyle> tripStyle) {
 		this.tripStyle = tripStyle;
 	}
 
-	public List<TripThemaDto> getTripThema() {
+	public List<TripThema> getTripThema() {
 		return tripThema;
 	}
 
-	public void setTripThema(List<TripThemaDto> tripThema) {
+	public void setTripThema(List<TripThema> tripThema) {
 		this.tripThema = tripThema;
 	}
 

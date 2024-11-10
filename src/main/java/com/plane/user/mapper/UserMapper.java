@@ -13,13 +13,13 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.Many;
 
+import com.plane.trip.domain.TripStyle;
+import com.plane.trip.domain.TripThema;
 import com.plane.user.domain.User;
 import com.plane.user.dto.UserProfileResponse;
 import com.plane.user.dto.UserSignupRequest;
 import com.plane.user.dto.FindIdRequest;
 import com.plane.user.dto.MannerTagDto;
-import com.plane.user.dto.TripStyleDto;
-import com.plane.user.dto.TripThemaDto;
 import com.plane.user.dto.UserIdResponse;
 import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserMyPageResponse;
@@ -31,8 +31,10 @@ public interface UserMapper {
 	User selectByPhone(String hashedPhone);
 	
 	
-	@Insert("INSERT INTO Users (userId, password, nickName, phone, email) "
-			+ "VALUES (#{userId}, #{hashedPassword}, #{nickName}, #{hashedPhone}, #{email})")
+	@Insert("""
+			INSERT INTO Users (userId, password, nickName, phone, email)
+			VALUES (#{userId}, #{hashedPassword}, #{nickName}, #{hashedPhone}, #{email})
+			""")
 	@Results({
         @Result(property = "hashedPassword", column = "password"),
         @Result(property = "hashedPhone", column = "phone")
@@ -47,18 +49,11 @@ public interface UserMapper {
 		    """)
 	@Results({
 		@Result(property = "userId", column = "userId"),
-	    @Result(property = "tripStyle", column = "userId", many = @Many(select = "selectTripStyles")),
+	    @Result(property = "tripStyle", column = "userId", many = @Many(select = "com.plane.trip.mapper.TripMapper.selectTripStylesByUserId")),
 	    @Result(property = "mannerTags", column = "userId", many = @Many(select = "selectMannerTags"))
 	})
 	UserProfileResponse selectUserProfile(String userId);
 
-	@Select("""
-		    SELECT ts.styleId as id, ts.styleName
-		    FROM TripStyle ts
-		    JOIN UsersTripStyle uts ON ts.styleId = uts.styleId
-		    WHERE uts.userId = #{userId}
-		    """)
-	List<TripStyleDto> selectTripStyles(String userId);
 
 	@Select("""
 		    SELECT mannerTagName
@@ -69,14 +64,6 @@ public interface UserMapper {
 		    LIMIT 3
 		    """)
 	List<MannerTagDto> selectMannerTags(String userId);
-	
-	@Select("""
-		    SELECT tt.themaId as id, tt.themaName
-		    FROM TripThema tt
-		    JOIN UsersTripThema utt ON tt.themaId = utt.themaId
-		    WHERE utt.userId = #{userId}
-		    """)
-	List<TripThemaDto> selectTripThemas(String userId);
 
 	
 	@Select("""
@@ -86,13 +73,14 @@ public interface UserMapper {
 		    """)
 	@Results({
 		@Result(property = "userId", column = "userId"),
-	    @Result(property = "tripStyle", column = "userId", many = @Many(select = "selectTripStyles")),
-	    @Result(property = "tripThema", column = "userId", many = @Many(select = "selectTripThemas")),
+	    @Result(property = "tripStyle", column = "userId", many = @Many(select = "com.plane.trip.mapper.TripMapper.selectTripStylesByUserId")),
+	    @Result(property = "tripThema", column = "userId", many = @Many(select = "com.plane.trip.mapper.TripMapper.selectTripThemasByUserId")),
 	    @Result(property = "mannerTags", column = "userId", many = @Many(select = "selectMannerTags"))
 	})
 	UserMyPageResponse selectUserMyPage(String userId);
 
 	
+	//////////////////////////////// Trip 패키지로 변경
 	@Delete("""
 			DELETE
 			FROM UsersTripStyle
@@ -131,6 +119,8 @@ public interface UserMapper {
 	        </script>
 			""")
 	int insertTripThema(@Param("userId") String userId, @Param("tripThema") List<Integer> tripThema);
+	
+	//////////////////////////////////////////////////
 
 	
 	@Update("""
