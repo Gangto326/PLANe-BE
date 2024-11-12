@@ -44,25 +44,25 @@ public class UserController {
 	}
 	
 	// 로그인 & 인증 관련
-	@PostMapping("/login")
-	public ResponseEntity<ApiResponse<UserLoginResponse>> login(UserLoginRequest userLoginRequest) {
-		
-		
-		return null;
-	}
+//	@PostMapping("/login")
+//	public ResponseEntity<ApiResponse<UserLoginResponse>> login(UserLoginRequest userLoginRequest) {
+//		
+//		
+//		return null;
+//	}
 	
-	@PostMapping("/login/social")
-	public ResponseEntity<ApiResponse<?>> socialLogin() {
-		
-		return null;
-	}
+//	@PostMapping("/login/social")
+//	public ResponseEntity<ApiResponse<?>> socialLogin() {
+//		
+//		return null;
+//	}
 	
-	@PostMapping("/logout")
-	public ResponseEntity<ApiResponse<?>> logout() {
-		
-		return null;
-	}
-	
+//	@PostMapping("/logout")
+//	public ResponseEntity<ApiResponse<?>> logout() {
+//		
+//		return null;
+//	}
+//	
 	
 	// 회원 관련
 	@PostMapping("/signup")

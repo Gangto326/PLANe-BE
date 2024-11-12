@@ -1,0 +1,111 @@
+package com.plane.user.controller;
+
+import org.apache.ibatis.annotations.Delete;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.plane.common.util.HeaderUtil;
+import com.plane.user.dto.AuthDto;
+import com.plane.user.dto.TokenDto;
+import com.plane.user.dto.UserLoginRequest;
+import com.plane.user.service.AuthService;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+
+/**
+ * 
+ * Controller는 데이터를 전달받고, Service에 넘겨주고,
+ * 그 결과를 받아 클라이언트에 전송하는 역할만 진행한다.
+ * 
+ */
+
+@RestController // REST Service를 위한 Controller 임을 명시.
+@RequestMapping("/api/auth") // /auth와 일치하는 모든 URI는 이 Controller가 제어함.
+public class AuthController {
+	
+	private final AuthService authService;
+	
+	@Autowired
+	public AuthController(AuthService authService) {
+		this.authService = authService;
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody UserLoginRequest userLoginRequest) {
+		
+		AuthDto authDto = authService.login(userLoginRequest);
+		
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.add(HeaderUtil.getAuthorizationHeaderName(), HeaderUtil.getTokenPrefix() + authDto.getAccessToken());
+		
+		// RefreshToken을 HttpOnly Cookie로 전달.
+		ResponseCookie responseCookie = ResponseCookie
+				.from(HeaderUtil.getRefreshCookieName(), authDto.getRefreshToken())
+				.domain("localhost") // 어떤 사이트에서 쿠키를 사용할 수 있도록 허용할 지 설정.
+				.path("/") // 위 사이트에서 쿠키를 허용할 경로를 설정.
+				.httpOnly(true) // HTTP 통신을 위해서만 사용하도록 설정.
+				.secure(true) // Set-Cookie 설정.
+				.maxAge(authDto.getMaxAge() / 1000) // RefreshToken과 동일한 만료 시간으로 설정.
+				.sameSite("None") // 동일한 사이트에서 사용할 수 있도록 설정 None: 동일한 사이트가 아니어도 된다.
+				.build();
+
+		return ResponseEntity.ok()
+				.headers(httpHeaders).header(HttpHeaders.SET_COOKIE, responseCookie.toString())
+				.build();
+	}
+	
+	@DeleteMapping("/logout")
+	public ResponseEntity<?> logout(HttpServletRequest httpServletRequest) {
+		
+		// 1. HTTP Header의 Authorization (AccessToken)을 추출.
+		String accessToken = HeaderUtil.getAccessToken(httpServletRequest);
+
+		// 2. logout 진행.
+		authService.logout(accessToken);
+		
+		// 3. RefreshToken 삭제.
+		HttpHeaders httpHeaders = new HttpHeaders();
+		ResponseCookie responseCookie = ResponseCookie
+				.from(HeaderUtil.getRefreshCookieName(), "")
+				.domain("localhost") // 어떤 사이트에서 쿠키를 사용할 수 있도록 허용할 지 설정.
+				.path("/") // 위 사이트에서 쿠키를 허용할 경로를 설정.
+				.httpOnly(true) // HTTP 통신을 위해서만 사용하도록 설정.
+				.secure(true) // Set-Cookie 설정.
+				.maxAge(0) // RefreshToken을 삭제하기 위해 시간을 0으로 설정.
+				.sameSite("None") // 동일한 사이트에서 사용할 수 있도록 설정 None: 동일한 사이트가 아니어도 된다.
+				.build();
+
+		return ResponseEntity.noContent()
+				.headers(httpHeaders).header(HttpHeaders.SET_COOKIE, responseCookie.toString())
+				.build();
+	}
+	
+	@GetMapping("/refresh")
+	public ResponseEntity<?> refresh(HttpServletRequest httpServletRequest) {
+		
+		// Client에서 withCredentials 옵션으로 설정하여 전송된 경우,
+		// RefreshToken을 받을 수 있다.
+		String refreshToken = HeaderUtil.getRefreshToken(httpServletRequest);
+		
+		// RefreshToken을 바탕으로 새로운 AccessToken을 발급.
+		TokenDto newAccessToken = authService.reGenerateToken(refreshToken);
+		
+		// 새로운 Accesstoken을 Header에 추가.
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.add(HeaderUtil.getAuthorizationHeaderName(), HeaderUtil.getTokenPrefix() + newAccessToken.getToken());
+		
+		// 새로운 AccessToken을 전송.
+		return ResponseEntity.ok()
+				.headers(httpHeaders)
+				.build();
+	}
+}

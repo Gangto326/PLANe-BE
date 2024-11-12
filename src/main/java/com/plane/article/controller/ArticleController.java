@@ -33,4 +33,6 @@ public class ArticleController {
 		return ResponseEntity.ok(ApiResponse.success(articleDetailResponse, "게시글을 불러왔습니다."));
 	}
 	
+	
+	
 }

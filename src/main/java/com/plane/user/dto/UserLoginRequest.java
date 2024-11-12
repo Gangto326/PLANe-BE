@@ -18,6 +18,9 @@ public class UserLoginRequest {
 	private String password;
 	
 	
+	private String hashedPassword;
+	
+
 	public UserLoginRequest(String userId, String password) {
 		super();
 		this.userId = userId;
@@ -41,4 +44,13 @@ public class UserLoginRequest {
 		this.password = password;
 	}
 	
+	public String getHashedPassword() {
+		return hashedPassword;
+	}
+
+
+	public void setHashedPassword(String hashedPassword) {
+		this.hashedPassword = hashedPassword;
+	}
+
 }

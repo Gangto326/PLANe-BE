@@ -12,8 +12,11 @@ public class ErrorResponse {
         this.code = errorCode.name();
         this.message = errorCode.getMessage();
     }
-
     
+    public static ErrorResponse of(ErrorCode errorCode) {
+		return new ErrorResponse(errorCode);
+	}
+
 	public String getCode() {
 		return code;
 	}

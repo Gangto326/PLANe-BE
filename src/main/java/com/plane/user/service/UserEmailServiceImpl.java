@@ -72,7 +72,9 @@ public class UserEmailServiceImpl implements UserEmailService {
                 """, newPassword);
         
         try {
-        	javaMailSender.send(createMail(findPasswordRequest.getEmail(), subject, content));
+        	MimeMessage mail = createMail(findPasswordRequest.getEmail(), subject, content);
+        	javaMailSender.send(mail);
+        	
         	userRepository.updateUserPassword(findPasswordRequest.getUserId(), hashUtil.hashPassword(newPassword));        	
         } catch (Exception e) {
             throw new EmailException("이메일 전송 실패");
