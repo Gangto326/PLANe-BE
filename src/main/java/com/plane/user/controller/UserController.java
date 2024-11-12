@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.plane.common.response.ApiResponse;
 import com.plane.trip.domain.TripStyle;
 import com.plane.user.dto.UserLoginRequest;
-import com.plane.user.dto.UserLoginResponse;
 import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserProfileResponse;
 import com.plane.user.dto.UserSignupRequest;
 import com.plane.user.dto.UserMyPageResponse;
+import com.plane.user.dto.AuthResponse;
 import com.plane.user.dto.ChangePasswordRequest;
 import com.plane.user.dto.EmailVerificationRequest;
 import com.plane.user.dto.FindIdRequest;
@@ -44,32 +44,32 @@ public class UserController {
 	}
 	
 	// 로그인 & 인증 관련
-	@PostMapping("/login")
-	public ResponseEntity<ApiResponse<UserLoginResponse>> login(UserLoginRequest userLoginRequest) {
-		
-		
-		return null;
-	}
+//	@PostMapping("/login")
+//	public ResponseEntity<ApiResponse<UserLoginResponse>> login(UserLoginRequest userLoginRequest) {
+//		
+//		
+//		return null;
+//	}
 	
-	@PostMapping("/login/social")
-	public ResponseEntity<ApiResponse<?>> socialLogin() {
-		
-		return null;
-	}
+//	@PostMapping("/login/social")
+//	public ResponseEntity<ApiResponse<?>> socialLogin() {
+//		
+//		return null;
+//	}
 	
-	@PostMapping("/logout")
-	public ResponseEntity<ApiResponse<?>> logout() {
-		
-		return null;
-	}
-	
+//	@PostMapping("/logout")
+//	public ResponseEntity<ApiResponse<?>> logout() {
+//		
+//		return null;
+//	}
+//	
 	
 	// 회원 관련
 	@PostMapping("/signup")
-	public ResponseEntity<ApiResponse<UserLoginResponse>> signup(@Valid @RequestBody UserSignupRequest userSignupRequest) {
+	public ResponseEntity<ApiResponse<Boolean>> signup(@Valid @RequestBody UserSignupRequest userSignupRequest) {
 		
-		UserLoginResponse userLoginResponse = userService.signup(userSignupRequest);
-		return ResponseEntity.ok(ApiResponse.success(userLoginResponse, "회원이 정상적으로 등록되었습니다."));
+		userService.signup(userSignupRequest);
+		return ResponseEntity.ok(ApiResponse.success(true, "회원이 정상적으로 등록되었습니다."));
 	}
 	
 	@PostMapping("/profile")

@@ -3,7 +3,6 @@ package com.plane.user.service;
 import com.plane.user.dto.ChangePasswordRequest;
 import com.plane.user.dto.FindIdRequest;
 import com.plane.user.dto.UserIdResponse;
-import com.plane.user.dto.UserLoginResponse;
 import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserMyPageResponse;
 import com.plane.user.dto.UserProfileResponse;
@@ -16,7 +15,7 @@ import java.util.List;
 
 public interface UserService {
 	
-	UserLoginResponse signup(UserSignupRequest userSignupRequest);
+	boolean signup(UserSignupRequest userSignupRequest);
 
 	UserProfileResponse getProfile(String userId);
 

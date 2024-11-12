@@ -8,9 +8,4 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(properties = { "spring.config.location=classpath:application.properties" })
 public class UserServiceTest {
 
-	@Test
-	void test() {
-		String a = "123";
-		assertEquals("123", a);
-	}
 }

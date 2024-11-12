@@ -21,6 +21,7 @@ import com.plane.user.dto.UserSignupRequest;
 import com.plane.user.dto.FindIdRequest;
 import com.plane.user.dto.MannerTagDto;
 import com.plane.user.dto.UserIdResponse;
+import com.plane.user.dto.UserLoginRequest;
 import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserMyPageResponse;
 

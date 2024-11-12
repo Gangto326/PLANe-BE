@@ -261,13 +261,32 @@ CREATE TABLE `CopyOfReport` (
 	FOREIGN KEY (`reporterId`) REFERENCES `Users`(`userId`)
 );
 
-
 CREATE TABLE `VerificationCodes` (
 	`codeId` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT 'PK',
 	`email` VARCHAR(100) NULL COMMENT '코드를 받을 email',
     `verificationCode` VARCHAR(100) NOT NULL COMMENT '인증코드',
 	`createdDate` TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY (`codeId`)
+);
+
+CREATE TABLE `Tokens` (
+    `tokenId` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `userId` VARCHAR(50) NOT NULL,
+    `tokenType` VARCHAR(20) NOT NULL,
+    `tokenValue` TEXT NOT NULL,
+    `isActive` BOOLEAN DEFAULT true,
+    `issuedAt` BIGINT NOT NULL,
+    `expiresAt` BIGINT NOT NULL,
+    `createdAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    -- FK 제약조건 추가
+    FOREIGN KEY (`userId`) REFERENCES `Users`(`userId`)
+        ON DELETE CASCADE    -- 사용자 삭제시 토큰도 삭제
+        ON UPDATE CASCADE,   -- 사용자 ID 변경시 토큰도 업데이트
+
+    INDEX idx_user_token (`userId`, `tokenType`),
+    INDEX idx_expires (`expiresAt`)
 );
 
 -- Users

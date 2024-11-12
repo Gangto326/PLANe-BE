@@ -1,22 +1,19 @@
 package com.plane.user.service;
 
-import java.util.regex.Pattern;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.plane.common.exception.custom.DuplicateUserException;
-import com.plane.common.exception.custom.InvalidParameterException;
 import com.plane.common.exception.custom.InvalidPasswordException;
 import com.plane.common.exception.custom.UserNotFoundException;
 import com.plane.common.exception.custom.UserUpdateException;
 import com.plane.common.exception.custom.VerificationCodeException;
+import com.plane.common.util.FormatUtil;
 import com.plane.common.util.HashUtil;
 import com.plane.user.dto.ChangePasswordRequest;
 import com.plane.user.dto.FindIdRequest;
 import com.plane.user.dto.UserIdResponse;
-import com.plane.user.dto.UserLoginResponse;
 import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserMyPageResponse;
 import com.plane.user.dto.UserProfileResponse;
@@ -30,41 +27,20 @@ public class UserServiceImpl implements UserService{
 	
 	private final UserRepository userRepository;
 	private final UserPreferenceService userPreferenceService;
+	private final FormatUtil formatUtil;
 	private final HashUtil hashUtil;
 	
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository, UserPreferenceService userPreferenceService, HashUtil hashUtil) {
+	public UserServiceImpl(UserRepository userRepository, UserPreferenceService userPreferenceService, FormatUtil formatUtil, HashUtil hashUtil) {
 		this.userRepository = userRepository;
 		this.userPreferenceService = userPreferenceService;
+		this.formatUtil = formatUtil;
 		this.hashUtil = hashUtil;
-	}
-	
-	
-	private void validateUserId(String userId) {
-		
-		final int MIN_LENGTH = 4;
-	    final int MAX_LENGTH = 20;
-	    final Pattern ID_PATTERN = Pattern.compile("^[a-zA-Z0-9]*$");
-		
-		if (userId == null || userId.isBlank()) {
-	        throw new InvalidParameterException("아이디는 필수입니다.");
-	    }
-	
-	    if (userId.length() < MIN_LENGTH || userId.length() > MAX_LENGTH) {
-	        throw new InvalidParameterException(
-	            String.format("아이디는 %d~%d자 사이여야 합니다.", MIN_LENGTH, MAX_LENGTH)
-	        );
-	    }
-	
-	    if (!ID_PATTERN.matcher(userId).matches()) {
-	        throw new InvalidParameterException("아이디는 영문과 숫자만 가능합니다.");
-	    }
-	    
 	}
 
 	
 	@Override
-	public UserLoginResponse signup(UserSignupRequest userSignupRequest) {
+	public boolean signup(UserSignupRequest userSignupRequest) {
 		
 		// 비밀번호 일치 여부 확인
 		if (!userSignupRequest.getPassword().equals(userSignupRequest.getConfirmPassword())) {
@@ -82,11 +58,8 @@ public class UserServiceImpl implements UserService{
         userSignupRequest.setHashedPassword(hashUtil.hashPassword(userSignupRequest.getPassword()));
         userSignupRequest.setHashedPhone(hashUtil.hashPhone(userSignupRequest.getPhone()));
         
-        UserLoginResponse userLoginResponse = null;
-        
         if (userRepository.saveUser(userSignupRequest) == 1) {
-        	userLoginResponse = new UserLoginResponse(userSignupRequest.getUserId());
-        	return userLoginResponse;
+        	return true;
         }
         
 		throw new UserNotFoundException("회원가입 실패.");
@@ -154,7 +127,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public boolean checkDuplicatedId(String userId) {
 		
-		validateUserId(userId);
+		formatUtil.isValidUserId(userId);
 		
 		if (userRepository.findUserById(userId) == 0) {
 			return true;
