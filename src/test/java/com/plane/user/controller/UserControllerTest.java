@@ -20,11 +20,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.http.MediaType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.plane.common.util.FormatUtil;
 import com.plane.user.controller.UserController;
 import com.plane.user.dto.ChangePasswordRequest;
 import com.plane.user.dto.EmailVerificationRequest;
@@ -47,6 +49,9 @@ public class UserControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 	
+	@MockBean
+    private FormatUtil formatUtil;
+	
 	@Autowired
 	private UserService userService;
 	
@@ -55,17 +60,17 @@ public class UserControllerTest {
 	
 	@Test
 	@DisplayName("회원 가입하기")
-	@Disabled
+//	@Disabled
 	void testUserRegister() throws Exception {
 		System.out.println("==== Test Start ====");
 		
 		UserSignupRequest userSignupRequest = new UserSignupRequest();
-		userSignupRequest.setUserId("kangsansam1");
-		userSignupRequest.setPassword("ssafy1234!");
-		userSignupRequest.setConfirmPassword("ssafy1234!");
-		userSignupRequest.setEmail("kangsansam1@naver.com");
+		userSignupRequest.setUserId("kangsansam123");
+		userSignupRequest.setPassword("qweqwe1!");
+		userSignupRequest.setConfirmPassword("qweqwe1!");
+		userSignupRequest.setEmail("kangsansam123@naver.com");
 		userSignupRequest.setNickName("김강토");
-		userSignupRequest.setPhone("01012341239");
+		userSignupRequest.setPhone("01012349999");
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		String content = objectMapper.writeValueAsString(userSignupRequest);

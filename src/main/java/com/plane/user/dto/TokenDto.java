@@ -2,14 +2,12 @@ package com.plane.user.dto;
 
 import java.util.Date;
 
-/**
- * 토큰의 정보를 전달하기 위한 클래스.
- */
+
 public class TokenDto {
 	
 	private String userId;
-	private String token;
-	private String hashedToken;
+	private String tokenType;
+	private String tokenValue;
 	private long issuedAt;
 	private long expiresAt;
 	
@@ -21,20 +19,20 @@ public class TokenDto {
 		this.userId = userId;
 	}
 	
-	public String getToken() {
-		return token;
+	public String getTokenType() {
+		return tokenType;
+	}
+
+	public void setTokenType(String tokenType) {
+		this.tokenType = tokenType;
 	}
 	
-	public void setToken(String token) {
-		this.token = token;
+	public String getTokenValue() {
+		return tokenValue;
 	}
 	
-	public String getHashedToken() {
-		return hashedToken;
-	}
-	
-	public void setHashedToken(String hashedToken) {
-		this.hashedToken = hashedToken;
+	public void setTokenValue(String tokenValue) {
+		this.tokenValue = tokenValue;
 	}
 	
 	public long getIssuedAt() {

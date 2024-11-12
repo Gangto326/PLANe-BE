@@ -1,12 +1,12 @@
 package com.plane.user.service;
 
-import com.plane.user.dto.AuthDto;
+import com.plane.user.dto.AuthResponse;
 import com.plane.user.dto.TokenDto;
 import com.plane.user.dto.UserLoginRequest;
 
 public interface AuthService {
 
-	AuthDto login(UserLoginRequest userLoginRequest);
+	AuthResponse login(UserLoginRequest userLoginRequest);
 
 	void logout(String accessToken);
 

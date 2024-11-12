@@ -2,6 +2,8 @@ package com.plane.user.mapper;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
 import com.plane.user.domain.User;
@@ -16,7 +18,8 @@ public interface AuthMapper {
 
 	
 	@Insert("""
-			
+			INSERT INTO Tokens (userId, tokenType, tokenValue, issuedAt, expiresAt)
+			VALUES (#{userId}, #{tokenType}, #{tokenValue}, #{issuedAt}, #{expiresAt})
 			""")
 	int insertToken(TokenDto tokenDto);
 	

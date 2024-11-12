@@ -3,7 +3,7 @@ package com.plane.user.dto;
 /**
  * AccessToken, RefreshToken, MaxAge를 전달하기위한 클래스.
  */
-public class AuthDto {
+public class AuthResponse {
 	
 	private String accessToken;
 	private String refreshToken;

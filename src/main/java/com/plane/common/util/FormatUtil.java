@@ -2,8 +2,11 @@ package com.plane.common.util;
 
 import java.util.regex.Pattern;
 
+import org.springframework.stereotype.Component;
+
 import com.plane.common.exception.custom.InvalidParameterException;
 
+@Component
 public class FormatUtil {
 	
 	private static Pattern pattern;
@@ -35,7 +38,6 @@ public class FormatUtil {
 	
 	public static boolean isValidEmail(String userEmail) {
 		
-		// 이메일 양식이 맞는지 검증.
 		pattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 		
 		return pattern.matcher(userEmail).find();

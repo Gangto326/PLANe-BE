@@ -1,8 +1,11 @@
 package com.plane.common.util;
 
+import org.springframework.stereotype.Component;
+
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
+@Component
 public class HeaderUtil {
 	
 	private static final String AUTHORIZATION_HEADER = "Authorization";

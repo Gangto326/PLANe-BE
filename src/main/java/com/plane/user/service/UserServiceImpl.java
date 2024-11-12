@@ -14,7 +14,6 @@ import com.plane.common.util.HashUtil;
 import com.plane.user.dto.ChangePasswordRequest;
 import com.plane.user.dto.FindIdRequest;
 import com.plane.user.dto.UserIdResponse;
-import com.plane.user.dto.UserLoginResponse;
 import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserMyPageResponse;
 import com.plane.user.dto.UserProfileResponse;
@@ -41,7 +40,7 @@ public class UserServiceImpl implements UserService{
 
 	
 	@Override
-	public UserLoginResponse signup(UserSignupRequest userSignupRequest) {
+	public boolean signup(UserSignupRequest userSignupRequest) {
 		
 		// 비밀번호 일치 여부 확인
 		if (!userSignupRequest.getPassword().equals(userSignupRequest.getConfirmPassword())) {
@@ -59,11 +58,8 @@ public class UserServiceImpl implements UserService{
         userSignupRequest.setHashedPassword(hashUtil.hashPassword(userSignupRequest.getPassword()));
         userSignupRequest.setHashedPhone(hashUtil.hashPhone(userSignupRequest.getPhone()));
         
-        UserLoginResponse userLoginResponse = null;
-        
         if (userRepository.saveUser(userSignupRequest) == 1) {
-        	userLoginResponse = new UserLoginResponse(userSignupRequest.getUserId());
-        	return userLoginResponse;
+        	return true;
         }
         
 		throw new UserNotFoundException("회원가입 실패.");

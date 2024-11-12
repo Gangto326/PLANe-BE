@@ -8,7 +8,7 @@ import com.plane.common.exception.custom.UserNotFoundException;
 import com.plane.common.util.HashUtil;
 import com.plane.common.util.JwtUtil;
 import com.plane.user.domain.User;
-import com.plane.user.dto.AuthDto;
+import com.plane.user.dto.AuthResponse;
 import com.plane.user.dto.TokenDto;
 import com.plane.user.dto.UserLoginRequest;
 import com.plane.user.repository.AuthRepository;
@@ -31,32 +31,29 @@ public class AuthServiceImpl implements AuthService {
 
 	
 	@Override
-	public AuthDto login(UserLoginRequest userLoginRequest) {
+	public AuthResponse login(UserLoginRequest userLoginRequest) {
 		
 		// Hash
 		userLoginRequest.setHashedPassword(hashUtil.hashPassword(userLoginRequest.getPassword()));
-
+		
 		User user = authRepository.selectUser(userLoginRequest);
 		
 		if(user == null) {
 			throw new UserNotFoundException("일치하는 사용자가 없습니다.");
 		}
 		
-		// 2. AccessToken과 RefreshToken을 발급.
 		TokenDto accessToken = jwtUtil.generateToken(user, "AccessToken");
 		TokenDto refreshToken = jwtUtil.generateToken(user, "RefreshToken");
 		
-		// 3. 발급한 토큰을 token_status 테이블에 저장.
 		authRepository.saveToken(accessToken);
 		authRepository.saveToken(refreshToken);
 		
-		// 4. AuthDto 설정.
-		AuthDto authDto = new AuthDto();
-		authDto.setAccessToken(accessToken.getToken());
-		authDto.setRefreshToken(refreshToken.getToken());
-		authDto.setMaxAge(refreshToken.getExpiresAt());
+		AuthResponse authResponse = new AuthResponse();
+		authResponse.setAccessToken(accessToken.getTokenValue());
+		authResponse.setRefreshToken(refreshToken.getTokenValue());
+		authResponse.setMaxAge(refreshToken.getExpiresAt());
 		
-		return authDto;
+		return authResponse;
 	}
 
 	

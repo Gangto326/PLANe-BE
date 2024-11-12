@@ -4,8 +4,8 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.plane.user.domain.User;
@@ -19,17 +19,8 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 
-/**
- * 토큰 발급 및 검증을 위한 클래스.
- */
 @Component
 public class JwtUtil {
-	
-	private final HashUtil hashUtil;
-	
-	public JwtUtil(HashUtil hashUtil) {
-		this.hashUtil = hashUtil;
-	}
 	
 	private final long ACCESS_TOKEN_EXPIRE_TIME = 1000L * 60 * 15; // 15분
 	private final long REFRESH_TOKEN_EXPIRE_TIME = 1000L * 60 * 60 * 4; // 4시간
@@ -41,6 +32,10 @@ public class JwtUtil {
 	private String refreshTokenSecretKey;
 
 	
+	@Autowired
+	public JwtUtil() {}
+	
+	
 	private SecretKey getSecretKey(String type) {
 		// AccessToken과 RefreshToken을 서로 다른 키를 이용하여 발급.
 		// AccessToken과 RefreshToken을 서로 변경하여 인증 시도를 방지.
@@ -48,6 +43,7 @@ public class JwtUtil {
 		if(type.equals("AccessToken")) {
 			return Keys.hmacShaKeyFor(accessTokenSecretKey.getBytes());
 		}
+		
 		else if(type.equals("RefreshToken")) {
 			return Keys.hmacShaKeyFor(refreshTokenSecretKey.getBytes());
 		}
@@ -57,9 +53,11 @@ public class JwtUtil {
 	
 	
 	private long getExpiration(long issuedAt, String type) {
+		
 		if(type.equals("AccessToken")) {
 			return issuedAt + ACCESS_TOKEN_EXPIRE_TIME;
 		}
+		
 		else if(type.equals("RefreshToken")) {
 			return issuedAt + REFRESH_TOKEN_EXPIRE_TIME;
 		}
@@ -84,8 +82,8 @@ public class JwtUtil {
 		
 		TokenDto tokenDto = new TokenDto();
 		tokenDto.setUserId(user.getUserId());
-		tokenDto.setToken(token);
-		tokenDto.setHashedToken(hashUtil.generateSHA512(token));
+		tokenDto.setTokenType(type);
+		tokenDto.setTokenValue(token);
 		tokenDto.setIssuedAt(issuedAt);
 		tokenDto.setExpiresAt(expiresAt);
 		
@@ -117,11 +115,10 @@ public class JwtUtil {
 					.verifyWith(getSecretKey(type))
 					.build()
 					.parseSignedClaims(token);
+			
+			return true;
 		} catch(ExpiredJwtException | SignatureException | MalformedJwtException e) {
 			return false;
-		}
-		
-		return true;
+		}		
 	}
-	
 }
