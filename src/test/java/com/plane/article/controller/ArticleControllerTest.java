@@ -49,8 +49,10 @@ public class ArticleControllerTest {
 	void testArticleDetail() throws Exception {
 		System.out.println("==== ArticleDetail Test Start ====");
 		
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTQ5NTIyNSwiZXhwIjoxNzMxNTA0MjI1fQ.6Hugxe1JfNeDUjdMWnuk_WYn8TTRVyjZfJa_Kv2kawkuj6Gjue1aABQOGcqm8hlh";
+		
 		mockMvc.perform(get("/api/article/{articleId}", 1)
-				.param("currentUserId", "user001")
+				.header("Authorization", "Bearer " + accessToken)
 	            .contentType(MediaType.APPLICATION_JSON))
 	            .andDo(print())                             
 	            .andExpect(status().isOk());
@@ -62,7 +64,7 @@ public class ArticleControllerTest {
 	
 	@Test
 	@DisplayName("게시글 수정하기")
-//	@Disabled
+	@Disabled
 	void testUpdateArticle() throws Exception {
 		System.out.println("==== UpdateArticle Test Start ====");
 		
@@ -87,6 +89,29 @@ public class ArticleControllerTest {
 	            .andExpect(status().isOk());
 		
         System.out.println("==== UpdateArticle Test End ====");
+
+	}
+	
+	
+	@Test
+	@DisplayName("게시글 목록 불러오기")
+	@Disabled
+	void testArticleList() throws Exception {
+		System.out.println("==== ArticleList Test Start ====");
+		
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTUxMDQwNywiZXhwIjoxNzMxNTQ2NDA3fQ.b88j1vXVOSirRkhtSfjGvYPDuD_F-RbMIuUJodG3CLSsIbSXs6TVwdyrQYUvu_cZ";
+		
+		mockMvc.perform(get("/api/article/list")
+				.header("Authorization", "Bearer " + accessToken)
+				.param("page", "3")
+                .param("size", "10")
+                .param("sortBy", "createdDate")
+                .param("sortDirection", "DESC")
+				.param("articleType", "동행"))
+				.andDo(print())                             
+		        .andExpect(status().isOk());
+		
+        System.out.println("==== ArticleList Test End ====");
 
 	}
 }

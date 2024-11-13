@@ -1,6 +1,10 @@
 package com.plane.common.exception.handler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -51,9 +55,21 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<ErrorResponse>> handleValidationException(
             MethodArgumentNotValidException e) {
-            
+    	
+    	List<String> errorMessages = new ArrayList<>();
+    	
+    	// 에러 목록 가져오기
+    	List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
+    	
+    	for (FieldError error: fieldErrors) {
+    	    String message = error.getField() + ": " + error.getDefaultMessage();
+    	    errorMessages.add(message);
+    	}
+    	
+    	String errorMessage = String.join(", ", errorMessages);
+    	
     	return ResponseEntity
                 .status(1000)
-                .body(ApiResponse.error(ErrorCode.VALIDATION_ERROR, e.getMessage()));
+                .body(ApiResponse.error(ErrorCode.VALIDATION_ERROR, errorMessage));
     }
 }
