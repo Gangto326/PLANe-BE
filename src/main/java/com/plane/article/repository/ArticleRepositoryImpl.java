@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.plane.article.dto.ArticleDetailResponse;
+import com.plane.article.dto.ArticleUpdateRequest;
 import com.plane.article.mapper.ArticleMapper;
 
 @Repository
@@ -17,10 +18,16 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	}
 
 	@Override
-	public ArticleDetailResponse selectArticleDetail(int articleId, String currentUserId) {
+	public ArticleDetailResponse selectArticleDetail(String currentUserId, int articleId) {
 		
-		ArticleDetailResponse articleDetailResponse = articleMapper.selectArticleDetail(articleId, currentUserId);
+		ArticleDetailResponse articleDetailResponse = articleMapper.selectArticleDetail(currentUserId, articleId);
 		return articleDetailResponse;
+	}
+
+	@Override
+	public int updateArticle(String userId, ArticleUpdateRequest articleUpdateRequest) {
+		
+		return articleMapper.updateArticle(userId, articleUpdateRequest);
 	}
 	
 }

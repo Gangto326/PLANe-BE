@@ -127,9 +127,9 @@ public interface UserMapper {
 	@Update("""
 			UPDATE Users 
 	        SET nickName = #{nickName},
-            profileUrl = #{profileUrl},
-            introduce = #{introduce},
-            isPublic = #{isPublic}
+	            profileUrl = #{profileUrl},
+	            introduce = #{introduce},
+	            isPublic = #{isPublic}
 			WHERE userId = #{userId}
 			""")
 	int updateUser(UserMyPageRequest userMyPageRequest);

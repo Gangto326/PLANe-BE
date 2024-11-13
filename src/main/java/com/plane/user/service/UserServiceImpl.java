@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService{
 
 
 	@Override
-	public UserMyPageResponse updateMyPage(UserMyPageRequest userMyPageRequest) {
+	public boolean updateMyPage(UserMyPageRequest userMyPageRequest) {
 		
 		String userId = userMyPageRequest.getUserId();
 		
@@ -111,13 +111,13 @@ public class UserServiceImpl implements UserService{
         	result |= THEMA_UPDATE;
         }
         
-        if (userRepository.updateUser(userMyPageRequest) > 0 ) {
+        if (userRepository.updateUser(userMyPageRequest) == 1) {
 			result |= USER_UPDATE;
 		}
         
         if (result > 0) {
 //        	System.out.println(Integer.toBinaryString(result));
-        	return userRepository.selectUserMyPage(userId);
+        	return true;
         }
         
         throw new UserUpdateException("마이페이지 업데이트 중 오류가 발생했습니다.");
