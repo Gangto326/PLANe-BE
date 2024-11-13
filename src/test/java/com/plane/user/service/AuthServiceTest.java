@@ -1,6 +1,5 @@
 package com.plane.user.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -31,4 +30,5 @@ class AuthServiceTest {
         assertNotNull(response.getRefreshToken());
         assertTrue(response.getMaxAge() > 0);
     }
+    
 }

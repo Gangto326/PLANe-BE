@@ -59,22 +59,33 @@ public class AuthServiceImpl implements AuthService {
 	
 	@Override
 	public void logout(String accessToken) {
-		// TODO Auto-generated method stub
 		
+		String userId = jwtUtil.getUserId(accessToken, "AccessToken");
+		
+		authRepository.setTokenInvalid(userId);
 	}
 
 	
 	@Override
 	public TokenDto reGenerateToken(String refreshToken) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String userId = jwtUtil.getUserId(refreshToken, "RefreshToken");
+		
+		authRepository.setTokenInvalid(userId, refreshToken);
+		
+		User user = authRepository.selectUser(userId);
+		TokenDto newAccessToken = jwtUtil.generateToken(user, "AccessToken");
+		
+		authRepository.saveToken(newAccessToken);
+		
+		return newAccessToken;
 	}
 
-	
+
 	@Override
-	public boolean isValidToken(String token) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isTokenActive(String token) {
+		
+		return authRepository.isTokenActive(token);
 	}
 
 }

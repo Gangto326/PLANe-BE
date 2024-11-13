@@ -12,6 +12,6 @@ public interface AuthService {
 
 	TokenDto reGenerateToken(String refreshToken);
 
-	boolean isValidToken(String token);
+	boolean isTokenActive(String token);
 	
 }
