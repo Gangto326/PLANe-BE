@@ -3,6 +3,7 @@ package com.plane.article.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,10 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
+import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleUpdateRequest;
 import com.plane.article.service.ArticleService;
 import com.plane.common.annotation.UserId;
+import com.plane.common.dto.PageRequest;
+import com.plane.common.dto.PageResponse;
 import com.plane.common.response.ApiResponse;
 
 import jakarta.validation.Valid;
@@ -56,4 +61,15 @@ public class ArticleController {
 		
 	}
 	
+	
+	@GetMapping("/list")
+	public ResponseEntity<ApiResponse<PageResponse<ArticleResponse>>> articleList(
+			@UserId String userId,
+			@Valid @ModelAttribute PageRequest pageRequest
+			) {
+		
+		PageResponse<ArticleResponse> pageResponse = articleService.getList(userId, pageRequest);		
+		return ResponseEntity.ok(ApiResponse.success(pageResponse, "게시글 목록을 불러왔습니다."));
+		
+	}
 }

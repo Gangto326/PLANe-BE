@@ -6,47 +6,35 @@ import java.util.List;
 
 import com.plane.trip.domain.TripThema;
 
-public class ArticleDetailResponse {
+public class ArticleResponse {
 	
 	// authorId로 Users테이블에서 탐색
 	private String nickName;
 	
-	// articleId로 Board테이블에서 탐색
+	// Board테이블에서 탐색
 	private Integer articleId;
-    private Integer tripId;
-    private String articleType;
-    private String title;
-    private String content;
-    private String articlePictureUrl;
-    private Integer likeCount;
-    private Integer viewCount;
-    private LocalDateTime createdDate;
+	private String articleType;
+	private String title;
+	private String articlePictureUrl;
+	private LocalDateTime createdDate;
     
     // userId와 articleId로 Saved테이블에서 탐색
-    private boolean isSaved;
-    private boolean isRecommand;
+	private boolean isSaved;
+	private boolean isRecommand;
     
     // tripId로 PLANe테이블에서 탐색
-    private Integer accompanyNum;
-    private String sigungu;
-    private LocalDate departureDate;
-    private LocalDate arrivedDate;
+	private Integer accompanyNum;
+	private String sigungu;
+	private LocalDate departureDate;
+	private LocalDate arrivedDate;
 	
     // tripId로 PLANeTripThema테이블에서 탐색
-    private List<TripThema> tripThema;
-
-    
-	public ArticleDetailResponse() {}
+	private List<TripThema> tripThema;
 
 	
-	public Integer getArticleId() {
-		return articleId;
-	}
+	public ArticleResponse() {}
 
-	public void setArticleId(Integer articleId) {
-		this.articleId = articleId;
-	}
-
+	
 	public String getNickName() {
 		return nickName;
 	}
@@ -55,12 +43,12 @@ public class ArticleDetailResponse {
 		this.nickName = nickName;
 	}
 
-	public Integer getTripId() {
-		return tripId;
+	public Integer getArticleId() {
+		return articleId;
 	}
 
-	public void setTripId(Integer tripId) {
-		this.tripId = tripId;
+	public void setArticleId(Integer articleId) {
+		this.articleId = articleId;
 	}
 
 	public String getArticleType() {
@@ -79,36 +67,12 @@ public class ArticleDetailResponse {
 		this.title = title;
 	}
 
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
 	public String getArticlePictureUrl() {
 		return articlePictureUrl;
 	}
 
 	public void setArticlePictureUrl(String articlePictureUrl) {
 		this.articlePictureUrl = articlePictureUrl;
-	}
-
-	public Integer getLikeCount() {
-		return likeCount;
-	}
-
-	public void setLikeCount(Integer likeCount) {
-		this.likeCount = likeCount;
-	}
-
-	public Integer getViewCount() {
-		return viewCount;
-	}
-
-	public void setViewCount(Integer viewCount) {
-		this.viewCount = viewCount;
 	}
 
 	public LocalDateTime getCreatedDate() {
@@ -174,5 +138,5 @@ public class ArticleDetailResponse {
 	public void setTripThema(List<TripThema> tripThema) {
 		this.tripThema = tripThema;
 	}
-    
+	
 }
