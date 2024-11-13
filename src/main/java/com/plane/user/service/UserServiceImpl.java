@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService{
         	result |= THEMA_UPDATE;
         }
         
-        if (userRepository.updateUser(userMyPageRequest) > 0 ) {
+        if (userRepository.updateUser(userMyPageRequest) == 1) {
 			result |= USER_UPDATE;
 		}
         

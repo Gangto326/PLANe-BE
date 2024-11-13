@@ -23,9 +23,8 @@ import io.jsonwebtoken.security.SignatureException;
 @Component
 public class JwtUtil {
 	
-	private final AuthService authService;
-	
-	private final long ACCESS_TOKEN_EXPIRE_TIME = 1000L * 60 * 15; // 15분
+//	private final long ACCESS_TOKEN_EXPIRE_TIME = 1000L * 60 * 15; // 15분
+	private final long ACCESS_TOKEN_EXPIRE_TIME = 1000L * 60 * 60 * 10; // Test를 위한 ACCESS_TOKEN
 	private final long REFRESH_TOKEN_EXPIRE_TIME = 1000L * 60 * 60 * 6; // 6시간
 	
 	@Value("${jwt.secretkey.accesstoken}")
@@ -36,9 +35,7 @@ public class JwtUtil {
 
 	
 	@Autowired
-	public JwtUtil(AuthService authService) {
-		this.authService = authService;
-	}
+	public JwtUtil() {}
 	
 	
 	private SecretKey getSecretKey(String type) {
@@ -97,6 +94,7 @@ public class JwtUtil {
 
 	
 	public String getUserId(String token, String type) {
+		
 		if(isValidToken(token, type)) {
 			
 			Claims payload = Jwts.parser()

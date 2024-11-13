@@ -18,16 +18,16 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	}
 
 	@Override
-	public ArticleDetailResponse selectArticleDetail(int articleId, String currentUserId) {
+	public ArticleDetailResponse selectArticleDetail(String currentUserId, int articleId) {
 		
-		ArticleDetailResponse articleDetailResponse = articleMapper.selectArticleDetail(articleId, currentUserId);
+		ArticleDetailResponse articleDetailResponse = articleMapper.selectArticleDetail(currentUserId, articleId);
 		return articleDetailResponse;
 	}
 
 	@Override
-	public boolean updateArticle(String userId, ArticleUpdateRequest articleUpdateRequest) {
-		// TODO Auto-generated method stub
-		return false;
+	public int updateArticle(String userId, ArticleUpdateRequest articleUpdateRequest) {
+		
+		return articleMapper.updateArticle(userId, articleUpdateRequest);
 	}
 	
 }

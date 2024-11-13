@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleUpdateRequest;
 import com.plane.article.service.ArticleService;
+import com.plane.common.annotation.UserId;
 import com.plane.common.response.ApiResponse;
 
 import jakarta.validation.Valid;
@@ -31,10 +32,13 @@ public class ArticleController {
 	
 	
 	@GetMapping("/{articleId}")
-	public ResponseEntity<ApiResponse<ArticleDetailResponse>> articleDetail(@PathVariable int articleId, @RequestHeader("Authorization") String authorizationHeader) {
+	public ResponseEntity<ApiResponse<ArticleDetailResponse>> articleDetail(
+			@UserId String userId,
+			@PathVariable int articleId
+			) {
 		
 		ArticleDetailResponse articleDetailResponse = null;
-		articleDetailResponse = articleService.getArticleDetail(articleId, authorizationHeader);
+		articleDetailResponse = articleService.getArticleDetail(userId, articleId);
 		
 		return ResponseEntity.ok(ApiResponse.success(articleDetailResponse, "게시글을 불러왔습니다."));
 		
@@ -42,9 +46,12 @@ public class ArticleController {
 	
 	
 	@PatchMapping("/update")
-	public ResponseEntity<ApiResponse<Boolean>> articleUpdate(@RequestHeader("Authorization") String authorizationHeader, @Valid @RequestBody ArticleUpdateRequest articleUpdateRequest) {
+	public ResponseEntity<ApiResponse<Boolean>> articleUpdate(
+			@UserId String userId,
+			@Valid @RequestBody ArticleUpdateRequest articleUpdateRequest
+			) {
 		
-		articleService.updateArticle(authorizationHeader, articleUpdateRequest);
+		articleService.updateArticle(userId, articleUpdateRequest);
 		return ResponseEntity.ok(ApiResponse.success(true, "게시글 수정을 성공적으로 완료했습니다."));
 		
 	}

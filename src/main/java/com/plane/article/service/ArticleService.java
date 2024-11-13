@@ -7,8 +7,8 @@ import jakarta.validation.Valid;
 
 public interface ArticleService {
 
-	ArticleDetailResponse getArticleDetail(int articleId, String authorizationHeader);
+	ArticleDetailResponse getArticleDetail(String authorizationHeader, int articleId);
 
-	boolean updateArticle(String authorizationHeader, @Valid ArticleUpdateRequest articleUpdateRequest);
+	boolean updateArticle(String authorizationHeader, ArticleUpdateRequest articleUpdateRequest);
 
 }

@@ -6,8 +6,10 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.plane.article.dto.ArticleDetailResponse;
+import com.plane.article.dto.ArticleUpdateRequest;
 
 @Mapper
 public interface ArticleMapper {
@@ -44,6 +46,17 @@ public interface ArticleMapper {
 		@Result(property = "tripId", column = "tripId"),
 		@Result(property = "tripThema", column = "tripId", many = @Many(select = "com.plane.trip.mapper.TripMapper.selectTripThemasByTripId"))
 	})
-	ArticleDetailResponse selectArticleDetail(@Param("articleId") int articleId, @Param("currentUserId") String currentUserId);
+	ArticleDetailResponse selectArticleDetail(@Param("currentUserId") String currentUserId, @Param("articleId") int articleId);
+	
+	
+	@Update("""
+			UPDATE Board
+		    SET title = #{articleUpdateRequest.title},
+		        content = #{articleUpdateRequest.content},
+		        updatedDate = CURRENT_TIMESTAMP
+		    WHERE articleId = #{articleUpdateRequest.articleId}
+		    AND authorId = #{userId}
+			""")
+	int updateArticle(@Param("userId") String userId, @Param("articleUpdateRequest") ArticleUpdateRequest articleUpdateRequest);
 	
 }
