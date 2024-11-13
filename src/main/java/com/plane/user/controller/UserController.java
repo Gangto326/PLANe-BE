@@ -87,10 +87,10 @@ public class UserController {
 	}
 	
 	@PatchMapping("/myPage")
-	public ResponseEntity<ApiResponse<UserMyPageResponse>> updateMyPage(@Valid @RequestBody UserMyPageRequest userMyPageRequest) {
+	public ResponseEntity<ApiResponse<Boolean>> updateMyPage(@Valid @RequestBody UserMyPageRequest userMyPageRequest) {
 		
-		UserMyPageResponse userMyPageResponse = userService.updateMyPage(userMyPageRequest);
-		return ResponseEntity.ok(ApiResponse.success(userMyPageResponse, "마이페이지 수정이 정상적으로 처리되었습니다."));
+		userService.updateMyPage(userMyPageRequest);
+		return ResponseEntity.ok(ApiResponse.success(true, "마이페이지 수정이 정상적으로 처리되었습니다."));
 	}
 	
 	

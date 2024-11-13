@@ -7,12 +7,6 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class ArticleUpdateRequest {
-		
-	@NotBlank(message = "아이디는 필수입니다")
-	@Size(min = 4, max = 20, message = "아이디는 4~20자 사이여야 합니다")
-    @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "아이디는 영문과 숫자만 가능합니다")
-	private String userId;
-	
 	
 	@NotBlank(message = "글 번호는 필수입니다.")
 	private Integer articleId;
@@ -30,16 +24,6 @@ public class ArticleUpdateRequest {
 
 
 	public ArticleUpdateRequest() {}
-
-
-	public String getUserId() {
-		return userId;
-	}
-
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
 
 
 	public Integer getArticleId() {
