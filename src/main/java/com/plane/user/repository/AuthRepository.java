@@ -10,4 +10,14 @@ public interface AuthRepository {
 
 	User selectUser(UserLoginRequest userLoginRequest);
 
+	boolean isTokenActive(String token);
+
+	int deleteExpiredTokens(long currentTime);
+
+	void setTokenInvalid(String userId);
+
+	void setTokenInvalid(String userId, String refreshToken);
+
+	User selectUser(String userId);
+	
 }

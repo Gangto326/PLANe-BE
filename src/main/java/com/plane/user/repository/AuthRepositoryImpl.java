@@ -24,6 +24,13 @@ public class AuthRepositoryImpl implements AuthRepository {
 		
 		return authMapper.insertToken(tokenDto);
 	}
+	
+	
+	@Override
+	public User selectUser(String userId) {
+		
+		return authMapper.selectUserById(userId);
+	}
 
 	
 	@Override
@@ -31,5 +38,34 @@ public class AuthRepositoryImpl implements AuthRepository {
 		
 		return authMapper.selectUser(userLoginRequest);
 	}
+	
 
+	@Override
+	public boolean isTokenActive(String token) {
+		
+		return authMapper.isTokenActive(token);
+	}
+
+
+	@Override
+	public int deleteExpiredTokens(long currentTime) {
+		
+		return authMapper.deleteExpiredTokens(currentTime);
+	}
+
+
+	@Override
+	public void setTokenInvalid(String userId) {
+
+		authMapper.updateTokenActiveById(userId);
+	}
+
+
+	@Override
+	public void setTokenInvalid(String userId, String refreshToken) {
+		
+		authMapper.updateTokenActiveByIdAndToken(userId, refreshToken);
+	}
+
+	
 }

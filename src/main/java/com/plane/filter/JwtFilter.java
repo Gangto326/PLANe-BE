@@ -94,7 +94,7 @@ public class JwtFilter extends OncePerRequestFilter {
 			if(refreshToken != null) {
 				
 				// 토큰이 비정상이거나, 비활성 토큰인 경우는 새로운 토큰을 발급해줄 수 없다.
-				if(!jwtUtil.isValidToken(refreshToken, "RefreshToken") || !authService.isValidToken(refreshToken)) {
+				if(!jwtUtil.isValidToken(refreshToken, "RefreshToken") || !authService.isTokenActive(refreshToken)) {
 					
 					sendErrorResponse(httpServletResponse, ErrorCode.REFRESH_TOKEN_EXPIRED);
 					return;
@@ -106,10 +106,10 @@ public class JwtFilter extends OncePerRequestFilter {
 		else {
 			String accessToken = HeaderUtil.getAccessToken(httpServletRequest);
 			
-			// AccessToken이 없거나, 비정상 토큰이거나, 비활성 토큰인 경우 접근 불가 처리.
-			if(accessToken == null || !jwtUtil.isValidToken(accessToken, "AccessToken") || !authService.isValidToken(accessToken)) {
+			// AccessToken이 없거나, 비정상 토큰인 경우 접근 불가 처리.
+			if(accessToken == null || !jwtUtil.isValidToken(accessToken, "AccessToken")) {
 				
-				sendErrorResponse(httpServletResponse, ErrorCode.REFRESH_TOKEN_EXPIRED);
+				sendErrorResponse(httpServletResponse, ErrorCode.ACCESS_TOKEN_EXPIRED);
 				return;
 			}
 		}

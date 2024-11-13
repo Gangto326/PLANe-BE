@@ -34,7 +34,7 @@ public class AuthController {
 	
 	
 	@PostMapping("/login")
-	public ResponseEntity<ApiResponse<AuthResponse>> login(@Valid @RequestBody UserLoginRequest userLoginRequest) {
+	public ResponseEntity<ApiResponse<Void>> login(@Valid @RequestBody UserLoginRequest userLoginRequest) {
 		
 		AuthResponse authResponse = authService.login(userLoginRequest);
 		
@@ -55,7 +55,7 @@ public class AuthController {
 		return ResponseEntity.ok()
 	            .headers(httpHeaders)
 	            .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
-	            .body(ApiResponse.success(authResponse, "로그인 성공"));
+	            .body(ApiResponse.success(null, "로그인 성공"));
 	}
 	
 	

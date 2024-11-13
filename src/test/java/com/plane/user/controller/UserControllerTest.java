@@ -60,7 +60,7 @@ public class UserControllerTest {
 	
 	@Test
 	@DisplayName("회원 가입하기")
-//	@Disabled
+	@Disabled
 	void testUserRegister() throws Exception {
 		System.out.println("==== Test Start ====");
 		

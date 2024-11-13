@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.plane.user.domain.User;
 import com.plane.user.dto.TokenDto;
+import com.plane.user.service.AuthService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -22,8 +23,10 @@ import io.jsonwebtoken.security.SignatureException;
 @Component
 public class JwtUtil {
 	
+	private final AuthService authService;
+	
 	private final long ACCESS_TOKEN_EXPIRE_TIME = 1000L * 60 * 15; // 15분
-	private final long REFRESH_TOKEN_EXPIRE_TIME = 1000L * 60 * 60 * 4; // 4시간
+	private final long REFRESH_TOKEN_EXPIRE_TIME = 1000L * 60 * 60 * 6; // 6시간
 	
 	@Value("${jwt.secretkey.accesstoken}")
 	private String accessTokenSecretKey;
@@ -33,7 +36,9 @@ public class JwtUtil {
 
 	
 	@Autowired
-	public JwtUtil() {}
+	public JwtUtil(AuthService authService) {
+		this.authService = authService;
+	}
 	
 	
 	private SecretKey getSecretKey(String type) {
@@ -118,7 +123,8 @@ public class JwtUtil {
 			
 			return true;
 		} catch(ExpiredJwtException | SignatureException | MalformedJwtException e) {
+			
 			return false;
-		}		
+		}
 	}
 }
