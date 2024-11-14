@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
@@ -45,6 +46,18 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	public List<ArticleResponse> findAllArticles(String userId, ArticleSearchRequest articleSearchRequest) {
 		
 		return articleMapper.selectArticlesByPageRequest(userId, articleSearchRequest);
+	}
+
+	@Override
+	public Article findArticleByUserIdAndArticleId(String userId, Integer articleId) {
+		
+		return articleMapper.selectArticleByUserIdAndArticleId(userId, articleId);
+	}
+
+	@Override
+	public int deleteArticle(String userId, Integer articleId) {
+		
+		return articleMapper.deleteArticle(userId, articleId);
 	}
 	
 }

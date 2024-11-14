@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -133,4 +134,18 @@ public class ArticleController {
 		return ResponseEntity.ok(ApiResponse.success(pageResponse, "게시글 목록을 불러왔습니다."));
 		
 	}
+	
+	
+	@DeleteMapping("/delete")
+	public ResponseEntity<ApiResponse<Boolean>> articleDelete(
+			@UserId String userId,
+			@RequestBody Integer articleId
+			) {
+		
+		System.out.println(userId+ " "+articleId);
+		articleService.deleteArticle(userId, articleId);
+		return ResponseEntity.ok(ApiResponse.success(true, "게시글 삭제를 성공적으로 완료했습니다."));
+		
+	}
+	
 }

@@ -1,6 +1,7 @@
 package com.plane.article.controller;
 
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -95,13 +96,13 @@ public class ArticleControllerTest {
 	
 	@Test
 	@DisplayName("게시글 목록 불러오기")
-//	@Disabled
-	void testArticleList() throws Exception {
-		System.out.println("==== ArticleList Test Start ====");
+	@Disabled
+	void testArticleSearch() throws Exception {
+		System.out.println("==== ArticleSearch Test Start ====");
 		
 		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTU1MTI1OSwiZXhwIjoxNzMxNTg3MjU5fQ.BK-budRN9x_m-G-VJX3BY1aHfSSFWl_Kwg7ovR_T67UO620PPEweo8_qlmUgcexv";
 		
-		mockMvc.perform(get("/api/article/list")
+		mockMvc.perform(get("/api/article/search")
 				.header("Authorization", "Bearer " + accessToken)
 				.param("page", "1")
                 .param("size", "12")
@@ -111,7 +112,27 @@ public class ArticleControllerTest {
 				.andDo(print())                             
 		        .andExpect(status().isOk());
 		
-        System.out.println("==== ArticleList Test End ====");
+        System.out.println("==== ArticleSearch Test End ====");
+
+	}
+	
+	
+	@Test
+	@DisplayName("게시글 삭제")
+//	@Disabled
+	void testArticleDelete() throws Exception {
+		System.out.println("==== ArticleDelete Test Start ====");
+		
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTU1MTI1OSwiZXhwIjoxNzMxNTg3MjU5fQ.BK-budRN9x_m-G-VJX3BY1aHfSSFWl_Kwg7ovR_T67UO620PPEweo8_qlmUgcexv";
+		
+		mockMvc.perform(delete("/api/article/delete")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(String.valueOf(4))
+				.header("Authorization", "Bearer " + accessToken))
+				.andDo(print())
+		        .andExpect(status().isOk());
+		
+        System.out.println("==== ArticleDelete Test End ====");
 
 	}
 }

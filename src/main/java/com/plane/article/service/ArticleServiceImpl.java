@@ -16,7 +16,10 @@ import com.plane.article.repository.ArticleRepository;
 import com.plane.common.dto.PageInfo;
 import com.plane.common.dto.PageRequest;
 import com.plane.common.dto.PageResponse;
+import com.plane.common.exception.ErrorCode;
+import com.plane.common.exception.SystemException;
 import com.plane.common.exception.custom.ArticleNotFoundException;
+import com.plane.common.exception.custom.UnauthorizedException;
 
 @Service
 @Transactional
@@ -76,6 +79,27 @@ public class ArticleServiceImpl implements ArticleService {
         );
         
         return new PageResponse<>(articleList, pageInfo);
+	}
+
+
+	@Override
+	public boolean deleteArticle(String userId, Integer articleId) {
+		
+		Article article = articleRepository.findArticleByUserIdAndArticleId(userId, articleId);
+		
+		if (article == null) {
+			throw new ArticleNotFoundException("userId: "+userId+", articleId: "+articleId+" || 해당 게시글을 찾을 수 없습니다.");
+		}
+		
+		if (!article.getAuthorId().equals(userId)) {
+			throw new UnauthorizedException("삭제 권한이 없습니다.");
+		}
+		
+		if (articleRepository.deleteArticle(userId, articleId) != 1) {
+			throw new SystemException(ErrorCode.DATABASE_ERROR, "삭제 중 오류가 발생하였습니다.");
+		}
+		
+		return true;
 	}
 	
 }
