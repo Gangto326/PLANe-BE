@@ -168,7 +168,7 @@ CREATE TABLE `MannerTags` (
 	FOREIGN KEY (`evaluatorId`) REFERENCES `Users`(`userId`)
 );
 
-CREATE TABLE `Saved` (
+CREATE TABLE `Interactions` (
 	`id` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT 'PK',
 	`userId` VARCHAR(100) NOT NULL,
 	`articleId` BIGINT(20) NOT NULL,
@@ -396,7 +396,7 @@ VALUES
 (2, 'user001', 'user003', '꼼꼼해요', NOW());
 
 -- Saved
-INSERT INTO `Saved` (`id`, `userId`, `articleId`, `type`)
+INSERT INTO `Interactions` (`id`, `userId`, `articleId`, `type`)
 VALUES
 (1, 'user001', 1, 'SAVE'),
 (2, 'user002', 2, 'RECOMMAND');

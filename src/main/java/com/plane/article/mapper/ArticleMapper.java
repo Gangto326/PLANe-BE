@@ -3,6 +3,7 @@ package com.plane.article.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -13,6 +14,7 @@ import org.apache.ibatis.annotations.Update;
 
 import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
+import com.plane.article.dto.ArticleInteractionRequset;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
@@ -26,20 +28,20 @@ public interface ArticleMapper {
             CASE 
                 WHEN EXISTS (
                     SELECT 1 
-                    FROM Saved s 
-                    WHERE s.articleId = b.articleId 
-                    AND s.userId = #{currentUserId}
-                    AND s.type = 'SAVE'
+                    FROM Interactions i
+                    WHERE i.articleId = b.articleId 
+                    AND i.userId = #{currentUserId}
+                    AND i.type = 'SAVE'
                 ) THEN true 
                 ELSE false 
             END as isSaved,
 	        CASE 
                 WHEN EXISTS (
                     SELECT 1 
-                    FROM Saved s 
-                    WHERE s.articleId = b.articleId 
-                    AND s.userId = #{currentUserId}
-                    AND s.type = 'RECOMMAND'
+                    FROM Interactions i
+                    WHERE i.articleId = b.articleId 
+                    AND i.userId = #{currentUserId}
+                    AND i.type = 'RECOMMAND'
                 ) THEN true 
                 ELSE false 
             END as isRecommand,
@@ -91,10 +93,10 @@ public interface ArticleMapper {
 		        <if test="articleSearchRequest.isRecommand">
 			        AND EXISTS (
 			        	SELECT 1
-			        	FROM Saved s
-			        	WHERE s.articleId = b.articleId 
-			        	AND s.userId = #{userId}
-			        	AND s.type = 'RECOMMAND'
+			        	FROM Interactions i
+			        	WHERE i.articleId = b.articleId 
+			        	AND i.userId = #{userId}
+			        	AND i.type = 'RECOMMAND'
 			        	)
 			    </if>
 	        </where>
@@ -109,28 +111,24 @@ public interface ArticleMapper {
 	        CASE 
 	            WHEN EXISTS (
 	                SELECT 1 
-	                FROM Saved s 
-	                WHERE s.articleId = b.articleId 
-	                AND s.userId = #{userId}
-	                AND s.type = 'SAVE'
+	                FROM Interactions i
+	                WHERE i.articleId = b.articleId 
+	                AND i.userId = #{userId}
+	                AND i.type = 'SAVE'
 	            ) THEN true 
 	            ELSE false 
 	        END as isSaved,
 	        CASE 
 	            WHEN EXISTS (
 	                SELECT 1 
-	                FROM Saved s 
-	                WHERE s.articleId = b.articleId 
-	                AND s.userId = #{userId}
-	                AND s.type = 'RECOMMAND'
+	                FROM Interactions i
+	                WHERE i.articleId = b.articleId 
+	                AND i.userId = #{userId}
+	                AND i.type = 'RECOMMAND'
 	            ) THEN true 
 	            ELSE false 
 	        END as isRecommand,
-	        p.accompanyNum,
-	        r.sigungu,
-	        p.departureDate,
-	        p.arrivedDate,
-	        b.tripId
+	        p.accompanyNum, r.sigungu, p.departureDate, p.arrivedDate, b.tripId
 		    FROM Board b
 		    LEFT JOIN Users u ON b.authorId = u.userId
 		    LEFT JOIN PLANe p ON b.tripId = p.tripId
@@ -151,10 +149,10 @@ public interface ArticleMapper {
 		        <if test="articleSearchRequest.isRecommand">
 			        AND EXISTS (
 			        	SELECT 1
-			        	FROM Saved s
-			        	WHERE s.articleId = b.articleId 
-			        	AND s.userId = #{userId}
-			        	AND s.type = 'RECOMMAND'
+			        	FROM Interactions i
+			        	WHERE i.articleId = b.articleId 
+			        	AND i.userId = #{userId}
+			        	AND i.type = 'RECOMMAND'
 			        	)
 			    </if>
 	        </where>
@@ -183,5 +181,21 @@ public interface ArticleMapper {
 			AND articleId = #{articleId}
 			""")
 	int deleteArticle(@Param("userId") String userId, @Param("articleId") Integer articleId);
+
+	
+	@Delete("""
+			DELETE FROM Interactions
+			WHERE userId = #{userId}
+			AND articleId = #{articleInteractionRequset.articleId}
+			AND type = #{articleInteractionRequset.interaction}
+			""")
+	int deleteInteractionByUserId(@Param("userId") String userId, @Param("articleInteractionRequset") ArticleInteractionRequset articleInteractionRequset);
+
+
+	@Insert("""
+			INSERT INTO Interactions (`userId`, `articleId`, `type`)
+			VALUES (#{userId}, #{articleInteractionRequset.articleId}, #{articleInteractionRequset.interaction})
+			""")
+	int insertInteractionByUserId(@Param("userId") String userId, @Param("articleInteractionRequset") ArticleInteractionRequset articleInteractionRequset);
 	
 }

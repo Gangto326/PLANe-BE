@@ -2,6 +2,7 @@ package com.plane.article.service;
 
 import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
+import com.plane.article.dto.ArticleInteractionRequset;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
@@ -19,5 +20,7 @@ public interface ArticleService {
 	PageResponse<ArticleResponse> getArticleList(String userId, ArticleSearchRequest articleSearchRequest);
 
 	boolean deleteArticle(String userId, Integer articleId);
+
+	boolean toggleInteraction(String userId, ArticleInteractionRequset articleInteractionRequset);
 
 }

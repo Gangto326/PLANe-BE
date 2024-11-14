@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
+import com.plane.article.dto.ArticleInteractionRequset;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
@@ -142,9 +144,20 @@ public class ArticleController {
 			@RequestBody Integer articleId
 			) {
 		
-		System.out.println(userId+ " "+articleId);
 		articleService.deleteArticle(userId, articleId);
 		return ResponseEntity.ok(ApiResponse.success(true, "게시글 삭제를 성공적으로 완료했습니다."));
+		
+	}
+	
+	
+	@PostMapping("/interaction")
+	public ResponseEntity<ApiResponse<Boolean>> articleInteraction(
+			@UserId String userId,
+			@Valid @RequestBody ArticleInteractionRequset articleInteractionRequset
+			) {
+		
+		articleService.toggleInteraction(userId, articleInteractionRequset);
+		return ResponseEntity.ok(ApiResponse.success(true, "좋아요 또는, 보관하기 상호작용에 성공했습니다."));
 		
 	}
 	
