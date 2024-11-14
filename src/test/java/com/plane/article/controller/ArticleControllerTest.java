@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.http.MediaType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.plane.article.dto.ArticleInteractionRequset;
 import com.plane.article.dto.ArticleUpdateRequest;
 import com.plane.article.repository.ArticleRepository;
 import com.plane.article.service.ArticleService;
@@ -50,7 +51,7 @@ public class ArticleControllerTest {
 	void testArticleDetail() throws Exception {
 		System.out.println("==== ArticleDetail Test Start ====");
 		
-		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTQ5NTIyNSwiZXhwIjoxNzMxNTA0MjI1fQ.6Hugxe1JfNeDUjdMWnuk_WYn8TTRVyjZfJa_Kv2kawkuj6Gjue1aABQOGcqm8hlh";
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTU1MTI1OSwiZXhwIjoxNzMxNTg3MjU5fQ.BK-budRN9x_m-G-VJX3BY1aHfSSFWl_Kwg7ovR_T67UO620PPEweo8_qlmUgcexv";
 		
 		mockMvc.perform(get("/api/article/{articleId}", 1)
 				.header("Authorization", "Bearer " + accessToken)
@@ -108,7 +109,8 @@ public class ArticleControllerTest {
                 .param("size", "12")
                 .param("sortBy", "createdDate")
                 .param("sortDirection", "DESC")
-				.param("articleType", "동행"))
+				.param("articleType", "동행")
+				.param("recommend", String.valueOf(true)))
 				.andDo(print())                             
 		        .andExpect(status().isOk());
 		
@@ -119,7 +121,7 @@ public class ArticleControllerTest {
 	
 	@Test
 	@DisplayName("게시글 삭제")
-//	@Disabled
+	@Disabled
 	void testArticleDelete() throws Exception {
 		System.out.println("==== ArticleDelete Test Start ====");
 		
@@ -127,12 +129,40 @@ public class ArticleControllerTest {
 		
 		mockMvc.perform(delete("/api/article/delete")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(String.valueOf(4))
+				.content(String.valueOf(6))
 				.header("Authorization", "Bearer " + accessToken))
 				.andDo(print())
 		        .andExpect(status().isOk());
 		
         System.out.println("==== ArticleDelete Test End ====");
+
+	}
+	
+	
+	@Test
+	@DisplayName("좋아요/보관하기 상호작용")
+//	@Disabled
+	void testArticleInteraction() throws Exception {
+		System.out.println("==== ArticleInteraction Test Start ====");
+		
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTU1MTI1OSwiZXhwIjoxNzMxNTg3MjU5fQ.BK-budRN9x_m-G-VJX3BY1aHfSSFWl_Kwg7ovR_T67UO620PPEweo8_qlmUgcexv";
+		
+		
+		ArticleInteractionRequset articleInteractionRequset = new ArticleInteractionRequset();
+		articleInteractionRequset.setArticleId(8);
+		articleInteractionRequset.setInteraction("RECOMMAND");
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		String content = objectMapper.writeValueAsString(articleInteractionRequset);
+		
+		mockMvc.perform(post("/api/article/interaction")
+				.contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization", "Bearer " + accessToken)
+				.content(content))
+		        .andDo(print())
+		        .andExpect(status().isOk());
+		
+        System.out.println("==== ArticleInteraction Test End ====");
 
 	}
 }

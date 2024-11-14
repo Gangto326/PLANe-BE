@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
+import com.plane.article.dto.ArticleInteractionRequset;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
@@ -24,6 +25,10 @@ public interface ArticleRepository {
 	Article findArticleByUserIdAndArticleId(String userId, Integer articleId);
 
 	int deleteArticle(String userId, Integer articleId);
+
+	int deleteInteraction(String userId, ArticleInteractionRequset articleInteractionRequset);
+
+	int insertInteraction(String userId, ArticleInteractionRequset articleInteractionRequset);
 
 	
 

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
+import com.plane.article.dto.ArticleInteractionRequset;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
@@ -100,6 +101,24 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 		
 		return true;
+	}
+
+
+	@Override
+	public boolean toggleInteraction(String userId, ArticleInteractionRequset articleInteractionRequset) {
+		
+		int result = articleRepository.deleteInteraction(userId, articleInteractionRequset);
+		
+		if (result == 0) {
+			result = articleRepository.insertInteraction(userId, articleInteractionRequset);
+		}
+		
+		if (result != 1) {
+			throw new SystemException(ErrorCode.DATABASE_ERROR, "상호작용 중 오류가 발생하였습니다.");
+		}
+		
+		return true;
+		
 	}
 	
 }

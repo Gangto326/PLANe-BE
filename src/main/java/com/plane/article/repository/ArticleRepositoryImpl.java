@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
+import com.plane.article.dto.ArticleInteractionRequset;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
@@ -58,6 +59,18 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	public int deleteArticle(String userId, Integer articleId) {
 		
 		return articleMapper.deleteArticle(userId, articleId);
+	}
+
+	@Override
+	public int deleteInteraction(String userId, ArticleInteractionRequset articleInteractionRequset) {
+		
+		return articleMapper.deleteInteractionByUserId(userId, articleInteractionRequset);
+	}
+
+	@Override
+	public int insertInteraction(String userId, ArticleInteractionRequset articleInteractionRequset) {
+
+		return articleMapper.insertInteractionByUserId(userId, articleInteractionRequset);
 	}
 	
 }
