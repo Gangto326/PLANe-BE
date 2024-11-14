@@ -95,16 +95,16 @@ public class ArticleControllerTest {
 	
 	@Test
 	@DisplayName("게시글 목록 불러오기")
-	@Disabled
+//	@Disabled
 	void testArticleList() throws Exception {
 		System.out.println("==== ArticleList Test Start ====");
 		
-		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTUxMDQwNywiZXhwIjoxNzMxNTQ2NDA3fQ.b88j1vXVOSirRkhtSfjGvYPDuD_F-RbMIuUJodG3CLSsIbSXs6TVwdyrQYUvu_cZ";
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTU1MTI1OSwiZXhwIjoxNzMxNTg3MjU5fQ.BK-budRN9x_m-G-VJX3BY1aHfSSFWl_Kwg7ovR_T67UO620PPEweo8_qlmUgcexv";
 		
 		mockMvc.perform(get("/api/article/list")
 				.header("Authorization", "Bearer " + accessToken)
-				.param("page", "3")
-                .param("size", "10")
+				.param("page", "1")
+                .param("size", "12")
                 .param("sortBy", "createdDate")
                 .param("sortDirection", "DESC")
 				.param("articleType", "동행"))

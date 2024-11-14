@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Update;
 
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleResponse;
+import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
 import com.plane.common.dto.PageRequest;
 
@@ -65,11 +66,43 @@ public interface ArticleMapper {
 	int updateArticle(@Param("userId") String userId, @Param("articleUpdateRequest") ArticleUpdateRequest articleUpdateRequest);
 	
 	
-	@Select("SELECT COUNT(*) FROM Board WHERE articleType = #{articleType}")
-	long countAll(String articleType);
+	@Select("""
+			<script>
+			SELECT COUNT(*)
+			FROM Board b
+		    LEFT JOIN Users u ON b.authorId = u.userId
+		    LEFT JOIN PLANe p ON b.tripId = p.tripId
+		    LEFT JOIN Region r ON p.regionId = r.regionId
+		    <where>
+				<if test="articleSearchRequest.articleType != null">
+					b.articleType = #{articleSearchRequest.articleType}
+		        </if>
+		        <if test="articleSearchRequest.regionId != null">
+		            AND p.regionId = #{articleSearchRequest.regionId}
+		        </if>
+		        <if test="articleSearchRequest.tripPeriod != null">
+		            AND p.departureDate = #{articleSearchRequest.tripPeriod}
+		        </if>
+		        <if test="articleSearchRequest.tripDays != null">
+		            AND p.tripDays = #{articleSearchRequest.tripDays}
+		        </if>
+		        <if test="articleSearchRequest.isRecommand">
+			        AND EXISTS (
+			        	SELECT 1
+			        	FROM Saved s
+			        	WHERE s.articleId = b.articleId 
+			        	AND s.userId = #{userId}
+			        	AND s.type = 'RECOMMAND'
+			        	)
+			    </if>
+	        </where>
+	        </script>
+			""")
+	long countAll(@Param("userId") String userId, @Param("articleSearchRequest") ArticleSearchRequest articleSearchRequest);
 	
 	
 	@Select("""
+			<script>
 			SELECT b.articleId, u.nickName, b.articleType, b.title, b.articlePictureUrl, b.createdDate,
 	        CASE 
 	            WHEN EXISTS (
@@ -100,13 +133,36 @@ public interface ArticleMapper {
 		    LEFT JOIN Users u ON b.authorId = u.userId
 		    LEFT JOIN PLANe p ON b.tripId = p.tripId
 		    LEFT JOIN Region r ON p.regionId = r.regionId
-		    WHERE articleType = #{pageRequest.articleType}
-		    ORDER BY ${pageRequest.sortBy} ${pageRequest.sortDirection}
-		    LIMIT #{pageRequest.offset}, #{pageRequest.size};
+		    <where>
+				<if test="articleSearchRequest.articleType != null">
+					b.articleType = #{articleSearchRequest.articleType}
+		        </if>
+		        <if test="articleSearchRequest.regionId != null">
+		            AND p.regionId = #{articleSearchRequest.regionId}
+		        </if>
+		        <if test="articleSearchRequest.tripPeriod != null">
+		            AND p.departureDate = #{articleSearchRequest.tripPeriod}
+		        </if>
+		        <if test="articleSearchRequest.tripDays != null">
+		            AND p.tripDays = #{articleSearchRequest.tripDays}
+		        </if>
+		        <if test="articleSearchRequest.isRecommand">
+			        AND EXISTS (
+			        	SELECT 1
+			        	FROM Saved s
+			        	WHERE s.articleId = b.articleId 
+			        	AND s.userId = #{userId}
+			        	AND s.type = 'RECOMMAND'
+			        	)
+			    </if>
+	        </where>
+		    ORDER BY ${articleSearchRequest.pageRequest.sortBy} ${articleSearchRequest.pageRequest.sortDirection}
+		    LIMIT #{articleSearchRequest.pageRequest.offset}, #{articleSearchRequest.pageRequest.size}
+		    </script>
 			""")
 	@Results({
 		@Result(property = "tripThema", column = "tripId", many = @Many(select = "com.plane.trip.mapper.TripMapper.selectTripThemasByTripId"))
 	})
-	List<ArticleResponse> selectArticlesByPageRequest(@Param("userId") String userId, @Param("pageRequest") PageRequest pageRequest);
+	List<ArticleResponse> selectArticlesByPageRequest(@Param("userId") String userId, @Param("articleSearchRequest") ArticleSearchRequest articleSearchRequest);
 	
 }

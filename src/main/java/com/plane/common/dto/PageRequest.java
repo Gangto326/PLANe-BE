@@ -10,7 +10,7 @@ public class PageRequest {
 
     
     @Min(value = 1, message = "페이지 크기는 1 이상이어야 합니다")
-    private int size = 10;
+    private int size = 12;
 
     
     @Pattern(regexp = "^(createdDate|likeCount|viewCount)$", 
@@ -21,11 +21,6 @@ public class PageRequest {
     @Pattern(regexp = "^(ASC|DESC)$", 
             message = "정렬 방향은 ASC 또는 DESC여야 합니다")
     private String sortDirection = "DESC";
-    
-    
-    @Pattern(regexp = "^(동행|후기)$", 
-            message = "글 분류는 동행, 후기 중 하나여야 합니다")
-    private String articleType;
 
 
 	public PageRequest() {}
@@ -70,16 +65,6 @@ public class PageRequest {
 		this.sortDirection = sortDirection;
 	}
 
-
-	public String getArticleType() {
-		return articleType;
-	}
-
-
-	public void setArticleType(String articleType) {
-		this.articleType = articleType;
-	}
-    
 	
 	public int getOffset() {
         return (this.page - 1) * this.size;

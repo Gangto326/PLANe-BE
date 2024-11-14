@@ -5,6 +5,7 @@ import java.util.List;
 import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleResponse;
+import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
 import com.plane.common.dto.PageRequest;
 
@@ -16,9 +17,9 @@ public interface ArticleRepository {
 
 	int updateArticle(String userId, ArticleUpdateRequest articleUpdateRequest);
 
-	long countAllArticles(String articleType);
+	long countAllArticles(String userId, ArticleSearchRequest articleSearchRequest);
 
-	List<ArticleResponse> findAllArticles(String userId, PageRequest pageRequest);
+	List<ArticleResponse> findAllArticles(String userId, ArticleSearchRequest articleSearchRequest);
 
 	
 

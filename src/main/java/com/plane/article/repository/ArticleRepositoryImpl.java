@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleResponse;
+import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
 import com.plane.article.mapper.ArticleMapper;
 import com.plane.common.dto.PageRequest;
@@ -35,15 +36,15 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	}
 
 	@Override
-	public long countAllArticles(String articleType) {
+	public long countAllArticles(String userId, ArticleSearchRequest articleSearchRequest) {
 		
-		return articleMapper.countAll(articleType);
+		return articleMapper.countAll(userId, articleSearchRequest);
 	}
 
 	@Override
-	public List<ArticleResponse> findAllArticles(String userId, PageRequest pageRequest) {
+	public List<ArticleResponse> findAllArticles(String userId, ArticleSearchRequest articleSearchRequest) {
 		
-		return articleMapper.selectArticlesByPageRequest(userId, pageRequest);
+		return articleMapper.selectArticlesByPageRequest(userId, articleSearchRequest);
 	}
 	
 }
