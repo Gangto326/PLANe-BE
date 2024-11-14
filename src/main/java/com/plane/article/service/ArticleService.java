@@ -18,4 +18,6 @@ public interface ArticleService {
 
 	PageResponse<ArticleResponse> getArticleList(String userId, ArticleSearchRequest articleSearchRequest);
 
+	boolean deleteArticle(String userId, Integer articleId);
+
 }

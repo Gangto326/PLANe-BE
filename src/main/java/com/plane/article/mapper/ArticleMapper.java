@@ -2,6 +2,7 @@ package com.plane.article.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -10,6 +11,7 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
@@ -164,5 +166,22 @@ public interface ArticleMapper {
 		@Result(property = "tripThema", column = "tripId", many = @Many(select = "com.plane.trip.mapper.TripMapper.selectTripThemasByTripId"))
 	})
 	List<ArticleResponse> selectArticlesByPageRequest(@Param("userId") String userId, @Param("articleSearchRequest") ArticleSearchRequest articleSearchRequest);
+
+
+	@Select("""
+			SELECT *
+			FROM Board
+			WHERE authorId = #{userId}
+			AND articleId = #{articleId}
+			""")
+	Article selectArticleByUserIdAndArticleId(@Param("userId") String userId, @Param("articleId") Integer articleId);
+
+
+	@Delete("""
+			DELETE FROM Board
+			WHERE authorId = #{userId}
+			AND articleId = #{articleId}
+			""")
+	int deleteArticle(@Param("userId") String userId, @Param("articleId") Integer articleId);
 	
 }

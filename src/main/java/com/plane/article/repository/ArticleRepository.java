@@ -21,6 +21,10 @@ public interface ArticleRepository {
 
 	List<ArticleResponse> findAllArticles(String userId, ArticleSearchRequest articleSearchRequest);
 
+	Article findArticleByUserIdAndArticleId(String userId, Integer articleId);
+
+	int deleteArticle(String userId, Integer articleId);
+
 	
 
 }
