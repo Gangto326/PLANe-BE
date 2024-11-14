@@ -6,6 +6,7 @@ public class PageInfo {
     private final int pageSize;
     private final int totalPages;
     private final long totalElements;
+    
     private final boolean hasNext;
     private final boolean hasPrevious;
     

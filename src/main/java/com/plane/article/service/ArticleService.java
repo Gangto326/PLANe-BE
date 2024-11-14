@@ -3,6 +3,7 @@ package com.plane.article.service;
 import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleResponse;
+import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
 import com.plane.common.dto.PageRequest;
 import com.plane.common.dto.PageResponse;
@@ -15,6 +16,6 @@ public interface ArticleService {
 
 	boolean updateArticle(String authorizationHeader, ArticleUpdateRequest articleUpdateRequest);
 
-	PageResponse<ArticleResponse> getList(String userId, PageRequest pageRequest);
+	PageResponse<ArticleResponse> getArticleList(String userId, ArticleSearchRequest articleSearchRequest);
 
 }

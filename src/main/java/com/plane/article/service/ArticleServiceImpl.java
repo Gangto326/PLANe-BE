@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleResponse;
+import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
 import com.plane.article.repository.ArticleRepository;
 import com.plane.common.dto.PageInfo;
@@ -55,12 +56,14 @@ public class ArticleServiceImpl implements ArticleService {
 
 
 	@Override
-	public PageResponse<ArticleResponse> getList(String userId, PageRequest pageRequest) {
+	public PageResponse<ArticleResponse> getArticleList(String userId, ArticleSearchRequest articleSearchRequest) {
 		
-		long total = articleRepository.countAllArticles(pageRequest.getArticleType());
+		// 검색 조건에 맞는 모든 게시글의 수 반환
+		long total = articleRepository.countAllArticles(userId, articleSearchRequest);
 		
-		List<ArticleResponse> articleList = articleRepository.findAllArticles(userId, pageRequest);
+		List<ArticleResponse> articleList = articleRepository.findAllArticles(userId, articleSearchRequest);
         
+		PageRequest pageRequest = articleSearchRequest.getPageRequest();
         // 페이지 정보 생성
         int totalPages = (int) Math.ceil((double) total / pageRequest.getSize());
         
