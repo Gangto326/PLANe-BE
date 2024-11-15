@@ -94,7 +94,7 @@ CREATE TABLE `Board` (
 	`articlePictureUrl` VARCHAR(255) NULL,
 	`likeCount` INT NOT NULL DEFAULT 0,
 	`viewCount` INT NOT NULL DEFAULT 1,
-	`createdDate` TIMESTAMP NOT NULL,
+	`createdDate` TIMESTAMP NOT NULL DEFAULT NOW(),
 	`updatedDate` TIMESTAMP NULL,
 	PRIMARY KEY (`articleId`),
 	FOREIGN KEY (`authorId`) REFERENCES `Users`(`userId`),
@@ -106,7 +106,7 @@ CREATE TABLE `Manners` (
 	`userId` VARCHAR(100) NOT NULL,
 	`evaluatorId` VARCHAR(100) NOT NULL,
 	`score` INT NOT NULL DEFAULT 0 COMMENT '0 점은 미평가',
-	`createdDate` TIMESTAMP NOT NULL,
+	`createdDate` TIMESTAMP NOT NULL DEFAULT NOW(),
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`userId`) REFERENCES `Users`(`userId`),
 	FOREIGN KEY (`evaluatorId`) REFERENCES `Users`(`userId`)
@@ -124,13 +124,13 @@ CREATE TABLE `AfterTrip` (
 CREATE TABLE `Report` (
 	`id` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT 'PK',
 	`articleId` BIGINT(20) NOT NULL,
-	`reporterId` VARCHAR(100) NOT NULL,
-	`reportType` VARCHAR(100) NOT NULL,
+	`userId` VARCHAR(100) NOT NULL,
+	`reportId` BIGINT(20) NOT NULL,
 	`details` VARCHAR(255) NULL,
-	`reportDate` TIMESTAMP NOT NULL,
+	`reportDate` TIMESTAMP NOT NULL DEFAULT NOW(),
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`articleId`) REFERENCES `Board`(`articleId`),
-	FOREIGN KEY (`reporterId`) REFERENCES `Users`(`userId`)
+	FOREIGN KEY (`userId`) REFERENCES `Users`(`userId`)
 );
 
 CREATE TABLE `UsersTripThema` (
@@ -364,9 +364,9 @@ VALUES
 (2, 1, 2, 'Gyeongbok Palace was breathtaking.');
 
 -- Report
-INSERT INTO `Report` (`id`, `articleId`, `reporterId`, `reportType`, `details`, `reportDate`)
+INSERT INTO `Report` (`id`, `articleId`, `userId`, `reportId`, `details`, `reportDate`)
 VALUES
-(1, 1, 'user002', 'Spam', 'This article seems to be spam.', NOW());
+(1, 1, 'user002', 1, 'This article seems to be spam.', NOW());
 
 -- UsersTripThema
 INSERT INTO `UsersTripThema` (`id`, `userId`, `themaId`)

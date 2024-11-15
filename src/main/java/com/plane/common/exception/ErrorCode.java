@@ -9,6 +9,7 @@ public enum ErrorCode {
     NOT_FOUND(HttpStatus.NOT_FOUND, "해당 요청에 맞는 데이터를 찾을 수 없습니다."),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "잘못된 비밀번호입니다."),
     INVALID_CODE(HttpStatus.BAD_REQUEST, "잘못된 코드입니다."),
+    DUPLICATE_REPORT(HttpStatus.BAD_REQUEST, "이미 신고한 글입니다."),
     
     // 비즈니스 서비스 오류
     DUPLICATE_USER(HttpStatus.CONFLICT, "이미 존재하는 사용자입니다."),
@@ -21,7 +22,7 @@ public enum ErrorCode {
     DATABASE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "데이터베이스 오류가 발생했습니다."),
     EMAIL_SEND_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "이메일 발송 중 문제가 발생했습니다."),
     SYSTEM_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "시스템 오류가 발생했습니다."),
-    COMMENT_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "댓글 생성에 실패하였습니다."),
+    CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "데이터 생성에 실패하였습니다."),
     
 	VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "VALIDATION_ERROR"),
 	TOKEN_DELETE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "토큰 삭제중 오류가 발생했습니다.");

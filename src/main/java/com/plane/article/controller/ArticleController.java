@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleInteractionRequset;
+import com.plane.article.dto.ArticleReportRequest;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
@@ -154,6 +155,17 @@ public class ArticleController {
 		
 		articleService.toggleInteraction(userId, articleInteractionRequset);
 		return ResponseEntity.ok(ApiResponse.success(true, "좋아요 또는, 보관하기 상호작용에 성공했습니다."));
+	}
+	
+	
+	@PostMapping("/report")
+	public ResponseEntity<ApiResponse<Boolean>> articleReport(
+			@UserId String userId,
+			@Valid @RequestBody ArticleReportRequest articleReportRequest
+			) {
+		
+		articleService.reportArticle(userId, articleReportRequest);
+		return ResponseEntity.ok(ApiResponse.success(true, "게시글 신고가 완료되었습니다."));
 	}
 	
 }
