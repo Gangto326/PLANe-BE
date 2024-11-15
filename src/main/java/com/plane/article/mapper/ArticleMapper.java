@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Update;
 import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleInteractionRequset;
+import com.plane.article.dto.ArticleReportRequest;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
@@ -207,5 +208,23 @@ public interface ArticleMapper {
 			VALUES (#{userId}, #{articleInteractionRequset.articleId}, #{articleInteractionRequset.interaction})
 			""")
 	int insertInteractionByUserId(@Param("userId") String userId, @Param("articleInteractionRequset") ArticleInteractionRequset articleInteractionRequset);
+
+	
+	@Select("""
+			SELECT EXISTS (
+	            SELECT 1
+	            FROM Report
+	            WHERE articleId = #{articleId}
+	            AND userId = #{userId}
+	        )
+			""")
+	boolean existsReportByUserIdAndArticleId(String userId, Integer articleId);
+	
+	
+	@Insert("""
+			INSERT INTO Report (`articleId`, `userId`, `reportId`, `details`)
+			VALUES (#{articleReportRequest.articleId}, #{userId}, #{articleReportRequest.reportId}, #{articleReportRequest.details})
+			""")
+	int insertReport(@Param("userId") String userId, @Param("articleReportRequest") ArticleReportRequest articleReportRequest);
 	
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleInteractionRequset;
+import com.plane.article.dto.ArticleReportRequest;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
@@ -77,6 +78,18 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	public boolean existsArticleByArticleId(Integer articleId) {
 
 		return articleMapper.existsArticleByArticleId(articleId);
+	}
+	
+	@Override
+	public boolean existsReportByUserIdAndArticleId(String userId, Integer articleId) {
+		
+		return articleMapper.existsReportByUserIdAndArticleId(userId, articleId);
+	}
+
+	@Override
+	public int insertReport(String userId, ArticleReportRequest articleReportRequest) {
+		
+		return articleMapper.insertReport(userId, articleReportRequest);
 	}
 	
 }

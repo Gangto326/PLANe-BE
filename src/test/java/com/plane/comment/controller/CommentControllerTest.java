@@ -122,7 +122,7 @@ public class CommentControllerTest {
 	
 	@Test
 	@DisplayName("댓글 삭제하기")
-//	@Disabled
+	@Disabled
 	void testDeleteComment() throws Exception {
 		System.out.println("==== DeleteComment Test Start ====");
 		

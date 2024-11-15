@@ -14,7 +14,7 @@ import com.plane.comment.dto.CommentResponse;
 import com.plane.comment.dto.CommentUpdateRequest;
 import com.plane.comment.repository.CommentRepository;
 import com.plane.common.exception.custom.ArticleNotFoundException;
-import com.plane.common.exception.custom.CommentCreationFailedException;
+import com.plane.common.exception.custom.CreationFailedException;
 import com.plane.common.exception.custom.CommentNotFoundException;
 import com.plane.common.exception.custom.CommentUpdateException;
 import com.plane.common.exception.custom.UnauthorizedException;
@@ -65,7 +65,7 @@ public class CommentServiceImpl implements CommentService {
 			return true;
 		}
 		
-		throw new CommentCreationFailedException("댓글 생성에 실패했습니다.");
+		throw new CreationFailedException("댓글 생성에 실패했습니다.");
 	}
 
 

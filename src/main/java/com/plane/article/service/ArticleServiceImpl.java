@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleInteractionRequset;
+import com.plane.article.dto.ArticleReportRequest;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
@@ -21,6 +22,8 @@ import com.plane.common.exception.ErrorCode;
 import com.plane.common.exception.SystemException;
 import com.plane.common.exception.custom.ArticleNotFoundException;
 import com.plane.common.exception.custom.ArticleUpdateException;
+import com.plane.common.exception.custom.CreationFailedException;
+import com.plane.common.exception.custom.DuplicateReportException;
 import com.plane.common.exception.custom.UnauthorizedException;
 
 @Service
@@ -113,18 +116,38 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public boolean toggleInteraction(String userId, ArticleInteractionRequset articleInteractionRequset) {
 		
+		if (!articleRepository.existsArticleByArticleId(articleInteractionRequset.getArticleId())) {
+			throw new ArticleNotFoundException("게시글을 찾을 수 없습니다.");
+		}
+		
 		int result = articleRepository.deleteInteraction(userId, articleInteractionRequset);
 		
 		if (result == 0) {
-			result = articleRepository.insertInteraction(userId, articleInteractionRequset);
-		}
-		
-		if (result != 1) {
-			throw new SystemException(ErrorCode.DATABASE_ERROR, "상호작용 중 오류가 발생하였습니다.");
+			if (articleRepository.insertInteraction(userId, articleInteractionRequset) != 1) {
+				throw new SystemException(ErrorCode.DATABASE_ERROR, "상호작용 중 오류가 발생하였습니다.");
+			}
 		}
 		
 		return true;
+	}
+
+
+	@Override
+	public boolean reportArticle(String userId, ArticleReportRequest articleReportRequest) {
 		
+		if (!articleRepository.existsArticleByArticleId(articleReportRequest.getArticleId())) {
+			throw new ArticleNotFoundException("게시글을 찾을 수 없습니다.");
+		}
+		
+		if (articleRepository.existsReportByUserIdAndArticleId(userId, articleReportRequest.getArticleId())) {
+			throw new DuplicateReportException("이미 신고한 글입니다.");
+		}
+		
+		if (articleRepository.insertReport(userId, articleReportRequest) == 1) {
+			return true;
+		}
+		
+		throw new CreationFailedException("신고글 생성에 실패하였습니다");
 	}
 	
 }

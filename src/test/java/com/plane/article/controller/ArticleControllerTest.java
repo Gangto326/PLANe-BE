@@ -22,6 +22,7 @@ import org.springframework.http.MediaType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.plane.article.dto.ArticleInteractionRequset;
+import com.plane.article.dto.ArticleReportRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
 import com.plane.article.repository.ArticleRepository;
 import com.plane.article.service.ArticleService;
@@ -165,4 +166,33 @@ public class ArticleControllerTest {
         System.out.println("==== ArticleInteraction Test End ====");
 
 	}
+	
+	@Test
+	@DisplayName("좋아요/보관하기 상호작용")
+//	@Disabled
+	void testArticleReport() throws Exception {
+		System.out.println("==== ArticleReport Test Start ====");
+		
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTY1NDUyOSwiZXhwIjoxNzMxNjkwNTI5fQ.v8AfQ_sjUddlRCNbzRcdt9F0mfM07FAU-uLClPvFiF67DQR8SgINeaFGC23l9rCH";
+		
+		
+		ArticleReportRequest articleReportRequest = new ArticleReportRequest();
+		articleReportRequest.setArticleId(10);
+		articleReportRequest.setReportId(1);
+		articleReportRequest.setDetails("내 글을 내가 신고한다.");
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		String content = objectMapper.writeValueAsString(articleReportRequest);
+		
+		mockMvc.perform(post("/api/article/report")
+				.contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization", "Bearer " + accessToken)
+				.content(content))
+		        .andDo(print())
+		        .andExpect(status().isOk());
+		
+        System.out.println("==== ArticleReport Test End ====");
+
+	}
+	
 }
