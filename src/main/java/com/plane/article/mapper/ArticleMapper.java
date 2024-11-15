@@ -218,7 +218,7 @@ public interface ArticleMapper {
 	            AND userId = #{userId}
 	        )
 			""")
-	boolean existsReportByUserIdAndArticleId(String userId, Integer articleId);
+	boolean existsReportByUserIdAndArticleId(@Param("userId") String userId, @Param("articleId") Integer articleId);
 	
 	
 	@Insert("""

@@ -9,12 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.plane.article.repository.ArticleRepository;
 import com.plane.comment.domain.Comment;
 import com.plane.comment.dto.CommentDeleteRequest;
+import com.plane.comment.dto.CommentReportRequest;
 import com.plane.comment.dto.CommentRequest;
 import com.plane.comment.dto.CommentResponse;
 import com.plane.comment.dto.CommentUpdateRequest;
 import com.plane.comment.repository.CommentRepository;
 import com.plane.common.exception.custom.ArticleNotFoundException;
 import com.plane.common.exception.custom.CreationFailedException;
+import com.plane.common.exception.custom.DuplicateReportException;
 import com.plane.common.exception.custom.CommentNotFoundException;
 import com.plane.common.exception.custom.CommentUpdateException;
 import com.plane.common.exception.custom.UnauthorizedException;
@@ -116,6 +118,25 @@ public class CommentServiceImpl implements CommentService {
 		}
 		
 		throw new CommentUpdateException("댓글 삭제 중 오류가 발생했습니다.");
+	}
+
+
+	@Override
+	public boolean reportComment(String userId, CommentReportRequest commentReportRequest) {
+		
+		if (!commentRepository.existsCommentByCommentId(commentReportRequest.getCommentId())) {
+			throw new ArticleNotFoundException("댓글을 찾을 수 없습니다.");
+		}
+		
+		if (commentRepository.existsReportByUserIdAndCommentId(userId, commentReportRequest.getCommentId())) {
+			throw new DuplicateReportException("이미 신고한 글입니다.");
+		}
+		
+		if (commentRepository.insertReport(userId, commentReportRequest) == 1) {
+			return true;
+		}
+		
+		throw new CreationFailedException("신고글 생성에 실패하였습니다");
 	}
 	
 }

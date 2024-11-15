@@ -168,8 +168,8 @@ public class ArticleControllerTest {
 	}
 	
 	@Test
-	@DisplayName("좋아요/보관하기 상호작용")
-//	@Disabled
+	@DisplayName("게시글 신고하기")
+	@Disabled
 	void testArticleReport() throws Exception {
 		System.out.println("==== ArticleReport Test Start ====");
 		

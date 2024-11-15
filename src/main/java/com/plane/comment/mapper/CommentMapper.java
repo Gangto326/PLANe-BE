@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Update;
 
 import com.plane.comment.domain.Comment;
 import com.plane.comment.dto.CommentDeleteRequest;
+import com.plane.comment.dto.CommentReportRequest;
 import com.plane.comment.dto.CommentRequest;
 import com.plane.comment.dto.CommentResponse;
 import com.plane.comment.dto.CommentUpdateRequest;
@@ -80,5 +81,33 @@ public interface CommentMapper {
 			AND authorId = #{userId}
 			""")
 	int updateCommentStatusDelete(@Param("userId") String userId, @Param("commentDeleteRequest") CommentDeleteRequest commentDeleteRequest);
+
+	
+	@Select("""
+			SELECT EXISTS (
+	            SELECT 1
+	            FROM Comment
+	            WHERE commentId = #{commentId}
+	        )
+			""")
+	boolean existsCommentByCommentId(@Param("commentId") Integer commentId);
+
+
+	@Select("""
+			SELECT EXISTS (
+	            SELECT 1
+	            FROM CommentReport
+	            WHERE commentId = #{commentId}
+	            AND userId = #{userId}
+	        )
+			""")
+	boolean existsReportByUserIdAndCommentId(@Param("userId") String userId, @Param("commentId") Integer commentId);
+
+
+	@Insert("""
+			INSERT INTO CommentReport (`commentId`, `userId`, `reportId`, `details`)
+			VALUES (#{commentReportRequest.commentId}, #{userId}, #{commentReportRequest.reportId}, #{commentReportRequest.details})
+			""")
+	int insertReport(@Param("userId") String userId, @Param("commentReportRequest") CommentReportRequest commentReportRequest);
 
 }

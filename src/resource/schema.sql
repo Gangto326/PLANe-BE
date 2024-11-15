@@ -249,16 +249,16 @@ CREATE TABLE `AuthenticationData` (
 	FOREIGN KEY (`userId`) REFERENCES `Users`(`userId`)
 );
 
-CREATE TABLE `CopyOfReport` (
+CREATE TABLE `CommentReport` (
 	`id` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT 'PK',
 	`commentId` BIGINT(20) NOT NULL,
-	`reporterId` VARCHAR(100) NOT NULL,
-	`reportType` VARCHAR(100) NOT NULL,
+	`userId` VARCHAR(100) NOT NULL,
+	`reportId` BIGINT(20) NOT NULL,
 	`details` VARCHAR(255) NULL,
-	`reportDate` TIMESTAMP NOT NULL,
+	`reportDate` TIMESTAMP NOT NULL DEFAULT NOW(),
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`commentId`) REFERENCES `Comment`(`commentId`),
-	FOREIGN KEY (`reporterId`) REFERENCES `Users`(`userId`)
+	FOREIGN KEY (`userId`) REFERENCES `Users`(`userId`)
 );
 
 CREATE TABLE `VerificationCodes` (
