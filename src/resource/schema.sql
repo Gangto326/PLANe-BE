@@ -226,7 +226,7 @@ CREATE TABLE `Comment` (
 	`authorId` VARCHAR(100) NOT NULL,
 	`parents` BIGINT(20) NULL COMMENT 'NULL이면 최상위 글',
 	`commentContents` VARCHAR(255) NOT NULL,
-	`createdDate` TIMESTAMP NOT NULL,
+	`createdDate` TIMESTAMP NOT NULL DEFAULT NOW(),
 	`updatedDate` TIMESTAMP NULL,
 	PRIMARY KEY (`commentId`),
 	FOREIGN KEY (`articleId`) REFERENCES `Board`(`articleId`),

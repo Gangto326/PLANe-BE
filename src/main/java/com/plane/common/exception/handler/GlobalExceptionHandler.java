@@ -3,7 +3,10 @@ package com.plane.common.exception.handler;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.TransactionException;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -71,5 +74,27 @@ public class GlobalExceptionHandler {
     	return ResponseEntity
                 .status(1000)
                 .body(ApiResponse.error(ErrorCode.VALIDATION_ERROR, errorMessage));
+    }
+    
+    
+    // Transaction 예외 처리
+    @ExceptionHandler({
+        TransactionSystemException.class,
+        TransactionException.class,
+        DataIntegrityViolationException.class
+    })
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleTransactionException(Exception e) {
+        
+        // 외래키 제약조건 위반
+        if (e instanceof DataIntegrityViolationException) {
+            return ResponseEntity
+                .status(ErrorCode.DATABASE_ERROR.getStatus())
+                .body(ApiResponse.error(ErrorCode.DATABASE_ERROR, "데이터베이스 제약조건 위반이 발생했습니다"));
+        }
+        
+        // 일반적인 트랜잭션 예외
+        return ResponseEntity
+            .status(ErrorCode.SYSTEM_ERROR.getStatus())
+            .body(ApiResponse.error(ErrorCode.SYSTEM_ERROR, "트랜잭션 처리 중 오류가 발생했습니다"));
     }
 }

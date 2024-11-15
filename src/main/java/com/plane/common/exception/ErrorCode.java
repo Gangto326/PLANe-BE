@@ -20,6 +20,8 @@ public enum ErrorCode {
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류가 발생했습니다."),
     DATABASE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "데이터베이스 오류가 발생했습니다."),
     EMAIL_SEND_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "이메일 발송 중 문제가 발생했습니다."),
+    SYSTEM_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "시스템 오류가 발생했습니다."),
+    COMMENT_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "댓글 생성에 실패하였습니다."),
     
 	VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "VALIDATION_ERROR"),
 	TOKEN_DELETE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "토큰 삭제중 오류가 발생했습니다.");

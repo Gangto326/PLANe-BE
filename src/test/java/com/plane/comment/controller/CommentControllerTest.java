@@ -1,6 +1,7 @@
 package com.plane.comment.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -13,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.plane.comment.dto.CommentRequest;
 import com.plane.comment.repository.CommentRepository;
 import com.plane.comment.service.CommentService;
 
@@ -37,7 +40,7 @@ public class CommentControllerTest {
 	
 	@Test
 	@DisplayName("댓글 가져오기")
-//	@Disabled
+	@Disabled
 	void testCommentList() throws Exception {
 		System.out.println("==== CommentList Test Start ====");
 		
@@ -50,6 +53,34 @@ public class CommentControllerTest {
 	            .andExpect(status().isOk());
 		
         System.out.println("==== CommentList Test End ====");
+
+	}
+	
+	@Test
+	@DisplayName("댓글 생성하기")
+//	@Disabled
+	void testComment() throws Exception {
+		System.out.println("==== Comment Test Start ====");
+		
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTY1NDUyOSwiZXhwIjoxNzMxNjkwNTI5fQ.v8AfQ_sjUddlRCNbzRcdt9F0mfM07FAU-uLClPvFiF67DQR8SgINeaFGC23l9rCH";
+		
+		CommentRequest commentRequest = new CommentRequest();
+		commentRequest.setArticleId(8);
+		commentRequest.setCommentContents("댓글댓글");
+		commentRequest.setParents(null);
+		commentRequest.setStatus("공개");
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		String content = objectMapper.writeValueAsString(commentRequest);
+		
+		mockMvc.perform(post("/api/comment")
+				.header("Authorization", "Bearer " + accessToken)
+	            .contentType(MediaType.APPLICATION_JSON)
+				.content(content))
+		        .andDo(print())
+		        .andExpect(status().isOk());
+		
+        System.out.println("==== Comment Test End ====");
 
 	}
 }

@@ -58,7 +58,6 @@ public class ArticleController {
 		articleDetailResponse = articleService.getArticleDetail(userId, articleId);
 		
 		return ResponseEntity.ok(ApiResponse.success(articleDetailResponse, "게시글을 불러왔습니다."));
-		
 	}
 	
 	
@@ -70,7 +69,6 @@ public class ArticleController {
 		
 		articleService.updateArticle(userId, articleUpdateRequest);
 		return ResponseEntity.ok(ApiResponse.success(true, "게시글 수정을 성공적으로 완료했습니다."));
-		
 	}
 	
 	
@@ -134,7 +132,6 @@ public class ArticleController {
 		
 		PageResponse<ArticleResponse> pageResponse = articleService.getArticleList(userId, articleSearchRequest);		
 		return ResponseEntity.ok(ApiResponse.success(pageResponse, "게시글 목록을 불러왔습니다."));
-		
 	}
 	
 	
@@ -146,7 +143,6 @@ public class ArticleController {
 		
 		articleService.deleteArticle(userId, articleId);
 		return ResponseEntity.ok(ApiResponse.success(true, "게시글 삭제를 성공적으로 완료했습니다."));
-		
 	}
 	
 	
@@ -158,7 +154,6 @@ public class ArticleController {
 		
 		articleService.toggleInteraction(userId, articleInteractionRequset);
 		return ResponseEntity.ok(ApiResponse.success(true, "좋아요 또는, 보관하기 상호작용에 성공했습니다."));
-		
 	}
 	
 }

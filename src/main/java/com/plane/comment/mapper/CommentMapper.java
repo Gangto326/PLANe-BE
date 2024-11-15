@@ -2,9 +2,12 @@ package com.plane.comment.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import com.plane.comment.dto.CommentRequest;
 import com.plane.comment.dto.CommentResponse;
 
 @Mapper
@@ -34,6 +37,13 @@ public interface CommentMapper {
 			COALESCE(c.parents, c.commentId),
 			c.createdDate ASC
 			""")
-	List<CommentResponse> selectCommentByArticleId(String userId, int articleId);
+	List<CommentResponse> selectCommentByArticleId(@Param("userId") String userId, @Param("articleId") int articleId);
+	
+	
+	@Insert("""
+			INSERT INTO Comment (`articleId`, `authorId`, `parents`, `commentContents`, `status`)
+			VALUES (#{commentRequest.articleId}, #{userId}, #{commentRequest.parents}, #{commentRequest.commentContents}, #{commentRequest.status})
+			""")
+	int insertComment(@Param("userId") String userId, @Param("commentRequest") CommentRequest commentRequest);
 
 }
