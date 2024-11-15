@@ -7,11 +7,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.plane.article.repository.ArticleRepository;
+import com.plane.comment.domain.Comment;
 import com.plane.comment.dto.CommentRequest;
 import com.plane.comment.dto.CommentResponse;
+import com.plane.comment.dto.CommentUpdateRequest;
 import com.plane.comment.repository.CommentRepository;
 import com.plane.common.exception.custom.ArticleNotFoundException;
 import com.plane.common.exception.custom.CommentCreationFailedException;
+import com.plane.common.exception.custom.CommentNotFoundException;
+import com.plane.common.exception.custom.CommentUpdateException;
+import com.plane.common.exception.custom.UnauthorizedException;
 
 @Service
 @Transactional
@@ -58,6 +63,31 @@ public class CommentServiceImpl implements CommentService {
 		}
 		
 		throw new CommentCreationFailedException("댓글 생성에 실패했습니다.");
+	}
+
+
+	@Override
+	public boolean updateComment(String userId, CommentUpdateRequest commentUpdateRequest) {
+		
+		Comment comment = commentRepository.selectCommentByCommentId(commentUpdateRequest.getCommentId());
+		
+		if (comment == null) {
+			throw new CommentNotFoundException("해당 댓글이 존재하지 않습니다.");
+		}
+		
+		if (comment.getArticleId() != commentUpdateRequest.getArticleId()) {
+			throw new ArticleNotFoundException("해당 게시글이 존재하지 않습니다.");
+		}
+		
+		if (!comment.getAuthorId().equals(userId)) {
+			throw new UnauthorizedException("댓글 수정 권한이 없습니다.");
+		}
+		
+		if (commentRepository.updateComment(userId, commentUpdateRequest) == 1) {
+			return true;
+		}
+		
+		throw new CommentUpdateException("댓글 수정 중 오류가 발생했습니다.");
 	}
 	
 	
