@@ -72,5 +72,11 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 
 		return articleMapper.insertInteractionByUserId(userId, articleInteractionRequset);
 	}
+
+	@Override
+	public boolean existsArticleByArticleId(Integer articleId) {
+
+		return articleMapper.existsArticleByArticleId(articleId);
+	}
 	
 }

@@ -2,6 +2,8 @@ package com.plane.article.repository;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleInteractionRequset;
@@ -30,6 +32,6 @@ public interface ArticleRepository {
 
 	int insertInteraction(String userId, ArticleInteractionRequset articleInteractionRequset);
 
-	
+	boolean existsArticleByArticleId(Integer articleId);
 
 }

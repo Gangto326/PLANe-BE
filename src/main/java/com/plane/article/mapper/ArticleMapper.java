@@ -165,6 +165,16 @@ public interface ArticleMapper {
 	})
 	List<ArticleResponse> selectArticlesByPageRequest(@Param("userId") String userId, @Param("articleSearchRequest") ArticleSearchRequest articleSearchRequest);
 
+	
+	@Select("""
+			SELECT EXISTS (
+	            SELECT 1
+	            FROM Board
+	            WHERE articleId = #{articleId}
+	        )
+			""")
+	boolean existsArticleByArticleId(@Param("articleId") Integer articleId);
+	
 
 	@Select("""
 			SELECT *
