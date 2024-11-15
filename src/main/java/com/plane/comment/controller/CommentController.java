@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.plane.comment.dto.CommentDeleteRequest;
+import com.plane.comment.dto.CommentReportRequest;
 import com.plane.comment.dto.CommentRequest;
 import com.plane.comment.dto.CommentResponse;
 import com.plane.comment.dto.CommentUpdateRequest;
@@ -76,5 +77,15 @@ public class CommentController {
 		
 		commentService.deleteComment(userId, commentDeleteRequest);
 		return ResponseEntity.ok(ApiResponse.success(true, "댓글 삭제 성공."));
+	}
+	
+	@PostMapping("/report")
+	public ResponseEntity<ApiResponse<Boolean>> commentReport(
+			@UserId String userId,
+			@Valid @RequestBody CommentReportRequest commentReportRequest
+			) {
+		
+		commentService.reportComment(userId, commentReportRequest);
+		return ResponseEntity.ok(ApiResponse.success(true, "댓글 신고가 완료되었습니다."));
 	}
 }

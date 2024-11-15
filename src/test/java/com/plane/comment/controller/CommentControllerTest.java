@@ -17,7 +17,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.plane.article.dto.ArticleReportRequest;
 import com.plane.comment.dto.CommentDeleteRequest;
+import com.plane.comment.dto.CommentReportRequest;
 import com.plane.comment.dto.CommentRequest;
 import com.plane.comment.dto.CommentUpdateRequest;
 import com.plane.comment.repository.CommentRepository;
@@ -146,6 +148,34 @@ public class CommentControllerTest {
 	            .andExpect(status().isOk());
 		
         System.out.println("==== DeleteComment Test End ====");
+
+	}
+	
+	@Test
+	@DisplayName("댓글 신고하기")
+	@Disabled
+	void testCommentReport() throws Exception {
+		System.out.println("==== CommentReport Test Start ====");
+		
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTY1NDUyOSwiZXhwIjoxNzMxNjkwNTI5fQ.v8AfQ_sjUddlRCNbzRcdt9F0mfM07FAU-uLClPvFiF67DQR8SgINeaFGC23l9rCH";
+		
+		
+		CommentReportRequest commentReportRequest = new CommentReportRequest();
+		commentReportRequest.setCommentId(1);
+		commentReportRequest.setReportId(1);
+		commentReportRequest.setDetails("내 댓글을 내가 신고한다.");
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		String content = objectMapper.writeValueAsString(commentReportRequest);
+		
+		mockMvc.perform(post("/api/comment/report")
+				.contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization", "Bearer " + accessToken)
+				.content(content))
+		        .andDo(print())
+		        .andExpect(status().isOk());
+		
+        System.out.println("==== CommentReport Test End ====");
 
 	}
 }
