@@ -141,7 +141,7 @@ public class ArticleControllerTest {
 	
 	@Test
 	@DisplayName("좋아요/보관하기 상호작용")
-//	@Disabled
+	@Disabled
 	void testArticleInteraction() throws Exception {
 		System.out.println("==== ArticleInteraction Test Start ====");
 		

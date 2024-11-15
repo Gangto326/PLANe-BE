@@ -1,5 +1,6 @@
 package com.plane.comment.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -16,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.plane.comment.dto.CommentDeleteRequest;
 import com.plane.comment.dto.CommentRequest;
 import com.plane.comment.dto.CommentUpdateRequest;
 import com.plane.comment.repository.CommentRepository;
@@ -88,7 +90,7 @@ public class CommentControllerTest {
 	
 	@Test
 	@DisplayName("댓글 변경하기")
-//	@Disabled
+	@Disabled
 	void testUpdateComment() throws Exception {
 		System.out.println("==== UpdateComment Test Start ====");
 		
@@ -115,6 +117,35 @@ public class CommentControllerTest {
 	            .andExpect(status().isOk());
 		
         System.out.println("==== UpdateComment Test End ====");
+
+	}
+	
+	@Test
+	@DisplayName("댓글 삭제하기")
+//	@Disabled
+	void testDeleteComment() throws Exception {
+		System.out.println("==== DeleteComment Test Start ====");
+		
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTY1NDUyOSwiZXhwIjoxNzMxNjkwNTI5fQ.v8AfQ_sjUddlRCNbzRcdt9F0mfM07FAU-uLClPvFiF67DQR8SgINeaFGC23l9rCH";
+		
+		CommentDeleteRequest commentDeleteRequest = new CommentDeleteRequest();
+		
+		commentDeleteRequest.setArticleId(8);
+		commentDeleteRequest.setCommentId(1);
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		String content = objectMapper.writeValueAsString(commentDeleteRequest);
+		
+		System.out.println(content);
+		
+		mockMvc.perform(delete("/api/comment")
+				.header("Authorization", "Bearer " + accessToken)
+	            .contentType(MediaType.APPLICATION_JSON)
+	            .content(content))
+	            .andDo(print())
+	            .andExpect(status().isOk());
+		
+        System.out.println("==== DeleteComment Test End ====");
 
 	}
 }

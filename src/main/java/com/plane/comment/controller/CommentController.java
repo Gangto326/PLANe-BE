@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.plane.comment.dto.CommentDeleteRequest;
 import com.plane.comment.dto.CommentRequest;
 import com.plane.comment.dto.CommentResponse;
 import com.plane.comment.dto.CommentUpdateRequest;
@@ -63,5 +65,16 @@ public class CommentController {
 		
 		commentService.updateComment(userId, commentUpdateRequest);
 		return ResponseEntity.ok(ApiResponse.success(true, "댓글 수정 성공."));
+	}
+	
+	
+	@DeleteMapping("")
+	public ResponseEntity<ApiResponse<Boolean>> commentDelete(
+			@UserId String userId,
+			@Valid @RequestBody CommentDeleteRequest commentDeleteRequest
+			) {
+		
+		commentService.deleteComment(userId, commentDeleteRequest);
+		return ResponseEntity.ok(ApiResponse.success(true, "댓글 삭제 성공."));
 	}
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.plane.comment.domain.Comment;
+import com.plane.comment.dto.CommentDeleteRequest;
 import com.plane.comment.dto.CommentRequest;
 import com.plane.comment.dto.CommentResponse;
 import com.plane.comment.dto.CommentUpdateRequest;
@@ -43,6 +44,12 @@ public class CommentRepositoryImpl implements CommentRepository {
 	public Comment selectCommentByCommentId(Integer commentId) {
 		
 		return commentMapper.selectCommentByCommentId(commentId);
+	}
+
+	@Override
+	public int deleteComment(String userId, CommentDeleteRequest commentDeleteRequest) {
+		
+		return commentMapper.updateCommentStatusDelete(userId, commentDeleteRequest);
 	}
 	
 	
