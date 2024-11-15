@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.plane.comment.dto.CommentRequest;
 import com.plane.comment.dto.CommentResponse;
+import com.plane.comment.dto.CommentUpdateRequest;
 import com.plane.comment.service.CommentService;
 import com.plane.common.annotation.UserId;
 import com.plane.common.response.ApiResponse;
@@ -50,5 +52,16 @@ public class CommentController {
 		
 		commentService.createComment(userId, commentRequest);
 		return ResponseEntity.ok(ApiResponse.success(true, "댓글 작성 성공."));
+	}
+	
+	
+	@PatchMapping("")
+	public ResponseEntity<ApiResponse<Boolean>> commentUpdate(
+			@UserId String userId,
+			@Valid @RequestBody CommentUpdateRequest commentUpdateRequest
+			) {
+		
+		commentService.updateComment(userId, commentUpdateRequest);
+		return ResponseEntity.ok(ApiResponse.success(true, "댓글 수정 성공."));
 	}
 }

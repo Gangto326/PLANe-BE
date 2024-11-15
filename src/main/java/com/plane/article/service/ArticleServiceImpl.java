@@ -20,6 +20,7 @@ import com.plane.common.dto.PageResponse;
 import com.plane.common.exception.ErrorCode;
 import com.plane.common.exception.SystemException;
 import com.plane.common.exception.custom.ArticleNotFoundException;
+import com.plane.common.exception.custom.ArticleUpdateException;
 import com.plane.common.exception.custom.UnauthorizedException;
 
 @Service
@@ -50,12 +51,17 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public boolean updateArticle(String userId, ArticleUpdateRequest articleUpdateRequest) {
 		
+		Article article = articleRepository.findArticleByUserIdAndArticleId(userId, articleUpdateRequest.getArticleId());
+		
+		if (article == null) {
+			throw new ArticleNotFoundException("게시글이 존재하지 않습니다.");
+		}
+		
 		if (articleRepository.updateArticle(userId, articleUpdateRequest) == 1) {
-			
 			return true;
 		}
 		
-		throw new ArticleNotFoundException("게시글 수정에 실패하였습니다.");
+		throw new ArticleUpdateException("게시글 수정에 실패하였습니다.");
 	}
 
 

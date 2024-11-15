@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.plane.comment.domain.Comment;
 import com.plane.comment.dto.CommentRequest;
 import com.plane.comment.dto.CommentResponse;
+import com.plane.comment.dto.CommentUpdateRequest;
 import com.plane.comment.mapper.CommentMapper;
 
 @Repository
@@ -29,6 +31,18 @@ public class CommentRepositoryImpl implements CommentRepository {
 	public int insertComment(String userId, CommentRequest commentRequest) {
 
 		return commentMapper.insertComment(userId, commentRequest);
+	}
+
+	@Override
+	public int updateComment(String userId, CommentUpdateRequest commentUpdateRequest) {
+		
+		return commentMapper.updateComment(userId, commentUpdateRequest);
+	}
+
+	@Override
+	public Comment selectCommentByCommentId(Integer commentId) {
+		
+		return commentMapper.selectCommentByCommentId(commentId);
 	}
 	
 	

@@ -6,13 +6,15 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
+import com.plane.comment.domain.Comment;
 import com.plane.comment.dto.CommentRequest;
 import com.plane.comment.dto.CommentResponse;
+import com.plane.comment.dto.CommentUpdateRequest;
 
 @Mapper
 public interface CommentMapper {
-
 	
 	@Select("""
 			SELECT c.commentId, u.nickName as authorNickName, c.parents, c.commentContents, c.status,
@@ -45,5 +47,25 @@ public interface CommentMapper {
 			VALUES (#{commentRequest.articleId}, #{userId}, #{commentRequest.parents}, #{commentRequest.commentContents}, #{commentRequest.status})
 			""")
 	int insertComment(@Param("userId") String userId, @Param("commentRequest") CommentRequest commentRequest);
+
+
+	@Update("""
+			UPDATE Comment
+			SET commentContents = #{commentUpdateRequest.commentContents},
+				status = #{commentUpdateRequest.status},
+				updatedDate = NOW()
+			WHERE commentId = #{commentUpdateRequest.commentId}
+			AND articleId = #{commentUpdateRequest.articleId}
+			AND authorId = #{userId}
+			""")
+	int updateComment(@Param("userId") String userId, @Param("commentUpdateRequest") CommentUpdateRequest commentUpdateRequest);
+
+	
+	@Select("""
+			SELECT *
+			FROM Comment
+			WHERE commentId = #{commentId}
+			""")
+	Comment selectCommentByCommentId(@Param("commentId") Integer commentId);
 
 }
