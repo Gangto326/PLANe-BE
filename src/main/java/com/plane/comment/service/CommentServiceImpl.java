@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.plane.article.repository.ArticleRepository;
 import com.plane.comment.domain.Comment;
+import com.plane.comment.dto.CommentDeleteRequest;
 import com.plane.comment.dto.CommentRequest;
 import com.plane.comment.dto.CommentResponse;
 import com.plane.comment.dto.CommentUpdateRequest;
@@ -17,6 +18,8 @@ import com.plane.common.exception.custom.CommentCreationFailedException;
 import com.plane.common.exception.custom.CommentNotFoundException;
 import com.plane.common.exception.custom.CommentUpdateException;
 import com.plane.common.exception.custom.UnauthorizedException;
+
+import jakarta.validation.Valid;
 
 @Service
 @Transactional
@@ -89,8 +92,30 @@ public class CommentServiceImpl implements CommentService {
 		
 		throw new CommentUpdateException("댓글 수정 중 오류가 발생했습니다.");
 	}
-	
-	
-	
+
+
+	@Override
+	public boolean deleteComment(String userId, CommentDeleteRequest commentDeleteRequest) {
+		
+		Comment comment = commentRepository.selectCommentByCommentId(commentDeleteRequest.getCommentId());
+		
+		if (comment == null) {
+			throw new CommentNotFoundException("해당 댓글이 존재하지 않습니다.");
+		}
+		
+		if (comment.getArticleId() != commentDeleteRequest.getArticleId()) {
+			throw new ArticleNotFoundException("해당 게시글이 존재하지 않습니다.");
+		}
+		
+		if (!comment.getAuthorId().equals(userId)) {
+			throw new UnauthorizedException("댓글 삭제 권한이 없습니다.");
+		}
+		
+		if (commentRepository.deleteComment(userId, commentDeleteRequest) == 1) {
+			return true;
+		}
+		
+		throw new CommentUpdateException("댓글 삭제 중 오류가 발생했습니다.");
+	}
 	
 }

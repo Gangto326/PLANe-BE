@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.plane.comment.domain.Comment;
+import com.plane.comment.dto.CommentDeleteRequest;
 import com.plane.comment.dto.CommentRequest;
 import com.plane.comment.dto.CommentResponse;
 import com.plane.comment.dto.CommentUpdateRequest;
@@ -67,5 +68,17 @@ public interface CommentMapper {
 			WHERE commentId = #{commentId}
 			""")
 	Comment selectCommentByCommentId(@Param("commentId") Integer commentId);
+
+
+	
+	@Update("""
+			UPDATE Comment
+			SET status = '삭제',
+				updatedDate = NOW()
+			WHERE commentId = #{commentDeleteRequest.commentId}
+			AND articleId = #{commentDeleteRequest.articleId}
+			AND authorId = #{userId}
+			""")
+	int updateCommentStatusDelete(@Param("userId") String userId, @Param("commentDeleteRequest") CommentDeleteRequest commentDeleteRequest);
 
 }
