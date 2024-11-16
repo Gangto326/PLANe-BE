@@ -55,9 +55,11 @@ public class AccompanyServiceImpl implements AccompanyService {
 	}
 
 	@Override
-	public List<AccompanyResponse> getAccompanyList(String userId, ApplyType type) {
+	public List<AccompanyResponse> getAccompanyList(String userId, String type) {
 		
-		return accompanyRepository.findAccompanyList(userId, type);
+		ApplyType applyType = ApplyType.from(type);
+		
+		return accompanyRepository.findAccompanyList(userId, applyType);
 	}
 	
 	

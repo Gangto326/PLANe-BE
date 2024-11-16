@@ -93,7 +93,7 @@ public class AccompanyControllerTest {
 		
 		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTc3MjgyNywiZXhwIjoxNzMxODA4ODI3fQ.aQoG8BskY-yPM7Ksk1qeT5A69YEXJcS15L_-Plv7EpLePeOjodRMsI9R8bMOfifQ";
 		
-		mockMvc.perform(get("/api/accompany/list?type=RECEIVED")
+		mockMvc.perform(get("/api/accompany/list?type=SENT")
 				.header("Authorization", "Bearer " + accessToken)
 	            .contentType(MediaType.APPLICATION_JSON))
 	            .andDo(print())

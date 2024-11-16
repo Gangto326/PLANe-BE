@@ -8,6 +8,7 @@ public class AccompanyApply {
 	private Long articleId;
 	private String userId;
 	private boolean isOk;
+	private boolean isCheck;
 	private LocalDateTime createdDate;
 	
 	
@@ -54,6 +55,16 @@ public class AccompanyApply {
 	}
 
 
+	public boolean isCheck() {
+		return isCheck;
+	}
+
+
+	public void setCheck(boolean isCheck) {
+		this.isCheck = isCheck;
+	}
+
+
 	public LocalDateTime getCreatedDate() {
 		return createdDate;
 	}
@@ -62,5 +73,5 @@ public class AccompanyApply {
 	public void setCreatedDate(LocalDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
-	
+
 }
