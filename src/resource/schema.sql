@@ -209,17 +209,6 @@ CREATE TABLE `Record` (
 	FOREIGN KEY (`id2`) REFERENCES `PLANe`(`tripId`)
 );
 
-CREATE TABLE `Apply` (
-	`id` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT 'PK',
-	`articleId` BIGINT(20) NOT NULL,
-	`userId` VARCHAR(100) NOT NULL,
-	`isOk` BOOL NOT NULL DEFAULT FALSE,
-	`createdDate` TIMESTAMP NOT NULL,
-	PRIMARY KEY (`id`),
-	FOREIGN KEY (`articleId`) REFERENCES `Board`(`articleId`),
-	FOREIGN KEY (`userId`) REFERENCES `Users`(`userId`)
-);
-
 CREATE TABLE `Comment` (
 	`commentId` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT 'PK',
 	`articleId` BIGINT(20) NOT NULL,
@@ -233,12 +222,32 @@ CREATE TABLE `Comment` (
 	FOREIGN KEY (`authorId`) REFERENCES `Users`(`userId`)
 );
 
+CREATE TABLE `AccompanyApply` (
+	`applyId` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT 'PK',
+	`articleId` BIGINT(20) NOT NULL,
+	`userId` VARCHAR(100) NOT NULL,
+	`isOk` BOOL NOT NULL DEFAULT FALSE,
+	`createdDate` TIMESTAMP NOT NULL DEFAULT NOW(),
+	PRIMARY KEY (`applyId`),
+	FOREIGN KEY (`articleId`) REFERENCES `Board`(`articleId`),
+	FOREIGN KEY (`userId`) REFERENCES `Users`(`userId`)
+);
+
 CREATE TABLE `ApplyDetails` (
-	`ask` VARCHAR(500) NOT NULL COMMENT 'PK',
-	`applyContentId` BIGINT(20) NOT NULL COMMENT 'PK',
-	`details` VARCHAR(500) NOT NULL,
-	PRIMARY KEY (`ask`, `applyContentId`),
-	FOREIGN KEY (`applyContentId`) REFERENCES `Apply`(`id`)
+	`id` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT 'PK',
+	`applyId` BIGINT(20) NOT NULL,
+	`askId` BIGINT(20) NOT NULL,
+	`answer` VARCHAR(500) NOT NULL,
+	`createdDate` TIMESTAMP NOT NULL DEFAULT NOW(),
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`applyId`) REFERENCES `Apply`(`AccompanyApply`),
+	FOREIGN KEY (`askId`) REFERENCES `Ask`(`askId`)	
+);
+
+CREATE TABLE `Ask` (
+	`askId` BIGINT(20) NOT NULL COMMENT 'PK',
+	`content` VARCHAR(500) NOT NULL,
+	PRIMARY KEY (`askId`)
 );
 
 CREATE TABLE `AuthenticationData` (

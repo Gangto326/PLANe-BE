@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Size;
 public class ArticleUpdateRequest {
 	
 	@NotNull(message = "글 번호는 필수입니다.")
-	private Integer articleId;
+	private Long articleId;
 	
 	
 	@Size(max = 100, message = "제목은 100자를 초과할 수 없습니다")
@@ -27,12 +27,12 @@ public class ArticleUpdateRequest {
 	public ArticleUpdateRequest() {}
 
 
-	public Integer getArticleId() {
+	public Long getArticleId() {
 		return articleId;
 	}
 
 
-	public void setArticleId(Integer articleId) {
+	public void setArticleId(Long articleId) {
 		this.articleId = articleId;
 	}
 

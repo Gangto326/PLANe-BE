@@ -57,7 +57,7 @@ public interface ArticleMapper {
 		@Result(property = "tripId", column = "tripId"),
 		@Result(property = "tripThema", column = "tripId", many = @Many(select = "com.plane.trip.mapper.TripMapper.selectTripThemasByTripId"))
 	})
-	ArticleDetailResponse selectArticleDetail(@Param("currentUserId") String currentUserId, @Param("articleId") int articleId);
+	ArticleDetailResponse selectArticleDetail(@Param("currentUserId") String currentUserId, @Param("articleId") Long articleId);
 	
 	
 	@Update("""
@@ -174,7 +174,7 @@ public interface ArticleMapper {
 	            WHERE articleId = #{articleId}
 	        )
 			""")
-	boolean existsArticleByArticleId(@Param("articleId") Integer articleId);
+	boolean existsArticleByArticleId(@Param("articleId") Long articleId);
 	
 
 	@Select("""
@@ -183,7 +183,7 @@ public interface ArticleMapper {
 			WHERE authorId = #{userId}
 			AND articleId = #{articleId}
 			""")
-	Article selectArticleByUserIdAndArticleId(@Param("userId") String userId, @Param("articleId") Integer articleId);
+	Article selectArticleByUserIdAndArticleId(@Param("userId") String userId, @Param("articleId") Long articleId);
 
 
 	@Delete("""
@@ -191,7 +191,7 @@ public interface ArticleMapper {
 			WHERE authorId = #{userId}
 			AND articleId = #{articleId}
 			""")
-	int deleteArticle(@Param("userId") String userId, @Param("articleId") Integer articleId);
+	int deleteArticle(@Param("userId") String userId, @Param("articleId") Long articleId);
 
 	
 	@Delete("""
@@ -218,7 +218,7 @@ public interface ArticleMapper {
 	            AND userId = #{userId}
 	        )
 			""")
-	boolean existsReportByUserIdAndArticleId(@Param("userId") String userId, @Param("articleId") Integer articleId);
+	boolean existsReportByUserIdAndArticleId(@Param("userId") String userId, @Param("articleId") Long articleId);
 	
 	
 	@Insert("""

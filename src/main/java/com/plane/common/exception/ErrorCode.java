@@ -9,7 +9,7 @@ public enum ErrorCode {
     NOT_FOUND(HttpStatus.NOT_FOUND, "해당 요청에 맞는 데이터를 찾을 수 없습니다."),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "잘못된 비밀번호입니다."),
     INVALID_CODE(HttpStatus.BAD_REQUEST, "잘못된 코드입니다."),
-    DUPLICATE_REPORT(HttpStatus.BAD_REQUEST, "이미 신고한 글입니다."),
+    DUPLICATE_ERROR(HttpStatus.BAD_REQUEST, "이미 존재하는 요청입니다."),
     
     // 비즈니스 서비스 오류
     DUPLICATE_USER(HttpStatus.CONFLICT, "이미 존재하는 사용자입니다."),

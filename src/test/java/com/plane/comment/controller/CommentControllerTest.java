@@ -71,7 +71,7 @@ public class CommentControllerTest {
 		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTY1NDUyOSwiZXhwIjoxNzMxNjkwNTI5fQ.v8AfQ_sjUddlRCNbzRcdt9F0mfM07FAU-uLClPvFiF67DQR8SgINeaFGC23l9rCH";
 		
 		CommentRequest commentRequest = new CommentRequest();
-		commentRequest.setArticleId(8);
+		commentRequest.setArticleId(8L);
 		commentRequest.setCommentContents("댓글댓글");
 		commentRequest.setParents(null);
 		commentRequest.setStatus("공개");

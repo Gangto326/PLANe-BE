@@ -26,7 +26,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	}
 
 	@Override
-	public ArticleDetailResponse selectArticleDetail(String currentUserId, int articleId) {
+	public ArticleDetailResponse selectArticleDetail(String currentUserId, Long articleId) {
 		
 		ArticleDetailResponse articleDetailResponse = articleMapper.selectArticleDetail(currentUserId, articleId);
 		return articleDetailResponse;
@@ -51,13 +51,13 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	}
 
 	@Override
-	public Article findArticleByUserIdAndArticleId(String userId, Integer articleId) {
+	public Article findArticleByUserIdAndArticleId(String userId, Long articleId) {
 		
 		return articleMapper.selectArticleByUserIdAndArticleId(userId, articleId);
 	}
 
 	@Override
-	public int deleteArticle(String userId, Integer articleId) {
+	public int deleteArticle(String userId, Long articleId) {
 		
 		return articleMapper.deleteArticle(userId, articleId);
 	}
@@ -75,13 +75,13 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	}
 
 	@Override
-	public boolean existsArticleByArticleId(Integer articleId) {
+	public boolean existsArticleByArticleId(Long articleId) {
 
 		return articleMapper.existsArticleByArticleId(articleId);
 	}
 	
 	@Override
-	public boolean existsReportByUserIdAndArticleId(String userId, Integer articleId) {
+	public boolean existsReportByUserIdAndArticleId(String userId, Long articleId) {
 		
 		return articleMapper.existsReportByUserIdAndArticleId(userId, articleId);
 	}

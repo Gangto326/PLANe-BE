@@ -16,7 +16,7 @@ import com.plane.comment.dto.CommentUpdateRequest;
 import com.plane.comment.repository.CommentRepository;
 import com.plane.common.exception.custom.ArticleNotFoundException;
 import com.plane.common.exception.custom.CreationFailedException;
-import com.plane.common.exception.custom.DuplicateReportException;
+import com.plane.common.exception.custom.DuplicateException;
 import com.plane.common.exception.custom.CommentNotFoundException;
 import com.plane.common.exception.custom.CommentUpdateException;
 import com.plane.common.exception.custom.UnauthorizedException;
@@ -129,7 +129,7 @@ public class CommentServiceImpl implements CommentService {
 		}
 		
 		if (commentRepository.existsReportByUserIdAndCommentId(userId, commentReportRequest.getCommentId())) {
-			throw new DuplicateReportException("이미 신고한 글입니다.");
+			throw new DuplicateException("이미 신고한 글입니다.");
 		}
 		
 		if (commentRepository.insertReport(userId, commentReportRequest) == 1) {

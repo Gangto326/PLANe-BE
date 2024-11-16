@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 public class ArticleReportRequest {
 	
 	@NotNull(message = "글 번호는 필수입니다.")
-	private Integer articleId;
+	private Long articleId;
 	
 	
 	@NotNull(message = "신고 아이디는 필수입니다.")
@@ -22,12 +22,12 @@ public class ArticleReportRequest {
 	public ArticleReportRequest() {}
 
 
-	public Integer getArticleId() {
+	public Long getArticleId() {
 		return articleId;
 	}
 
 
-	public void setArticleId(Integer articleId) {
+	public void setArticleId(Long articleId) {
 		this.articleId = articleId;
 	}
 

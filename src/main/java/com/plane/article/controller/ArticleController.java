@@ -52,7 +52,7 @@ public class ArticleController {
 	@GetMapping("/{articleId}")
 	public ResponseEntity<ApiResponse<ArticleDetailResponse>> articleDetail(
 			@UserId String userId,
-			@PathVariable int articleId
+			@PathVariable Long articleId
 			) {
 		
 		ArticleDetailResponse articleDetailResponse = null;
@@ -139,7 +139,7 @@ public class ArticleController {
 	@DeleteMapping("/delete")
 	public ResponseEntity<ApiResponse<Boolean>> articleDelete(
 			@UserId String userId,
-			@RequestBody Integer articleId
+			@RequestBody Long articleId
 			) {
 		
 		articleService.deleteArticle(userId, articleId);

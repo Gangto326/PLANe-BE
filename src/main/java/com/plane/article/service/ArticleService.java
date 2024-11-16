@@ -14,13 +14,13 @@ import jakarta.validation.Valid;
 
 public interface ArticleService {
 
-	ArticleDetailResponse getArticleDetail(String authorizationHeader, int articleId);
+	ArticleDetailResponse getArticleDetail(String authorizationHeader, Long articleId);
 
 	boolean updateArticle(String authorizationHeader, ArticleUpdateRequest articleUpdateRequest);
 
 	PageResponse<ArticleResponse> getArticleList(String userId, ArticleSearchRequest articleSearchRequest);
 
-	boolean deleteArticle(String userId, Integer articleId);
+	boolean deleteArticle(String userId, Long articleId);
 
 	boolean toggleInteraction(String userId, ArticleInteractionRequset articleInteractionRequset);
 

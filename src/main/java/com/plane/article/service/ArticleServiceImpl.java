@@ -23,7 +23,7 @@ import com.plane.common.exception.SystemException;
 import com.plane.common.exception.custom.ArticleNotFoundException;
 import com.plane.common.exception.custom.ArticleUpdateException;
 import com.plane.common.exception.custom.CreationFailedException;
-import com.plane.common.exception.custom.DuplicateReportException;
+import com.plane.common.exception.custom.DuplicateException;
 import com.plane.common.exception.custom.UnauthorizedException;
 
 @Service
@@ -39,7 +39,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 	
 	@Override
-	public ArticleDetailResponse getArticleDetail(String userId, int articleId) {
+	public ArticleDetailResponse getArticleDetail(String userId, Long articleId) {
 		
 		ArticleDetailResponse articleDetailResponse = articleRepository.selectArticleDetail(userId, articleId);
 		
@@ -93,7 +93,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 
 	@Override
-	public boolean deleteArticle(String userId, Integer articleId) {
+	public boolean deleteArticle(String userId, Long articleId) {
 		
 		Article article = articleRepository.findArticleByUserIdAndArticleId(userId, articleId);
 		
@@ -140,7 +140,7 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 		
 		if (articleRepository.existsReportByUserIdAndArticleId(userId, articleReportRequest.getArticleId())) {
-			throw new DuplicateReportException("이미 신고한 글입니다.");
+			throw new DuplicateException("이미 신고한 글입니다.");
 		}
 		
 		if (articleRepository.insertReport(userId, articleReportRequest) == 1) {

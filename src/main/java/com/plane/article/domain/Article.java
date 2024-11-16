@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 
 public class Article {
 	
-	private Integer articleId;
+	private Long articleId;
     private String authorId;
-    private Integer tripId;
+    private Long tripId;
     private String articleType;
     private String title;
     private String content;
@@ -20,12 +20,12 @@ public class Article {
 	public Article() {}
 
 
-	public Integer getArticleId() {
+	public Long getArticleId() {
 		return articleId;
 	}
 
 
-	public void setArticleId(Integer articleId) {
+	public void setArticleId(Long articleId) {
 		this.articleId = articleId;
 	}
 
@@ -40,12 +40,12 @@ public class Article {
 	}
 
 
-	public Integer getTripId() {
+	public Long getTripId() {
 		return tripId;
 	}
 
 
-	public void setTripId(Integer tripId) {
+	public void setTripId(Long tripId) {
 		this.tripId = tripId;
 	}
 
