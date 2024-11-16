@@ -12,7 +12,7 @@ public class ArticleResponse {
 	private String nickName;
 	
 	// Board테이블에서 탐색
-	private Integer articleId;
+	private Long articleId;
 	private String articleType;
 	private String title;
 	private String articlePictureUrl;
@@ -43,11 +43,11 @@ public class ArticleResponse {
 		this.nickName = nickName;
 	}
 
-	public Integer getArticleId() {
+	public Long getArticleId() {
 		return articleId;
 	}
 
-	public void setArticleId(Integer articleId) {
+	public void setArticleId(Long articleId) {
 		this.articleId = articleId;
 	}
 

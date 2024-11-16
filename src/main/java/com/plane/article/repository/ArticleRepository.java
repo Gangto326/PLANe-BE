@@ -17,7 +17,7 @@ import jakarta.validation.Valid;
 
 public interface ArticleRepository {
 
-	ArticleDetailResponse selectArticleDetail(String currentUserId, int articleId);
+	ArticleDetailResponse selectArticleDetail(String currentUserId, Long articleId);
 
 	int updateArticle(String userId, ArticleUpdateRequest articleUpdateRequest);
 
@@ -25,17 +25,17 @@ public interface ArticleRepository {
 
 	List<ArticleResponse> findAllArticles(String userId, ArticleSearchRequest articleSearchRequest);
 
-	Article findArticleByUserIdAndArticleId(String userId, Integer articleId);
+	Article findArticleByUserIdAndArticleId(String userId, Long articleId);
 
-	int deleteArticle(String userId, Integer articleId);
+	int deleteArticle(String userId, Long articleId);
 
 	int deleteInteraction(String userId, ArticleInteractionRequset articleInteractionRequset);
 
 	int insertInteraction(String userId, ArticleInteractionRequset articleInteractionRequset);
 
-	boolean existsArticleByArticleId(Integer articleId);
+	boolean existsArticleByArticleId(Long articleId);
 
-	boolean existsReportByUserIdAndArticleId(String userId, Integer articleId);
+	boolean existsReportByUserIdAndArticleId(String userId, Long articleId);
 	
 	int insertReport(String userId, ArticleReportRequest articleReportRequest);
 

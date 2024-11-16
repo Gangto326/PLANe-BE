@@ -12,8 +12,8 @@ public class ArticleDetailResponse {
 	private String nickName;
 	
 	// articleId로 Board테이블에서 탐색
-	private Integer articleId;
-    private Integer tripId;
+	private Long articleId;
+    private Long tripId;
     private String articleType;
     private String title;
     private String content;
@@ -39,11 +39,11 @@ public class ArticleDetailResponse {
 	public ArticleDetailResponse() {}
 
 	
-	public Integer getArticleId() {
+	public Long getArticleId() {
 		return articleId;
 	}
 
-	public void setArticleId(Integer articleId) {
+	public void setArticleId(Long articleId) {
 		this.articleId = articleId;
 	}
 
@@ -55,11 +55,11 @@ public class ArticleDetailResponse {
 		this.nickName = nickName;
 	}
 
-	public Integer getTripId() {
+	public Long getTripId() {
 		return tripId;
 	}
 
-	public void setTripId(Integer tripId) {
+	public void setTripId(Long tripId) {
 		this.tripId = tripId;
 	}
 

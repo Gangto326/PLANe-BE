@@ -73,7 +73,7 @@ public class ArticleControllerTest {
 		
 		ArticleUpdateRequest articleUpdateRequest = new ArticleUpdateRequest();
 		
-		articleUpdateRequest.setArticleId(3);
+		articleUpdateRequest.setArticleId(3L);
 		articleUpdateRequest.setTitle("수정합니둥123123");
 		articleUpdateRequest.setContent("수정한 내용입니당다리123123123");
 		
@@ -150,7 +150,7 @@ public class ArticleControllerTest {
 		
 		
 		ArticleInteractionRequset articleInteractionRequset = new ArticleInteractionRequset();
-		articleInteractionRequset.setArticleId(8);
+		articleInteractionRequset.setArticleId(8L);
 		articleInteractionRequset.setInteraction("RECOMMAND");
 		
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -177,7 +177,7 @@ public class ArticleControllerTest {
 		
 		
 		ArticleReportRequest articleReportRequest = new ArticleReportRequest();
-		articleReportRequest.setArticleId(10);
+		articleReportRequest.setArticleId(10L);
 		articleReportRequest.setReportId(1);
 		articleReportRequest.setDetails("내 글을 내가 신고한다.");
 		
