@@ -10,6 +10,8 @@ import org.apache.ibatis.annotations.Select;
 
 import com.plane.accompany.dto.AccompanyApplyDto;
 import com.plane.accompany.dto.AccompanyDetailRequest;
+import com.plane.accompany.dto.AccompanyResponse;
+import com.plane.accompany.dto.ApplyType;
 
 @Mapper
 public interface AccompanyMapper {
@@ -54,6 +56,16 @@ public interface AccompanyMapper {
             </script>
             """)
     int insertApplyDetails(@Param("applyId") Long applyId, @Param("details") List<AccompanyDetailRequest> accompanyDetailRequest);
+
+
+	@Select("""
+	        SELECT a.applyId, a.articleId, b.title, u.nickName, a.isOk, a.isCheck, a.createdDate
+	        FROM AccompanyApply a
+	        JOIN Board b ON a.articleId = b.articleId
+	        JOIN Users u ON ${type.userColumn} = u.userId
+	        WHERE ${type.whereCondition} = #{userId}
+	        """)
+	List<AccompanyResponse> findAccompanyList(@Param("userId") String userId, @Param("type") ApplyType type);
 
 
 }

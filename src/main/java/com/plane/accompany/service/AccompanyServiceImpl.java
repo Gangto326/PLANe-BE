@@ -1,11 +1,15 @@
 package com.plane.accompany.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.plane.accompany.dto.AccompanyApplyDto;
 import com.plane.accompany.dto.AccompanyRegistRequest;
+import com.plane.accompany.dto.AccompanyResponse;
+import com.plane.accompany.dto.ApplyType;
 import com.plane.accompany.repository.AccompanyRepository;
 import com.plane.common.exception.custom.ArticleNotFoundException;
 import com.plane.common.exception.custom.CreationFailedException;
@@ -48,6 +52,12 @@ public class AccompanyServiceImpl implements AccompanyService {
 		}
 		
 		throw new CreationFailedException("동행 신청 응답 추가 실패.");
+	}
+
+	@Override
+	public List<AccompanyResponse> getAccompanyList(String userId, ApplyType type) {
+		
+		return accompanyRepository.findAccompanyList(userId, type);
 	}
 	
 	
