@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import com.plane.accompany.dto.AccompanyApplyDto;
 import com.plane.accompany.dto.AccompanyDetailRequest;
+import com.plane.accompany.dto.AccompanyResponse;
+import com.plane.accompany.dto.ApplyType;
 import com.plane.accompany.mapper.AccompanyMapper;
 
 @Repository
@@ -42,6 +44,13 @@ public class AccompanyRepositoryImpl implements AccompanyRepository {
 	public int insertApplyDetails(Long applyId, List<AccompanyDetailRequest> accompanyDetailRequest) {
 		
 		return accompanyMapper.insertApplyDetails(applyId, accompanyDetailRequest);
+	}
+
+
+	@Override
+	public List<AccompanyResponse> findAccompanyList(String userId, ApplyType type) {
+		
+		return accompanyMapper.findAccompanyList(userId, type);
 	}
 
 

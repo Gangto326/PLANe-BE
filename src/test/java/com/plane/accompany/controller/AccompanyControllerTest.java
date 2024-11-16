@@ -1,5 +1,6 @@
 package com.plane.accompany.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -42,14 +43,14 @@ public class AccompanyControllerTest {
 	
 	@Test
 	@DisplayName("동행 신청하기")
-//	@Disabled
+	@Disabled
 	void testAccompanyRegist() throws Exception {
 		System.out.println("==== AccompanyRegist Test Start ====");
 		
 		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTc3MjgyNywiZXhwIjoxNzMxODA4ODI3fQ.aQoG8BskY-yPM7Ksk1qeT5A69YEXJcS15L_-Plv7EpLePeOjodRMsI9R8bMOfifQ";
 		
 		AccompanyRegistRequest accompanyRegistRequest = new AccompanyRegistRequest();
-		accompanyRegistRequest.setArticleId(8L);
+		accompanyRegistRequest.setArticleId(1L);
 		
 		List<AccompanyDetailRequest> details = new ArrayList<>();
 		
@@ -81,6 +82,24 @@ public class AccompanyControllerTest {
 		        .andExpect(status().isOk());
 		
         System.out.println("==== AccompanyRegist Test End ====");
+
+	}
+	
+	@Test
+	@DisplayName("동행 가져오기")
+//	@Disabled
+	void testAccompanyList() throws Exception {
+		System.out.println("==== AccompanyList Test Start ====");
+		
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTc3MjgyNywiZXhwIjoxNzMxODA4ODI3fQ.aQoG8BskY-yPM7Ksk1qeT5A69YEXJcS15L_-Plv7EpLePeOjodRMsI9R8bMOfifQ";
+		
+		mockMvc.perform(get("/api/accompany/list?type=RECEIVED")
+				.header("Authorization", "Bearer " + accessToken)
+	            .contentType(MediaType.APPLICATION_JSON))
+	            .andDo(print())
+	            .andExpect(status().isOk());
+		
+        System.out.println("==== AccompanyList Test End ====");
 
 	}
 	

@@ -227,6 +227,7 @@ CREATE TABLE `AccompanyApply` (
 	`articleId` BIGINT(20) NOT NULL,
 	`userId` VARCHAR(100) NOT NULL,
 	`isOk` BOOL NOT NULL DEFAULT FALSE,
+	`isCheck` BOOL NOT NULL DEFAULT FALSE,
 	`createdDate` TIMESTAMP NOT NULL DEFAULT NOW(),
 	PRIMARY KEY (`applyId`),
 	FOREIGN KEY (`articleId`) REFERENCES `Board`(`articleId`),
