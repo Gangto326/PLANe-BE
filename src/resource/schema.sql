@@ -229,6 +229,7 @@ CREATE TABLE `AccompanyApply` (
 	`isOk` BOOL NOT NULL DEFAULT FALSE,
 	`isCheck` BOOL NOT NULL DEFAULT FALSE,
 	`createdDate` TIMESTAMP NOT NULL DEFAULT NOW(),
+	`updatedDate` TIMESTAMP NULL,
 	PRIMARY KEY (`applyId`),
 	FOREIGN KEY (`articleId`) REFERENCES `Board`(`articleId`),
 	FOREIGN KEY (`userId`) REFERENCES `Users`(`userId`)
@@ -240,6 +241,7 @@ CREATE TABLE `ApplyDetails` (
 	`askId` BIGINT(20) NOT NULL,
 	`answer` VARCHAR(500) NOT NULL,
 	`createdDate` TIMESTAMP NOT NULL DEFAULT NOW(),
+    `updatedDate` TIMESTAMP NULL,
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`applyId`) REFERENCES `Apply`(`AccompanyApply`),
 	FOREIGN KEY (`askId`) REFERENCES `Ask`(`askId`)	

@@ -11,6 +11,6 @@ public interface AccompanyService {
 
 	boolean sendAccompanyRegist(String userId, AccompanyRegistRequest accompanyRegistRequest);
 
-	List<AccompanyResponse> getAccompanyList(String userId, ApplyType type);
+	List<AccompanyResponse> getAccompanyList(String userId, String type);
 
 }

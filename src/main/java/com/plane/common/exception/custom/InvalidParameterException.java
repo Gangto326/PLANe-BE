@@ -6,7 +6,7 @@ import com.plane.common.exception.InvalidRequestException;
 public class InvalidParameterException extends InvalidRequestException {
 	
 	public InvalidParameterException(String message) {
-		super(ErrorCode.INVALID_INPUT);
+		super(ErrorCode.INVALID_INPUT, message);
 	}
 	
 }

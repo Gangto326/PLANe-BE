@@ -45,7 +45,7 @@ public class AccompanyController {
 	@GetMapping("/list")
 	public ResponseEntity<ApiResponse<List<AccompanyResponse>>> getAccompanyApplications(
 	    @UserId String userId,
-	    @RequestParam ApplyType type
+	    @RequestParam String type
 	) {
 		
 	    List<AccompanyResponse> accompantList = accompanyService.getAccompanyList(userId, type);
