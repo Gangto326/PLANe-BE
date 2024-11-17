@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.plane.accompany.dto.AccompanyApplyDto;
 import com.plane.accompany.dto.AccompanyDetailRequest;
+import com.plane.accompany.dto.AccompanyDetailResponse;
 import com.plane.accompany.dto.AccompanyResponse;
 import com.plane.accompany.dto.ApplyType;
 import com.plane.accompany.mapper.AccompanyMapper;
@@ -79,6 +80,20 @@ public class AccompanyRepositoryImpl implements AccompanyRepository {
 	public int deleteAccompany(String userId, Long applyId) {
 
 		return accompanyMapper.updateApplyStatusDelete(userId, applyId);
+	}
+
+
+	@Override
+	public boolean existsRegistByApplyId(Long applyId) {
+		
+		return accompanyMapper.existsRegistByApplyId(applyId);
+	}
+
+
+	@Override
+	public AccompanyDetailResponse findAccompanyDetail(String userId, Long applyId, ApplyType applyType) {
+		
+		return accompanyMapper.findAccompanyDetail(userId, applyId, applyType);
 	}
 
 
