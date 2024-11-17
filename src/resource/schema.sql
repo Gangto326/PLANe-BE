@@ -227,9 +227,8 @@ CREATE TABLE `AccompanyApply` (
 	`articleId` BIGINT(20) NOT NULL,
 	`userId` VARCHAR(100) NOT NULL,
 	`isOk` BOOL NOT NULL DEFAULT FALSE,
-	`isCheck` BOOL NOT NULL DEFAULT FALSE,
+	`status` VARCHAR(10) NOT NULL DEFAULT '미확인' COMMENT '확인, 미확인, 수정',
 	`createdDate` TIMESTAMP NOT NULL DEFAULT NOW(),
-	`updatedDate` TIMESTAMP NULL,
 	PRIMARY KEY (`applyId`),
 	FOREIGN KEY (`articleId`) REFERENCES `Board`(`articleId`),
 	FOREIGN KEY (`userId`) REFERENCES `Users`(`userId`)
@@ -243,7 +242,7 @@ CREATE TABLE `ApplyDetails` (
 	`createdDate` TIMESTAMP NOT NULL DEFAULT NOW(),
     `updatedDate` TIMESTAMP NULL,
 	PRIMARY KEY (`id`),
-	FOREIGN KEY (`applyId`) REFERENCES `Apply`(`AccompanyApply`),
+	FOREIGN KEY (`applyId`) REFERENCES `AccompanyApply`(`applyId`),
 	FOREIGN KEY (`askId`) REFERENCES `Ask`(`askId`)	
 );
 

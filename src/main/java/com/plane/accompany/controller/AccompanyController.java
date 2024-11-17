@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.plane.accompany.dto.AccompanyRegistRequest;
 import com.plane.accompany.dto.AccompanyResponse;
-import com.plane.accompany.dto.ApplyType;
+import com.plane.accompany.dto.AccompanyUpdateRequest;
 import com.plane.accompany.service.AccompanyService;
 import com.plane.common.annotation.UserId;
 import com.plane.common.response.ApiResponse;
@@ -50,6 +51,15 @@ public class AccompanyController {
 		
 	    List<AccompanyResponse> accompantList = accompanyService.getAccompanyList(userId, type);
 	    return ResponseEntity.ok(ApiResponse.success(accompantList, type+" 목록 조회 성공"));
+	}
+	
+	@PatchMapping("")
+	public ResponseEntity<ApiResponse<Boolean>> accompanyUpdate(
+			@UserId String userId,
+			@Valid @RequestBody AccompanyUpdateRequest accompanyUpdateRequest) {
+		
+		accompanyService.updateAccompany(userId, accompanyUpdateRequest);
+		return ResponseEntity.ok(ApiResponse.success(true, "동행을 성공적으로 수정했습니다."));
 	}
 	
 }

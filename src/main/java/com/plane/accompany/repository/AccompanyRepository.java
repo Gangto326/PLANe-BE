@@ -15,10 +15,16 @@ public interface AccompanyRepository {
 
 	int insertAccompanyApply(AccompanyApplyDto accompanyApplyDto);
 	
-	int insertApplyDetails(Long applyId, List<AccompanyDetailRequest> accompanyDetailRequest);
+	int insertApplyDetails(Long applyId, List<AccompanyDetailRequest> accompanyDetailRequest, boolean isUpdate);
 
 	List<AccompanyResponse> findAccompanyList(String userId, ApplyType type);
 
+	boolean existsRegistByUserIdAndApplyId(String userId, Long applyId);
+
+	int deleteAllApplyDetails(Long applyId);
+
+	int updateApplyStatus(String userId, Long applyId);
+	
 	
 
 }
