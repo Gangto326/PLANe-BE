@@ -59,7 +59,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	@Override
 	public int deleteArticle(String userId, Long articleId) {
 		
-		return articleMapper.deleteArticle(userId, articleId);
+		return articleMapper.updateArticleDelete(userId, articleId);
 	}
 
 	@Override

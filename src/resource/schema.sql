@@ -96,6 +96,7 @@ CREATE TABLE `Board` (
 	`viewCount` INT NOT NULL DEFAULT 1,
 	`createdDate` TIMESTAMP NOT NULL DEFAULT NOW(),
 	`updatedDate` TIMESTAMP NULL,
+	`deletedDate` TIMESTAMP NULL,
 	PRIMARY KEY (`articleId`),
 	FOREIGN KEY (`authorId`) REFERENCES `Users`(`userId`),
 	FOREIGN KEY (`tripId`) REFERENCES `PLANe`(`tripId`)

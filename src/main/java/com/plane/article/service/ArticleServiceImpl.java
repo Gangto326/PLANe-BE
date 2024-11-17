@@ -47,6 +47,10 @@ public class ArticleServiceImpl implements ArticleService {
 			throw new ArticleNotFoundException("해당 게시글을 찾을 수 없습니다.");
 		}
 		
+		if (articleDetailResponse.getDeletedDate() != null) {
+			throw new ArticleNotFoundException("삭제된 게시글입니다.");
+		}
+		
 		return articleDetailResponse;
 	}
 
@@ -58,6 +62,10 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		if (article == null) {
 			throw new ArticleNotFoundException("게시글이 존재하지 않습니다.");
+		}
+		
+		if (article.getDeletedDate() != null) {
+			throw new ArticleNotFoundException("삭제된 게시글입니다.");
 		}
 		
 		if (articleRepository.updateArticle(userId, articleUpdateRequest) == 1) {
@@ -99,6 +107,10 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		if (article == null) {
 			throw new ArticleNotFoundException("userId: "+userId+", articleId: "+articleId+" || 해당 게시글을 찾을 수 없습니다.");
+		}
+		
+		if (article.getDeletedDate() != null) {
+			throw new ArticleNotFoundException("이미 삭제된 게시글입니다.");
 		}
 		
 		if (!article.getAuthorId().equals(userId)) {

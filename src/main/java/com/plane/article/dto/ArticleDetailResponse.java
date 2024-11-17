@@ -21,6 +21,7 @@ public class ArticleDetailResponse {
     private Integer likeCount;
     private Integer viewCount;
     private LocalDateTime createdDate;
+    private LocalDateTime deletedDate;
     
     // userId와 articleId로 Saved테이블에서 탐색
     private boolean isSaved;
@@ -118,6 +119,17 @@ public class ArticleDetailResponse {
 	public void setCreatedDate(LocalDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
+	
+
+	public LocalDateTime getDeletedDate() {
+		return deletedDate;
+	}
+
+
+	public void setDeletedDate(LocalDateTime deletedDate) {
+		this.deletedDate = deletedDate;
+	}
+
 
 	public boolean isSaved() {
 		return isSaved;

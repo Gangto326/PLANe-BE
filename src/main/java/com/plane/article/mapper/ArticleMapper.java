@@ -25,7 +25,7 @@ import com.plane.common.dto.PageRequest;
 public interface ArticleMapper {
 	
 	@Select("""
-	        SELECT b.articleId, u.nickName, b.tripId, b.articleType, b.title, b.content, b.articlePictureUrl, b.likeCount, b.viewCount, b.createdDate,
+	        SELECT b.articleId, u.nickName, b.tripId, b.articleType, b.title, b.content, b.articlePictureUrl, b.likeCount, b.viewCount, b.createdDate, b.deletedDate,
             CASE 
                 WHEN EXISTS (
                     SELECT 1 
@@ -52,6 +52,7 @@ public interface ArticleMapper {
 	        LEFT JOIN PLANe p ON b.tripId = p.tripId
 	        LEFT JOIN Region r ON p.regionId = r.regionId
 	        WHERE b.articleId = #{articleId}
+	        AND b.deletedDate IS NULL
 		    """)
 	@Results({
 		@Result(property = "tripId", column = "tripId"),
@@ -79,8 +80,9 @@ public interface ArticleMapper {
 		    LEFT JOIN PLANe p ON b.tripId = p.tripId
 		    LEFT JOIN Region r ON p.regionId = r.regionId
 		    <where>
+			    b.deletedDate IS NULL
 				<if test="articleSearchRequest.articleType != null">
-					b.articleType = #{articleSearchRequest.articleType}
+					AND b.articleType = #{articleSearchRequest.articleType}
 		        </if>
 		        <if test="articleSearchRequest.regionId != null">
 		            AND p.regionId = #{articleSearchRequest.regionId}
@@ -135,8 +137,9 @@ public interface ArticleMapper {
 		    LEFT JOIN PLANe p ON b.tripId = p.tripId
 		    LEFT JOIN Region r ON p.regionId = r.regionId
 		    <where>
+			    b.deletedDate IS NULL
 				<if test="articleSearchRequest.articleType != null">
-					b.articleType = #{articleSearchRequest.articleType}
+					AND b.articleType = #{articleSearchRequest.articleType}
 		        </if>
 		        <if test="articleSearchRequest.regionId != null">
 		            AND p.regionId = #{articleSearchRequest.regionId}
@@ -186,12 +189,13 @@ public interface ArticleMapper {
 	Article selectArticleByUserIdAndArticleId(@Param("userId") String userId, @Param("articleId") Long articleId);
 
 
-	@Delete("""
-			DELETE FROM Board
+	@Update("""
+			UPDATE Board
+			SET deletedDate = NOW()
 			WHERE authorId = #{userId}
 			AND articleId = #{articleId}
 			""")
-	int deleteArticle(@Param("userId") String userId, @Param("articleId") Long articleId);
+	int updateArticleDelete(@Param("userId") String userId, @Param("articleId") Long articleId);
 
 	
 	@Delete("""

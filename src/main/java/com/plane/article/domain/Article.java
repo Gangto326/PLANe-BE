@@ -15,6 +15,7 @@ public class Article {
     private Integer viewCount;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
+    private LocalDateTime deletedDate;
     
     
 	public Article() {}
@@ -127,6 +128,16 @@ public class Article {
 
 	public void setUpdatedDate(LocalDateTime updatedDate) {
 		this.updatedDate = updatedDate;
+	}
+
+
+	public LocalDateTime getDeletedDate() {
+		return deletedDate;
+	}
+
+
+	public void setDeletedDate(LocalDateTime deletedDate) {
+		this.deletedDate = deletedDate;
 	}
 	
 }
