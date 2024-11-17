@@ -24,6 +24,7 @@ public interface AccompanyMapper {
 	            FROM Board
 	            WHERE articleId = #{articleId}
 	            AND articleType = '동행'
+	            AND deletedDate IS NULL
 	        )
 			""")
 	boolean existsAccompanyArticleByArticleId(@Param("articleId") Long articleId);
@@ -35,6 +36,7 @@ public interface AccompanyMapper {
 	            FROM AccompanyApply
 	            WHERE articleId = #{articleId}
 	            AND userId = #{userId}
+	            AND deletedDate IS NULL
 	        )
 			""")
 	boolean existsRegistByUserIdAndArticleId(@Param("userId") String userId, @Param("articleId") Long articleId);
@@ -69,11 +71,12 @@ public interface AccompanyMapper {
 
 
 	@Select("""
-	        SELECT a.applyId, a.articleId, b.title, u.nickName, a.isOk, a.isCheck, a.createdDate
+	        SELECT a.applyId, a.articleId, b.title, u.nickName, a.isOk, a.status, a.createdDate
 	        FROM AccompanyApply a
 	        JOIN Board b ON a.articleId = b.articleId
 	        JOIN Users u ON ${type.userColumn} = u.userId
 	        WHERE ${type.whereCondition} = #{userId}
+	        AND a.deletedDate IS NULL
 	        """)
 	List<AccompanyResponse> findAccompanyList(@Param("userId") String userId, @Param("type") ApplyType type);
 
@@ -84,6 +87,7 @@ public interface AccompanyMapper {
 	            FROM AccompanyApply
 	            WHERE userId = #{userId}
 	            AND applyId = #{applyId}
+	            AND deletedDate IS NULL
 	        )
 			""")
 	boolean existsRegistByUserIdAndApplyId(@Param("userId") String userId, @Param("applyId") Long applyId);
@@ -103,6 +107,15 @@ public interface AccompanyMapper {
 			AND applyId = #{applyId}
 			""")
 	int updateApplyStatus(@Param("userId") String userId, @Param("applyId") Long applyId);
+
+
+	@Update("""
+			UPDATE AccompanyApply
+			SET deletedDate = NOW()
+			WHERE userId = #{userId}
+			AND applyId = #{applyId}
+			""")
+	int updateApplyStatusDelete(String userId, Long applyId);
 
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,4 +63,12 @@ public class AccompanyController {
 		return ResponseEntity.ok(ApiResponse.success(true, "동행을 성공적으로 수정했습니다."));
 	}
 	
+	@DeleteMapping("")
+	public ResponseEntity<ApiResponse<Boolean>> accompanyDelete(
+			@UserId String userId,
+			@RequestBody Long applyId) {
+		
+		accompanyService.deleteAccompany(userId, applyId);
+		return ResponseEntity.ok(ApiResponse.success(true, "동행을 성공적으로 취소했습니다."));
+	}
 }

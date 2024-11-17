@@ -24,6 +24,8 @@ public interface AccompanyRepository {
 	int deleteAllApplyDetails(Long applyId);
 
 	int updateApplyStatus(String userId, Long applyId);
+
+	int deleteAccompany(String userId, Long applyId);
 	
 	
 

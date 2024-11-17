@@ -18,4 +18,6 @@ public interface AccompanyService {
 
 	boolean updateAccompany(String userId, AccompanyUpdateRequest accompanyUpdateRequest);
 
+	boolean deleteAccompany(String userId, Long applyId);
+
 }
