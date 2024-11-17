@@ -12,7 +12,7 @@ import jakarta.validation.Valid;
 
 public interface CommentService {
 
-	List<CommentResponse> getCommentList(String userId, int articleId);
+	List<CommentResponse> getCommentList(String userId, Long articleId);
 
 	boolean createComment(String userId, CommentRequest commentRequest);
 

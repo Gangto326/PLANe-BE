@@ -52,9 +52,9 @@ public class ArticleControllerTest {
 	void testArticleDetail() throws Exception {
 		System.out.println("==== ArticleDetail Test Start ====");
 		
-		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTU1MTI1OSwiZXhwIjoxNzMxNTg3MjU5fQ.BK-budRN9x_m-G-VJX3BY1aHfSSFWl_Kwg7ovR_T67UO620PPEweo8_qlmUgcexv";
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTgyMzY3MywiZXhwIjoxNzMxODU5NjczfQ.nHrdDakYia73Xv8MVHsNrT0jzjDNtu4uSKNXbdKbMAXDFmzK78kZwfqxvgmLM5IS";
 		
-		mockMvc.perform(get("/api/article/{articleId}", 1)
+		mockMvc.perform(get("/api/article/{articleId}", 10)
 				.header("Authorization", "Bearer " + accessToken)
 	            .contentType(MediaType.APPLICATION_JSON))
 	            .andDo(print())                             
@@ -102,16 +102,16 @@ public class ArticleControllerTest {
 	void testArticleSearch() throws Exception {
 		System.out.println("==== ArticleSearch Test Start ====");
 		
-		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTU1MTI1OSwiZXhwIjoxNzMxNTg3MjU5fQ.BK-budRN9x_m-G-VJX3BY1aHfSSFWl_Kwg7ovR_T67UO620PPEweo8_qlmUgcexv";
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTgyMzY3MywiZXhwIjoxNzMxODU5NjczfQ.nHrdDakYia73Xv8MVHsNrT0jzjDNtu4uSKNXbdKbMAXDFmzK78kZwfqxvgmLM5IS";
 		
 		mockMvc.perform(get("/api/article/search")
 				.header("Authorization", "Bearer " + accessToken)
-				.param("page", "1")
+				.param("page", "2")
                 .param("size", "12")
                 .param("sortBy", "createdDate")
                 .param("sortDirection", "DESC")
 				.param("articleType", "동행")
-				.param("recommend", String.valueOf(true)))
+				.param("recommend", String.valueOf(false)))
 				.andDo(print())                             
 		        .andExpect(status().isOk());
 		
@@ -126,11 +126,11 @@ public class ArticleControllerTest {
 	void testArticleDelete() throws Exception {
 		System.out.println("==== ArticleDelete Test Start ====");
 		
-		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTU1MTI1OSwiZXhwIjoxNzMxNTg3MjU5fQ.BK-budRN9x_m-G-VJX3BY1aHfSSFWl_Kwg7ovR_T67UO620PPEweo8_qlmUgcexv";
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTgyMzY3MywiZXhwIjoxNzMxODU5NjczfQ.nHrdDakYia73Xv8MVHsNrT0jzjDNtu4uSKNXbdKbMAXDFmzK78kZwfqxvgmLM5IS";
 		
 		mockMvc.perform(delete("/api/article/delete")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(String.valueOf(6))
+				.content(String.valueOf(19))
 				.header("Authorization", "Bearer " + accessToken))
 				.andDo(print())
 		        .andExpect(status().isOk());

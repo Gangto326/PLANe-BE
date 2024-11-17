@@ -9,7 +9,7 @@ public class CommentDeleteRequest {
 	
 	
 	@NotNull(message = "글 번호는 필수입니다.")
-	private Integer articleId;
+	private Long articleId;
 
 
 	public CommentDeleteRequest() {}
@@ -25,12 +25,12 @@ public class CommentDeleteRequest {
 	}
 
 
-	public Integer getArticleId() {
+	public Long getArticleId() {
 		return articleId;
 	}
 
 
-	public void setArticleId(Integer articleId) {
+	public void setArticleId(Long articleId) {
 		this.articleId = articleId;
 	}
 	

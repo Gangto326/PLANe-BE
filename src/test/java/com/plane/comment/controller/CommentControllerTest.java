@@ -100,7 +100,7 @@ public class CommentControllerTest {
 		
 		CommentUpdateRequest commentUpdateRequest = new CommentUpdateRequest();
 		
-		commentUpdateRequest.setArticleId(8);
+		commentUpdateRequest.setArticleId(8L);
 		commentUpdateRequest.setCommentId(1);
 		commentUpdateRequest.setCommentContents("수정수정");
 		commentUpdateRequest.setStatus("비공개");
@@ -132,7 +132,7 @@ public class CommentControllerTest {
 		
 		CommentDeleteRequest commentDeleteRequest = new CommentDeleteRequest();
 		
-		commentDeleteRequest.setArticleId(8);
+		commentDeleteRequest.setArticleId(8L);
 		commentDeleteRequest.setCommentId(1);
 		
 		ObjectMapper objectMapper = new ObjectMapper();

@@ -41,7 +41,7 @@ public interface CommentMapper {
 			COALESCE(c.parents, c.commentId),
 			c.createdDate ASC
 			""")
-	List<CommentResponse> selectCommentByArticleId(@Param("userId") String userId, @Param("articleId") int articleId);
+	List<CommentResponse> selectCommentByArticleId(@Param("userId") String userId, @Param("articleId") Long articleId);
 	
 	
 	@Insert("""

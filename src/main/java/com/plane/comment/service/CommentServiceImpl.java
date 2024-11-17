@@ -38,7 +38,7 @@ public class CommentServiceImpl implements CommentService {
 
 	
 	@Override
-	public List<CommentResponse> getCommentList(String userId, int articleId) {
+	public List<CommentResponse> getCommentList(String userId, Long articleId) {
 		
 		List<CommentResponse> commentList = commentRepository.selectCommentByArticleId(userId, articleId);
 		
@@ -80,7 +80,8 @@ public class CommentServiceImpl implements CommentService {
 			throw new CommentNotFoundException("해당 댓글이 존재하지 않습니다.");
 		}
 		
-		if (comment.getArticleId() != commentUpdateRequest.getArticleId()) {
+		if (comment.getArticleId() != commentUpdateRequest.getArticleId() ||
+				!articleRepository.existsArticleByArticleId(commentUpdateRequest.getArticleId())) {
 			throw new ArticleNotFoundException("해당 게시글이 존재하지 않습니다.");
 		}
 		
@@ -105,7 +106,8 @@ public class CommentServiceImpl implements CommentService {
 			throw new CommentNotFoundException("해당 댓글이 존재하지 않습니다.");
 		}
 		
-		if (comment.getArticleId() != commentDeleteRequest.getArticleId()) {
+		if (comment.getArticleId() != commentDeleteRequest.getArticleId() ||
+				!articleRepository.existsArticleByArticleId(commentDeleteRequest.getArticleId())) {
 			throw new ArticleNotFoundException("해당 게시글이 존재하지 않습니다.");
 		}
 		
