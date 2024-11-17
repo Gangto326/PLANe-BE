@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.plane.accompany.dto.AccompanyArticleDetailRequest;
+import com.plane.accompany.dto.AccompanyDetailDto;
+import com.plane.accompany.dto.AccompanyDetailResponse;
 import com.plane.accompany.dto.AccompanyRegistRequest;
 import com.plane.accompany.dto.AccompanyResponse;
 import com.plane.accompany.dto.AccompanyUpdateRequest;
@@ -50,8 +53,8 @@ public class AccompanyController {
 	    @RequestParam String type
 	) {
 		
-	    List<AccompanyResponse> accompantList = accompanyService.getAccompanyList(userId, type);
-	    return ResponseEntity.ok(ApiResponse.success(accompantList, type+" 목록 조회 성공"));
+	    List<AccompanyResponse> accompanyList = accompanyService.getAccompanyList(userId, type);
+	    return ResponseEntity.ok(ApiResponse.success(accompanyList, type+" 목록 조회 성공"));
 	}
 	
 	@PatchMapping("")
@@ -71,4 +74,15 @@ public class AccompanyController {
 		accompanyService.deleteAccompany(userId, applyId);
 		return ResponseEntity.ok(ApiResponse.success(true, "동행을 성공적으로 취소했습니다."));
 	}
+	
+	@PostMapping("/detail")
+	public ResponseEntity<ApiResponse<AccompanyDetailResponse>> accompanyDetail(
+			@UserId String userId,
+			@Valid @RequestBody AccompanyArticleDetailRequest accompanyArticleDetailRequest
+			) {
+		
+		AccompanyDetailResponse accompanyDetailResponse = accompanyService.getAccompanyDetail(userId, accompanyArticleDetailRequest);
+		return ResponseEntity.ok(ApiResponse.success(accompanyDetailResponse, "동행 상세 페이지 반환 성공."));
+	}
+	
 }

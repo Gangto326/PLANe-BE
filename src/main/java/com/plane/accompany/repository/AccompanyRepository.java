@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.plane.accompany.dto.AccompanyApplyDto;
 import com.plane.accompany.dto.AccompanyDetailRequest;
+import com.plane.accompany.dto.AccompanyDetailResponse;
 import com.plane.accompany.dto.AccompanyResponse;
 import com.plane.accompany.dto.ApplyType;
 
@@ -26,6 +27,10 @@ public interface AccompanyRepository {
 	int updateApplyStatus(String userId, Long applyId);
 
 	int deleteAccompany(String userId, Long applyId);
+
+	boolean existsRegistByApplyId(Long applyId);
+
+	AccompanyDetailResponse findAccompanyDetail(String userId, Long applyId, ApplyType applyType);
 	
 	
 

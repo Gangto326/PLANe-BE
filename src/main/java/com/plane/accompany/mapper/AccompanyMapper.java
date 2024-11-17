@@ -4,14 +4,19 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.plane.accompany.dto.AccompanyApplyDto;
+import com.plane.accompany.dto.AccompanyDetailDto;
 import com.plane.accompany.dto.AccompanyDetailRequest;
+import com.plane.accompany.dto.AccompanyDetailResponse;
 import com.plane.accompany.dto.AccompanyResponse;
 import com.plane.accompany.dto.ApplyType;
 
@@ -115,7 +120,54 @@ public interface AccompanyMapper {
 			WHERE userId = #{userId}
 			AND applyId = #{applyId}
 			""")
-	int updateApplyStatusDelete(String userId, Long applyId);
+	int updateApplyStatusDelete(@Param("userId") String userId, @Param("applyId") Long applyId);
 
 
+	@Select("""
+			SELECT EXISTS (
+	            SELECT 1
+	            FROM AccompanyApply
+	            WHERE applyId = #{applyId}
+	            AND deletedDate IS NULL
+	        )
+			""")
+	boolean existsRegistByApplyId(@Param("applyId") Long applyId);
+
+
+	@Select("""
+	        SELECT 
+	            CASE 
+	                WHEN #{type} = 'RECEIVED' THEN a.userId
+	                ELSE b.authorId
+	            END as userId,
+	            b.articleId, u.nickName
+	        FROM AccompanyApply a
+	        JOIN Board b ON a.articleId = b.articleId
+	        JOIN Users u ON u.userId = CASE 
+	            WHEN #{type} = 'RECEIVED' THEN a.userId
+	            ELSE b.authorId
+	        END
+	        WHERE a.applyId = #{applyId}
+	        AND ${type.whereCondition} = #{userId}
+	        AND a.deletedDate IS NULL
+	        AND b.deletedDate IS NULL
+	        """)
+	@Results({
+	    @Result(property = "userId", column = "userId"),
+	    @Result(property = "nickName", column = "nickName"),
+	    @Result(property = "detailList", column = "applyId", javaType = List.class,
+	        many = @Many(select = "findApplyDetails"))
+	})
+	AccompanyDetailResponse findAccompanyDetail(@Param("userId") String userId, @Param("applyId") Long applyId, @Param("type") ApplyType type);
+
+
+	@Select("""
+	        SELECT 
+	            ad.askId,
+	            ad.answer
+	        FROM ApplyDetails ad
+	        WHERE ad.applyId = #{applyId}
+	        ORDER BY ad.askId
+	        """)
+	List<AccompanyDetailDto> findApplyDetails(@Param("applyId") Long applyId);
 }

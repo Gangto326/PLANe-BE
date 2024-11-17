@@ -20,11 +20,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.plane.accompany.dto.AccompanyArticleDetailRequest;
 import com.plane.accompany.dto.AccompanyDetailRequest;
 import com.plane.accompany.dto.AccompanyRegistRequest;
 import com.plane.accompany.dto.AccompanyUpdateRequest;
 import com.plane.accompany.repository.AccompanyRepository;
 import com.plane.accompany.service.AccompanyService;
+import com.plane.article.dto.ArticleInteractionRequset;
 
 @AutoConfigureMockMvc
 @SpringBootTest(
@@ -53,7 +55,7 @@ public class AccompanyControllerTest {
 		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTgyMzY3MywiZXhwIjoxNzMxODU5NjczfQ.nHrdDakYia73Xv8MVHsNrT0jzjDNtu4uSKNXbdKbMAXDFmzK78kZwfqxvgmLM5IS";
 		
 		AccompanyRegistRequest accompanyRegistRequest = new AccompanyRegistRequest();
-		accompanyRegistRequest.setArticleId(10L);
+		accompanyRegistRequest.setArticleId(21L);
 		
 		List<AccompanyDetailRequest> details = new ArrayList<>();
 		
@@ -168,6 +170,33 @@ public class AccompanyControllerTest {
 		        .andExpect(status().isOk());
 		
         System.out.println("==== AccompanyDelete Test End ====");
+
+	}
+	
+	
+	@Test
+	@DisplayName("동행 게시글 상세 페이지")
+	@Disabled
+	void testArticleDetail() throws Exception {
+		System.out.println("==== ArticleDetail Test Start ====");
+		
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTgyMzY3MywiZXhwIjoxNzMxODU5NjczfQ.nHrdDakYia73Xv8MVHsNrT0jzjDNtu4uSKNXbdKbMAXDFmzK78kZwfqxvgmLM5IS";
+		
+		AccompanyArticleDetailRequest accompanyArticleDetailRequest = new AccompanyArticleDetailRequest();
+		accompanyArticleDetailRequest.setApplyId(2L);
+		accompanyArticleDetailRequest.setType("RECEIVED");
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		String content = objectMapper.writeValueAsString(accompanyArticleDetailRequest);
+		
+		mockMvc.perform(post("/api/accompany/detail")
+				.contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization", "Bearer " + accessToken)
+				.content(content))
+		        .andDo(print())
+		        .andExpect(status().isOk());
+		
+        System.out.println("==== ArticleDetail Test End ====");
 
 	}
 	

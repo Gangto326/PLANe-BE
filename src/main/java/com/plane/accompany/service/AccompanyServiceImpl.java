@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.plane.accompany.dto.AccompanyApplyDto;
+import com.plane.accompany.dto.AccompanyArticleDetailRequest;
+import com.plane.accompany.dto.AccompanyDetailDto;
+import com.plane.accompany.dto.AccompanyDetailResponse;
 import com.plane.accompany.dto.AccompanyRegistRequest;
 import com.plane.accompany.dto.AccompanyResponse;
 import com.plane.accompany.dto.AccompanyUpdateRequest;
@@ -107,6 +110,24 @@ public class AccompanyServiceImpl implements AccompanyService {
 		}
 		
 		throw new UpdateFailedException("동행 신청 삭제 실패.");
+	}
+
+	@Override
+	public AccompanyDetailResponse getAccompanyDetail(String userId, AccompanyArticleDetailRequest accompanyArticleDetailRequest) {
+		
+		ApplyType applyType = ApplyType.from(accompanyArticleDetailRequest.getType());
+		
+		if (!accompanyRepository.existsRegistByApplyId(accompanyArticleDetailRequest.getApplyId())) {
+			throw new RegistNotFoundException("해당 동행 신청을 찾을 수 없습니다.");
+		}
+		
+		AccompanyDetailResponse accompanyDetailResponse = accompanyRepository.findAccompanyDetail(userId, accompanyArticleDetailRequest.getApplyId(), applyType);
+		
+		if (accompanyDetailResponse == null) {
+			throw new RegistNotFoundException("해당 동행 신청을 찾을 수 없습니다.");
+		}
+		
+		return accompanyDetailResponse;
 	}
 	
 }
