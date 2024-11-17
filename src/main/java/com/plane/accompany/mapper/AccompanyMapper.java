@@ -18,6 +18,7 @@ import com.plane.accompany.dto.AccompanyDetailDto;
 import com.plane.accompany.dto.AccompanyDetailRequest;
 import com.plane.accompany.dto.AccompanyDetailResponse;
 import com.plane.accompany.dto.AccompanyResponse;
+import com.plane.accompany.dto.AccompanyTripInfo;
 import com.plane.accompany.dto.ApplyType;
 
 @Mapper
@@ -107,11 +108,11 @@ public interface AccompanyMapper {
 	
 	@Update("""
 			UPDATE AccompanyApply 
-	        SET status = '수정'
+	        SET status = #{status}
 			WHERE userId = #{userId}
 			AND applyId = #{applyId}
 			""")
-	int updateApplyStatus(@Param("userId") String userId, @Param("applyId") Long applyId);
+	int updateApplyStatus(@Param("userId") String userId, @Param("applyId") Long applyId, @Param("status") String status);
 
 
 	@Update("""
@@ -170,4 +171,40 @@ public interface AccompanyMapper {
 	        ORDER BY ad.askId
 	        """)
 	List<AccompanyDetailDto> findApplyDetails(@Param("applyId") Long applyId);
+
+
+	@Select("""
+	        SELECT p.tripId, p.accompanyNum, aa.userId as applicantId
+	        FROM AccompanyApply aa
+	        JOIN Board b ON aa.articleId = b.articleId
+	        JOIN PLANe p ON b.tripId = p.tripId
+	        WHERE aa.applyId = #{applyId}
+	        AND b.authorId = #{userId}
+	        AND aa.deletedDate IS NULL
+	        AND b.deletedDate IS NULL
+	        """)
+	AccompanyTripInfo findTripInfo(@Param("userId") String userId, @Param("applyId") Long applyId);
+
+	
+	@Select("""
+			SELECT COUNT(*)
+			FROM Accompany
+			WHERE tripId = #{tripId}
+			""")
+	int countAccompanyByTripId(@Param("tripId") Long tripId);
+
+	
+	@Insert("""
+			INSERT INTO Accompany (tripId, userId, role)
+			VALUES (#{tripId}, #{applicantId}, #{role})
+			""")
+	int insertAccompany(@Param("tripId") Long tripId, @Param("applicantId") String applicantId, @Param("role") String role);
+
+
+	@Update("""
+			UPDATE AccompanyApply
+			SET isOk = 1
+			WHERE applyId = #{applyId}
+			""")
+	int updateAccompanyApplyStatus(Long applyId);
 }

@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.plane.accompany.dto.AccompanyAcceptRequest;
 import com.plane.accompany.dto.AccompanyArticleDetailRequest;
 import com.plane.accompany.dto.AccompanyDetailRequest;
 import com.plane.accompany.dto.AccompanyRegistRequest;
@@ -55,7 +56,7 @@ public class AccompanyControllerTest {
 		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTgyMzY3MywiZXhwIjoxNzMxODU5NjczfQ.nHrdDakYia73Xv8MVHsNrT0jzjDNtu4uSKNXbdKbMAXDFmzK78kZwfqxvgmLM5IS";
 		
 		AccompanyRegistRequest accompanyRegistRequest = new AccompanyRegistRequest();
-		accompanyRegistRequest.setArticleId(21L);
+		accompanyRegistRequest.setArticleId(22L);
 		
 		List<AccompanyDetailRequest> details = new ArrayList<>();
 		
@@ -197,6 +198,32 @@ public class AccompanyControllerTest {
 		        .andExpect(status().isOk());
 		
         System.out.println("==== ArticleDetail Test End ====");
+
+	}
+	
+	@Test
+	@DisplayName("동행 수락")
+	@Disabled
+	void testArticleAccept() throws Exception {
+		System.out.println("==== ArticleAccept Test Start ====");
+		
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTgyMzY3MywiZXhwIjoxNzMxODU5NjczfQ.nHrdDakYia73Xv8MVHsNrT0jzjDNtu4uSKNXbdKbMAXDFmzK78kZwfqxvgmLM5IS";
+		
+		AccompanyAcceptRequest accompanyAcceptRequest = new AccompanyAcceptRequest();
+		accompanyAcceptRequest.setApplyId(4L);
+		accompanyAcceptRequest.setRole("동행원");
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		String content = objectMapper.writeValueAsString(accompanyAcceptRequest);
+		
+		mockMvc.perform(post("/api/accompany/accept")
+				.contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization", "Bearer " + accessToken)
+				.content(content))
+		        .andDo(print())
+		        .andExpect(status().isOk());
+		
+        System.out.println("==== ArticleAccept Test End ====");
 
 	}
 	

@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.plane.accompany.dto.AccompanyAcceptRequest;
 import com.plane.accompany.dto.AccompanyApplyDto;
 import com.plane.accompany.dto.AccompanyArticleDetailRequest;
 import com.plane.accompany.dto.AccompanyDetailDto;
 import com.plane.accompany.dto.AccompanyDetailResponse;
 import com.plane.accompany.dto.AccompanyRegistRequest;
 import com.plane.accompany.dto.AccompanyResponse;
+import com.plane.accompany.dto.AccompanyTripInfo;
 import com.plane.accompany.dto.AccompanyUpdateRequest;
 import com.plane.accompany.dto.ApplyType;
 import com.plane.accompany.repository.AccompanyRepository;
@@ -19,8 +21,11 @@ import com.plane.common.exception.custom.ArticleNotFoundException;
 import com.plane.common.exception.custom.CreationFailedException;
 import com.plane.common.exception.custom.DuplicateException;
 import com.plane.common.exception.custom.InvalidParameterException;
+import com.plane.common.exception.custom.InvalidStateException;
 import com.plane.common.exception.custom.RegistNotFoundException;
 import com.plane.common.exception.custom.UpdateFailedException;
+
+import jakarta.validation.Valid;
 
 @Service
 @Transactional
@@ -91,7 +96,7 @@ public class AccompanyServiceImpl implements AccompanyService {
         }
 		
 		// 상태 변경 (수정)
-		if (accompanyRepository.updateApplyStatus(userId, accompanyUpdateRequest.getApplyId()) == 1) {
+		if (accompanyRepository.updateApplyStatus(userId, accompanyUpdateRequest.getApplyId(), "수정") == 1) {
 			return true;
 		}
 		
@@ -127,7 +132,38 @@ public class AccompanyServiceImpl implements AccompanyService {
 			throw new RegistNotFoundException("해당 동행 신청을 찾을 수 없습니다.");
 		}
 		
+		// 나에게 온 동행 신청을 확인한 경우 상태 변경
+		if (accompanyArticleDetailRequest.getType().equals("RECEIVED")) {
+			accompanyRepository.updateApplyStatus(userId, accompanyArticleDetailRequest.getApplyId(), "확인");
+		}
+		
 		return accompanyDetailResponse;
+	}
+
+	@Override
+	public boolean acceptAccompany(String userId, AccompanyAcceptRequest accompanyAcceptRequest) {
+		
+		AccompanyTripInfo tripInfo = accompanyRepository.findTripInfo(userId, accompanyAcceptRequest.getApplyId());
+		
+		if (tripInfo == null) {
+			throw new RegistNotFoundException("해당 동행 신청을 찾을 수 없습니다.");
+		}
+		
+		int currentCount = accompanyRepository.countAccompanyByTripId(tripInfo.getTripId());
+		
+		if (currentCount >= tripInfo.getAccompanyNum()) {
+			throw new InvalidStateException("동행 인원이 초과되었습니다.");
+		}
+		
+		// 동행원 데이터 추가
+		if (accompanyRepository.insertAccompany(tripInfo.getTripId(), tripInfo.getApplicantId(), accompanyAcceptRequest.getRole()) == 1) {
+			
+			// 승낙처리
+			accompanyRepository.updateAccompanyApplyStatus(accompanyAcceptRequest.getApplyId());
+			return true;
+		}
+		
+		throw new CreationFailedException("동행 요청 수락에 실패하였습니다.");
 	}
 	
 }
