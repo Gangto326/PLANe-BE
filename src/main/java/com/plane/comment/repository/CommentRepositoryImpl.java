@@ -24,7 +24,7 @@ public class CommentRepositoryImpl implements CommentRepository {
 	}
 
 	@Override
-	public List<CommentResponse> selectCommentByArticleId(String userId, int articleId) {
+	public List<CommentResponse> selectCommentByArticleId(String userId, Long articleId) {
 		
 		return commentMapper.selectCommentByArticleId(userId, articleId);
 	}

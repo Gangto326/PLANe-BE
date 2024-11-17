@@ -13,7 +13,7 @@ import jakarta.validation.Valid;
 
 public interface CommentRepository {
 
-	List<CommentResponse> selectCommentByArticleId(String userId, int articleId);
+	List<CommentResponse> selectCommentByArticleId(String userId, Long articleId);
 
 	int insertComment(String userId, CommentRequest commentRequest);
 

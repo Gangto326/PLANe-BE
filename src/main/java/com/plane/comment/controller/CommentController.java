@@ -39,7 +39,7 @@ public class CommentController {
 	@GetMapping("/{articleId}")
 	public ResponseEntity<ApiResponse<List<CommentResponse>>> commentList(
 			@UserId String userId,
-			@PathVariable int articleId
+			@PathVariable Long articleId
 			) {
 		
 		List<CommentResponse> commentList = commentService.getCommentList(userId, articleId);

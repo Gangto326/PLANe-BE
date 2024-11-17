@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class Comment {
 	
 	private Integer commentId;
-	private Integer articleId;
+	private Long articleId;
 	private String authorId;
 	private Integer parents;
 	private String commentContents;
@@ -27,12 +27,12 @@ public class Comment {
 	}
 
 
-	public Integer getArticleId() {
+	public Long getArticleId() {
 		return articleId;
 	}
 
 
-	public void setArticleId(Integer articleId) {
+	public void setArticleId(Long articleId) {
 		this.articleId = articleId;
 	}
 

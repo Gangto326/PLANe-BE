@@ -175,6 +175,7 @@ public interface ArticleMapper {
 	            SELECT 1
 	            FROM Board
 	            WHERE articleId = #{articleId}
+	            AND deletedDate IS NULL
 	        )
 			""")
 	boolean existsArticleByArticleId(@Param("articleId") Long articleId);
