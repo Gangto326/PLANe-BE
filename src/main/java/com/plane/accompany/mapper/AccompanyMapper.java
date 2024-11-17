@@ -2,11 +2,13 @@ package com.plane.accompany.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.plane.accompany.dto.AccompanyApplyDto;
 import com.plane.accompany.dto.AccompanyDetailRequest;
@@ -48,14 +50,22 @@ public interface AccompanyMapper {
 	
 	@Insert("""
 			<script>
-            INSERT INTO ApplyDetails (`askId`, `applyId`, `answer`)
+            INSERT INTO ApplyDetails (`askId`, `applyId`, `answer`
+            <if test="isUpdate">
+			    , `updatedDate`
+	        </if>
+	        )
             VALUES
             <foreach collection="details" item="detail" separator=",">
-            	(#{detail.askId}, #{applyId}, #{detail.answer})
+            	(#{detail.askId}, #{applyId}, #{detail.answer}
+            	<if test="isUpdate">
+	                , NOW()
+	            </if>
+	            )
             </foreach>
             </script>
             """)
-    int insertApplyDetails(@Param("applyId") Long applyId, @Param("details") List<AccompanyDetailRequest> accompanyDetailRequest);
+    int insertApplyDetails(@Param("applyId") Long applyId, @Param("details") List<AccompanyDetailRequest> accompanyDetailRequest, @Param("isUpdate") boolean isUpdate);
 
 
 	@Select("""
@@ -66,6 +76,33 @@ public interface AccompanyMapper {
 	        WHERE ${type.whereCondition} = #{userId}
 	        """)
 	List<AccompanyResponse> findAccompanyList(@Param("userId") String userId, @Param("type") ApplyType type);
+
+
+	@Select("""
+			SELECT EXISTS (
+	            SELECT 1
+	            FROM AccompanyApply
+	            WHERE userId = #{userId}
+	            AND applyId = #{applyId}
+	        )
+			""")
+	boolean existsRegistByUserIdAndApplyId(@Param("userId") String userId, @Param("applyId") Long applyId);
+
+
+	@Delete("""
+			DELETE FROM ApplyDetails
+			WHERE applyId = #{applyId}
+			""")
+	int deleteAllApplyDetails(@Param("applyId") Long applyId);
+
+	
+	@Update("""
+			UPDATE AccompanyApply 
+	        SET status = '수정'
+			WHERE userId = #{userId}
+			AND applyId = #{applyId}
+			""")
+	int updateApplyStatus(@Param("userId") String userId, @Param("applyId") Long applyId);
 
 
 }

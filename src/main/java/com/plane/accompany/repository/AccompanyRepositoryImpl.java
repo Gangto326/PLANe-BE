@@ -41,9 +41,9 @@ public class AccompanyRepositoryImpl implements AccompanyRepository {
 	}
 
 	@Override
-	public int insertApplyDetails(Long applyId, List<AccompanyDetailRequest> accompanyDetailRequest) {
+	public int insertApplyDetails(Long applyId, List<AccompanyDetailRequest> accompanyDetailRequest, boolean isUpdate) {
 		
-		return accompanyMapper.insertApplyDetails(applyId, accompanyDetailRequest);
+		return accompanyMapper.insertApplyDetails(applyId, accompanyDetailRequest, isUpdate);
 	}
 
 
@@ -51,6 +51,27 @@ public class AccompanyRepositoryImpl implements AccompanyRepository {
 	public List<AccompanyResponse> findAccompanyList(String userId, ApplyType type) {
 		
 		return accompanyMapper.findAccompanyList(userId, type);
+	}
+
+
+	@Override
+	public boolean existsRegistByUserIdAndApplyId(String userId, Long applyId) {
+		
+		return accompanyMapper.existsRegistByUserIdAndApplyId(userId, applyId);
+	}
+
+
+	@Override
+	public int deleteAllApplyDetails(Long applyId) {
+		
+		return accompanyMapper.deleteAllApplyDetails(applyId);
+	}
+
+
+	@Override
+	public int updateApplyStatus(String userId, Long applyId) {
+		
+		return accompanyMapper.updateApplyStatus(userId, applyId);
 	}
 
 

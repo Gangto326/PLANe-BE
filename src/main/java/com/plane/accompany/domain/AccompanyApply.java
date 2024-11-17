@@ -8,7 +8,7 @@ public class AccompanyApply {
 	private Long articleId;
 	private String userId;
 	private boolean isOk;
-	private boolean isCheck;
+	private String status;
 	private LocalDateTime createdDate;
 	
 	
@@ -55,13 +55,13 @@ public class AccompanyApply {
 	}
 
 
-	public boolean isCheck() {
-		return isCheck;
+	public String getStatus() {
+		return status;
 	}
 
 
-	public void setCheck(boolean isCheck) {
-		this.isCheck = isCheck;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 
