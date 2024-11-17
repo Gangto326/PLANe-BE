@@ -1,5 +1,6 @@
 package com.plane.accompany.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -52,7 +53,7 @@ public class AccompanyControllerTest {
 		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTgyMzY3MywiZXhwIjoxNzMxODU5NjczfQ.nHrdDakYia73Xv8MVHsNrT0jzjDNtu4uSKNXbdKbMAXDFmzK78kZwfqxvgmLM5IS";
 		
 		AccompanyRegistRequest accompanyRegistRequest = new AccompanyRegistRequest();
-		accompanyRegistRequest.setArticleId(9L);
+		accompanyRegistRequest.setArticleId(10L);
 		
 		List<AccompanyDetailRequest> details = new ArrayList<>();
 		
@@ -115,7 +116,7 @@ public class AccompanyControllerTest {
 		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTgyMzY3MywiZXhwIjoxNzMxODU5NjczfQ.nHrdDakYia73Xv8MVHsNrT0jzjDNtu4uSKNXbdKbMAXDFmzK78kZwfqxvgmLM5IS";
 		
 		AccompanyUpdateRequest accompanyUpdateRequest = new AccompanyUpdateRequest();
-		accompanyUpdateRequest.setApplyId(2L);
+		accompanyUpdateRequest.setApplyId(1L);
 		
 		List<AccompanyDetailRequest> details = new ArrayList<>();
 		
@@ -147,6 +148,26 @@ public class AccompanyControllerTest {
 		        .andExpect(status().isOk());
 		
         System.out.println("==== AccompanyUpdate Test End ====");
+
+	}
+	
+	
+	@Test
+	@DisplayName("동행 취소")
+	@Disabled
+	void testAccompanyDelete() throws Exception {
+		System.out.println("==== AccompanyDelete Test Start ====");
+		
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTgyMzY3MywiZXhwIjoxNzMxODU5NjczfQ.nHrdDakYia73Xv8MVHsNrT0jzjDNtu4uSKNXbdKbMAXDFmzK78kZwfqxvgmLM5IS";
+		
+		mockMvc.perform(delete("/api/accompany")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(String.valueOf(1L))
+				.header("Authorization", "Bearer " + accessToken))
+				.andDo(print())
+		        .andExpect(status().isOk());
+		
+        System.out.println("==== AccompanyDelete Test End ====");
 
 	}
 	

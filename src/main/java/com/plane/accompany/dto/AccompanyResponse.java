@@ -9,7 +9,7 @@ public class AccompanyResponse {
 	private String title;
 	private String nickName;
 	private boolean isOk;
-	private boolean isCheck;
+	private String status;
 	private LocalDateTime createdDate;
 	
 	
@@ -66,16 +66,16 @@ public class AccompanyResponse {
 	}
 
 	
-	public boolean isCheck() {
-		return isCheck;
+	public String getStatus() {
+		return status;
 	}
 
 
-	public void setCheck(boolean isCheck) {
-		this.isCheck = isCheck;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
-	
+
 	public LocalDateTime getCreatedDate() {
 		return createdDate;
 	}

@@ -230,6 +230,7 @@ CREATE TABLE `AccompanyApply` (
 	`isOk` BOOL NOT NULL DEFAULT FALSE,
 	`status` VARCHAR(10) NOT NULL DEFAULT '미확인' COMMENT '확인, 미확인, 수정',
 	`createdDate` TIMESTAMP NOT NULL DEFAULT NOW(),
+	`deletedDate` TIMESTAMP NULL,
 	PRIMARY KEY (`applyId`),
 	FOREIGN KEY (`articleId`) REFERENCES `Board`(`articleId`),
 	FOREIGN KEY (`userId`) REFERENCES `Users`(`userId`)

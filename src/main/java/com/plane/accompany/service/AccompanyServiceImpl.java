@@ -95,4 +95,18 @@ public class AccompanyServiceImpl implements AccompanyService {
 		throw new UpdateFailedException("동행 신청 응답 수정 실패.");
 	}
 	
+	@Override
+	public boolean deleteAccompany(String userId, Long applyId) {
+		
+		if (!accompanyRepository.existsRegistByUserIdAndApplyId(userId, applyId)) {
+			throw new RegistNotFoundException("해당 동행 신청을 찾을 수 없습니다.");
+		}
+		
+		if (accompanyRepository.deleteAccompany(userId, applyId) == 1) {
+			return true;
+		}
+		
+		throw new UpdateFailedException("동행 신청 삭제 실패.");
+	}
+	
 }

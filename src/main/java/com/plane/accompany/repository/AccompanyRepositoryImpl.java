@@ -75,6 +75,13 @@ public class AccompanyRepositoryImpl implements AccompanyRepository {
 	}
 
 
+	@Override
+	public int deleteAccompany(String userId, Long applyId) {
+
+		return accompanyMapper.updateApplyStatusDelete(userId, applyId);
+	}
+
+
 	
 	
 }
