@@ -9,6 +9,7 @@ import com.plane.accompany.dto.AccompanyApplyDto;
 import com.plane.accompany.dto.AccompanyDetailRequest;
 import com.plane.accompany.dto.AccompanyDetailResponse;
 import com.plane.accompany.dto.AccompanyResponse;
+import com.plane.accompany.dto.AccompanyTripInfo;
 import com.plane.accompany.dto.ApplyType;
 import com.plane.accompany.mapper.AccompanyMapper;
 
@@ -70,9 +71,9 @@ public class AccompanyRepositoryImpl implements AccompanyRepository {
 
 
 	@Override
-	public int updateApplyStatus(String userId, Long applyId) {
+	public int updateApplyStatus(String userId, Long applyId, String status) {
 		
-		return accompanyMapper.updateApplyStatus(userId, applyId);
+		return accompanyMapper.updateApplyStatus(userId, applyId, status);
 	}
 
 
@@ -94,6 +95,34 @@ public class AccompanyRepositoryImpl implements AccompanyRepository {
 	public AccompanyDetailResponse findAccompanyDetail(String userId, Long applyId, ApplyType applyType) {
 		
 		return accompanyMapper.findAccompanyDetail(userId, applyId, applyType);
+	}
+
+
+	@Override
+	public AccompanyTripInfo findTripInfo(String userId, Long applyId) {
+		
+		return accompanyMapper.findTripInfo(userId, applyId);
+	}
+
+
+	@Override
+	public int countAccompanyByTripId(Long tripId) {
+		
+		return accompanyMapper.countAccompanyByTripId(tripId);
+	}
+
+
+	@Override
+	public int insertAccompany(Long tripId, String applicantId, String role) {
+		
+		return accompanyMapper.insertAccompany(tripId, applicantId, role);
+	}
+
+
+	@Override
+	public int updateAccompanyApplyStatus(Long applyId) {
+
+		return accompanyMapper.updateAccompanyApplyStatus(applyId);
 	}
 
 

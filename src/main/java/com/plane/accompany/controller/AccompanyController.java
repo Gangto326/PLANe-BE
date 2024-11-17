@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.plane.accompany.dto.AccompanyAcceptRequest;
 import com.plane.accompany.dto.AccompanyArticleDetailRequest;
 import com.plane.accompany.dto.AccompanyDetailDto;
 import com.plane.accompany.dto.AccompanyDetailResponse;
@@ -83,6 +84,16 @@ public class AccompanyController {
 		
 		AccompanyDetailResponse accompanyDetailResponse = accompanyService.getAccompanyDetail(userId, accompanyArticleDetailRequest);
 		return ResponseEntity.ok(ApiResponse.success(accompanyDetailResponse, "동행 상세 페이지 반환 성공."));
+	}
+	
+	@PostMapping("/accept")
+	public ResponseEntity<ApiResponse<Boolean>> accompanyAccept(
+			@UserId String userId,
+			@Valid @RequestBody AccompanyAcceptRequest accompanyAcceptRequest
+			) {
+		
+		accompanyService.acceptAccompany(userId, accompanyAcceptRequest);
+		return ResponseEntity.ok(ApiResponse.success(true, "동행 수락 요청 성공."));
 	}
 	
 }

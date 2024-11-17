@@ -2,6 +2,7 @@ package com.plane.accompany.service;
 
 import java.util.List;
 
+import com.plane.accompany.dto.AccompanyAcceptRequest;
 import com.plane.accompany.dto.AccompanyArticleDetailRequest;
 import com.plane.accompany.dto.AccompanyDetailResponse;
 import com.plane.accompany.dto.AccompanyRegistRequest;
@@ -23,5 +24,7 @@ public interface AccompanyService {
 	boolean deleteAccompany(String userId, Long applyId);
 
 	AccompanyDetailResponse getAccompanyDetail(String userId, AccompanyArticleDetailRequest accompanyArticleDetailRequest);
+
+	boolean acceptAccompany(String userId, AccompanyAcceptRequest accompanyAcceptRequest);
 
 }
