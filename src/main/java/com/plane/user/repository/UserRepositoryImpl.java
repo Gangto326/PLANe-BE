@@ -52,9 +52,9 @@ public class UserRepositoryImpl implements UserRepository{
 	}
 
 	@Override
-	public int updateUser(UserMyPageRequest userMyPageRequest) {
+	public int updateUser(String userId, UserMyPageRequest userMyPageRequest) {
 		
-		return userMapper.updateUser(userMyPageRequest);
+		return userMapper.updateUser(userId, userMyPageRequest);
 	}
 
 	@Override

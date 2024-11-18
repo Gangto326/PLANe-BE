@@ -21,7 +21,7 @@ public interface UserRepository {
 
 	UserMyPageResponse selectUserMyPage(String userId);
 
-	int updateUser(UserMyPageRequest userMyPageRequest);
+	int updateUser(String userId, UserMyPageRequest userMyPageRequest);
 
 	int deleteTripStyle(String userId);
 

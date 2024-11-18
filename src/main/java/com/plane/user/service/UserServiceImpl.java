@@ -11,13 +11,16 @@ import com.plane.common.exception.custom.UserUpdateException;
 import com.plane.common.exception.custom.VerificationCodeException;
 import com.plane.common.util.FormatUtil;
 import com.plane.common.util.HashUtil;
+import com.plane.user.domain.User;
 import com.plane.user.dto.ChangePasswordRequest;
 import com.plane.user.dto.FindIdRequest;
 import com.plane.user.dto.UserIdResponse;
+import com.plane.user.dto.UserLoginRequest;
 import com.plane.user.dto.UserMyPageRequest;
 import com.plane.user.dto.UserMyPageResponse;
 import com.plane.user.dto.UserProfileResponse;
 import com.plane.user.dto.UserSignupRequest;
+import com.plane.user.repository.AuthRepository;
 import com.plane.user.repository.UserRepository;
 
 
@@ -26,13 +29,21 @@ import com.plane.user.repository.UserRepository;
 public class UserServiceImpl implements UserService{
 	
 	private final UserRepository userRepository;
+	private final AuthRepository authRepository;
 	private final UserPreferenceService userPreferenceService;
 	private final FormatUtil formatUtil;
 	private final HashUtil hashUtil;
 	
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository, UserPreferenceService userPreferenceService, FormatUtil formatUtil, HashUtil hashUtil) {
+	public UserServiceImpl(
+			UserRepository userRepository,
+			AuthRepository authRepository,
+			UserPreferenceService userPreferenceService,
+			FormatUtil formatUtil,
+			HashUtil hashUtil
+			) {
 		this.userRepository = userRepository;
+		this.authRepository = authRepository;
 		this.userPreferenceService = userPreferenceService;
 		this.formatUtil = formatUtil;
 		this.hashUtil = hashUtil;
@@ -93,9 +104,7 @@ public class UserServiceImpl implements UserService{
 
 
 	@Override
-	public boolean updateMyPage(UserMyPageRequest userMyPageRequest) {
-		
-		String userId = userMyPageRequest.getUserId();
+	public boolean updateMyPage(String userId, UserMyPageRequest userMyPageRequest) {
 		
 		// 비트로 변경 확인
 		final int USER_UPDATE = 1;
@@ -111,7 +120,7 @@ public class UserServiceImpl implements UserService{
         	result |= THEMA_UPDATE;
         }
         
-        if (userRepository.updateUser(userMyPageRequest) == 1) {
+        if (userRepository.updateUser(userId, userMyPageRequest) == 1) {
 			result |= USER_UPDATE;
 		}
         
@@ -138,10 +147,14 @@ public class UserServiceImpl implements UserService{
 
 
 	@Override
-	public boolean changePassword(ChangePasswordRequest changePasswordRequest) {
+	public boolean changePassword(String userId, ChangePasswordRequest changePasswordRequest) {
 		
 		// 아이디 존재 여부 확인 --> login 로직 사용 (id, password && password != newPassword 모두 확인 필요)
-		if (!userRepository.existsById(changePasswordRequest.getUserId())) {
+		UserLoginRequest userLoginRequest = new UserLoginRequest();
+		userLoginRequest.setUserId(userId);
+		userLoginRequest.setHashedPassword(hashUtil.hashPassword(userLoginRequest.getPassword()));
+		
+		if (authRepository.selectUser(userLoginRequest) == null) {
 			throw new UserNotFoundException("해당 ID를 사용하는 회원이 없습니다.");
 		}
 		
@@ -153,7 +166,7 @@ public class UserServiceImpl implements UserService{
 		// Hash
 		changePasswordRequest.setHashedPassword(hashUtil.hashPassword(changePasswordRequest.getNewPassword()));
 		
-		if (userRepository.updateUserPassword(changePasswordRequest.getUserId(), changePasswordRequest.getHashedPassword()) >= 0) {
+		if (userRepository.updateUserPassword(userId, changePasswordRequest.getHashedPassword()) >= 0) {
 			return true;
 		}
 		

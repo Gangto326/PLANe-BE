@@ -13,10 +13,8 @@ public class CORSConfig implements WebMvcConfigurer {
 		registry
 			.addMapping("/api/**") // 허용하려는 API 요청 경로
 			.allowedMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS") // 허용하려는 HTTP Method 설정 (OPTIONS는 Preflight 설정)
-			.allowedOrigins(
-//					"http://localhost:5173",
-					"*"
-					) // 허용하려는 클라이언트 측 주소
+			.allowedOrigins("http://localhost:5173") // 허용하려는 클라이언트 측 주소
+			.allowedOriginPatterns("*")
 			.allowedHeaders("*")
 			.allowCredentials(true) // HttpOnly Cookie를 사용하기 위한 설정
 			.exposedHeaders("Access-Control-Allow-Headers")

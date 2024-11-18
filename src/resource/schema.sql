@@ -25,8 +25,10 @@ CREATE TABLE `Notification` (
 	`userId` VARCHAR(100) NOT NULL COMMENT '알림받을 회원의 아이디',
 	`isRead` BOOL NOT NULL DEFAULT FALSE,
 	`notificationType` VARCHAR(100) NOT NULL DEFAULT '기본' COMMENT '기본, 동행, 신고, 매너 등',
+	`contentId` BIGINT(20) NOT NULL COMMENT '관련 컨텐츠의 ID',
 	`details` VARCHAR(255) NOT NULL,
 	`createdDate` TIMESTAMP NOT NULL DEFAULT NOW(),
+	`deletedDate` TIMESTAMP NULL,
 	PRIMARY KEY (`noId`),
 	FOREIGN KEY (`userId`) REFERENCES `Users`(`userId`)
 );

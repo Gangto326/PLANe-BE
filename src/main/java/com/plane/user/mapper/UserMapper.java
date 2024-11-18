@@ -126,13 +126,13 @@ public interface UserMapper {
 	
 	@Update("""
 			UPDATE Users 
-	        SET nickName = #{nickName},
-	            profileUrl = #{profileUrl},
-	            introduce = #{introduce},
-	            isPublic = #{isPublic}
+	        SET nickName = #{request.nickName},
+	            profileUrl = #{request.profileUrl},
+	            introduce = #{request.introduce},
+	            isPublic = #{request.isPublic}
 			WHERE userId = #{userId}
 			""")
-	int updateUser(UserMyPageRequest userMyPageRequest);
+	int updateUser(@Param("userId") String userId, @Param("request") UserMyPageRequest userMyPageRequest);
 	
 	
 	@Select("""
