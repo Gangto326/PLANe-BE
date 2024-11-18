@@ -31,6 +31,14 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 		ArticleDetailResponse articleDetailResponse = articleMapper.selectArticleDetail(currentUserId, articleId);
 		return articleDetailResponse;
 	}
+	
+	@Override
+	public ArticleDetailResponse selectArticleDetailAndIncrementViewCount(String currentUserId, Long articleId) {
+		
+		articleMapper.incrementViewCount(articleId);
+		ArticleDetailResponse articleDetailResponse = articleMapper.selectArticleDetail(currentUserId, articleId);
+		return articleDetailResponse;
+	}
 
 	@Override
 	public int updateArticle(String userId, ArticleUpdateRequest articleUpdateRequest) {

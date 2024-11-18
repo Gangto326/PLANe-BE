@@ -60,6 +60,15 @@ public interface ArticleMapper {
 	})
 	ArticleDetailResponse selectArticleDetail(@Param("currentUserId") String currentUserId, @Param("articleId") Long articleId);
 	
+
+	@Update("""
+			UPDATE Board
+			SET viewCount = viewCount + 1
+			WHERE articleId = #{articleId}
+			AND deletedDate IS NULL
+			""")
+	int incrementViewCount(@Param("articleId") Long articleId);
+	
 	
 	@Update("""
 			UPDATE Board
@@ -231,5 +240,6 @@ public interface ArticleMapper {
 			VALUES (#{articleReportRequest.articleId}, #{userId}, #{articleReportRequest.reportId}, #{articleReportRequest.details})
 			""")
 	int insertReport(@Param("userId") String userId, @Param("articleReportRequest") ArticleReportRequest articleReportRequest);
+
 	
 }
