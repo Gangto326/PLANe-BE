@@ -18,6 +18,8 @@ import jakarta.validation.Valid;
 public interface ArticleRepository {
 
 	ArticleDetailResponse selectArticleDetail(String currentUserId, Long articleId);
+	
+	ArticleDetailResponse selectArticleDetailAndIncrementViewCount(String userId, Long articleId);
 
 	int updateArticle(String userId, ArticleUpdateRequest articleUpdateRequest);
 
@@ -38,5 +40,6 @@ public interface ArticleRepository {
 	boolean existsReportByUserIdAndArticleId(String userId, Long articleId);
 	
 	int insertReport(String userId, ArticleReportRequest articleReportRequest);
+
 
 }

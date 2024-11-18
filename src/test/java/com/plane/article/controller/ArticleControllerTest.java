@@ -52,7 +52,7 @@ public class ArticleControllerTest {
 	void testArticleDetail() throws Exception {
 		System.out.println("==== ArticleDetail Test Start ====");
 		
-		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTgyMzY3MywiZXhwIjoxNzMxODU5NjczfQ.nHrdDakYia73Xv8MVHsNrT0jzjDNtu4uSKNXbdKbMAXDFmzK78kZwfqxvgmLM5IS";
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTkxNTgxOCwiZXhwIjoxNzMxOTUxODE4fQ._ZGcmnQWIss-0ZvmOAH85tjX0yEC66f8Ljkgtt-sjbNNf6xJIIFGGGotzYvhxiMM";
 		
 		mockMvc.perform(get("/api/article/{articleId}", 10)
 				.header("Authorization", "Bearer " + accessToken)

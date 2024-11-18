@@ -206,5 +206,5 @@ public interface AccompanyMapper {
 			SET isOk = 1
 			WHERE applyId = #{applyId}
 			""")
-	int updateAccompanyApplyStatus(Long applyId);
+	int updateAccompanyApplyStatus(@Param("applyId") Long applyId);
 }

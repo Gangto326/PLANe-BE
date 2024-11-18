@@ -31,8 +31,10 @@ import com.plane.common.annotation.UserId;
 import com.plane.common.dto.PageRequest;
 import com.plane.common.dto.PageResponse;
 import com.plane.common.response.ApiResponse;
+import com.plane.common.util.CookieUtil;
 import com.plane.trip.domain.TripThema;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
@@ -42,21 +44,28 @@ import jakarta.validation.constraints.Pattern;
 public class ArticleController {
 	
 	private final ArticleService articleService;
+	
+	private final CookieUtil cookieUtil;
 
 	@Autowired
-	public ArticleController(ArticleService articleService) {
+	public ArticleController(ArticleService articleService, CookieUtil cookieUtil) {
 		this.articleService = articleService;
+		this.cookieUtil = cookieUtil;
 	}
 	
 	
 	@GetMapping("/{articleId}")
 	public ResponseEntity<ApiResponse<ArticleDetailResponse>> articleDetail(
 			@UserId String userId,
-			@PathVariable Long articleId
+			@PathVariable Long articleId,
+			HttpServletRequest request
 			) {
 		
-		ArticleDetailResponse articleDetailResponse = null;
-		articleDetailResponse = articleService.getArticleDetail(userId, articleId);
+		// 게시글 접속 로그 확인
+		boolean hasViewed = cookieUtil.checkViewCookie(articleId, request);
+		
+		// 접속 로그 유무에 따라 다른 메소드 호출
+		ArticleDetailResponse articleDetailResponse = hasViewed? articleService.getArticleDetail(userId, articleId): articleService.getArticleWithViewCount(userId, articleId);
 		
 		return ResponseEntity.ok(ApiResponse.success(articleDetailResponse, "게시글을 불러왔습니다."));
 	}

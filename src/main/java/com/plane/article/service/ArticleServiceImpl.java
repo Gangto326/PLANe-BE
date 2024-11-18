@@ -53,6 +53,23 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		return articleDetailResponse;
 	}
+	
+	
+	@Override
+	public ArticleDetailResponse getArticleWithViewCount(String userId, Long articleId) {
+		
+		ArticleDetailResponse articleDetailResponse = articleRepository.selectArticleDetailAndIncrementViewCount(userId, articleId);
+		
+		if (articleDetailResponse == null) {
+			throw new ArticleNotFoundException("해당 게시글을 찾을 수 없습니다.");
+		}
+		
+		if (articleDetailResponse.getDeletedDate() != null) {
+			throw new ArticleNotFoundException("삭제된 게시글입니다.");
+		}
+		
+		return articleDetailResponse;
+	}
 
 	
 	@Override
@@ -161,5 +178,6 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		throw new CreationFailedException("신고글 생성에 실패하였습니다");
 	}
+
 	
 }

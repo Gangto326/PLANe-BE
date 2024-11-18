@@ -15,6 +15,8 @@ import jakarta.validation.Valid;
 public interface ArticleService {
 
 	ArticleDetailResponse getArticleDetail(String authorizationHeader, Long articleId);
+	
+	ArticleDetailResponse getArticleWithViewCount(String userId, Long articleId);
 
 	boolean updateArticle(String authorizationHeader, ArticleUpdateRequest articleUpdateRequest);
 
