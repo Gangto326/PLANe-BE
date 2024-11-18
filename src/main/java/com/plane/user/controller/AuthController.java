@@ -34,7 +34,9 @@ public class AuthController {
 	
 	
 	@PostMapping("/login")
-	public ResponseEntity<ApiResponse<Void>> login(@Valid @RequestBody UserLoginRequest userLoginRequest) {
+	public ResponseEntity<ApiResponse<Void>> login(
+			@Valid @RequestBody UserLoginRequest userLoginRequest,
+			HttpServletRequest request) {
 		
 		AuthResponse authResponse = authService.login(userLoginRequest);
 		
@@ -44,7 +46,7 @@ public class AuthController {
 		// RefreshToken을 HttpOnly Cookie로 전달.
 		ResponseCookie responseCookie = ResponseCookie
 				.from(HeaderUtil.getRefreshCookieName(), authResponse.getRefreshToken())
-				.domain("localhost") // 어떤 사이트에서 쿠키를 사용할 수 있도록 허용할 지 설정.
+//				.domain("localhost") // 어떤 사이트에서 쿠키를 사용할 수 있도록 허용할 지 설정.
 				.path("/") // 위 사이트에서 쿠키를 허용할 경로를 설정.
 				.httpOnly(true) // HTTP 통신을 위해서만 사용하도록 설정.
 				.secure(true) // Set-Cookie 설정.
@@ -55,6 +57,8 @@ public class AuthController {
 		return ResponseEntity.ok()
 	            .headers(httpHeaders)
 	            .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
+	            .header("Access-Control-Allow-Credentials", "true")  // 명시적으로 추가
+	            .header("Access-Control-Expose-Headers", "Set-Cookie")
 	            .body(ApiResponse.success(null, "로그인 성공"));
 	}
 	

@@ -21,11 +21,11 @@ public interface UserService {
 
 	UserMyPageResponse getMyPage(String userId);
 	
-	boolean updateMyPage(UserMyPageRequest userMyPageRequest);
+	boolean updateMyPage(String userId, UserMyPageRequest userMyPageRequest);
 
 	boolean checkDuplicatedId(String userId);
 
-	boolean changePassword(ChangePasswordRequest changePasswordRequest);
+	boolean changePassword(String userId, ChangePasswordRequest changePasswordRequest);
 
 	UserIdResponse findId(FindIdRequest findIdRequest);
 	

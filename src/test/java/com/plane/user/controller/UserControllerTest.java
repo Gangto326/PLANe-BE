@@ -135,7 +135,6 @@ public class UserControllerTest {
 		tripThema.add(3);
 		
 		UserMyPageRequest userMyPageRequest = new UserMyPageRequest();
-		userMyPageRequest.setUserId("jjuj99");
 		userMyPageRequest.setNickName("유진유진유진");
 		userMyPageRequest.setProfileUrl("https://example.com/profile001.jpg");
 		userMyPageRequest.setIntroduce("수정수정수정수정");
@@ -212,7 +211,6 @@ public class UserControllerTest {
 		
 		ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest();
 		
-		changePasswordRequest.setUserId("kangsansam");
 		changePasswordRequest.setPassword("ssafy1234!");
 		changePasswordRequest.setNewPassword("ssafy1234!!");
 		changePasswordRequest.setConfirmPassword("ssafy1234!!");

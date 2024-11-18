@@ -72,7 +72,7 @@ public class GlobalExceptionHandler {
     	String errorMessage = String.join(", ", errorMessages);
     	
     	return ResponseEntity
-                .status(1000)
+                .status(500)
                 .body(ApiResponse.error(ErrorCode.VALIDATION_ERROR, errorMessage));
     }
     

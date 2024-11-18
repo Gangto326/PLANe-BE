@@ -21,8 +21,10 @@ public class UserLoginRequest {
 	private String hashedPassword;
 	
 
+	public UserLoginRequest() {}
+
+
 	public UserLoginRequest(String userId, String password) {
-		super();
 		this.userId = userId;
 		this.password = password;
 	}

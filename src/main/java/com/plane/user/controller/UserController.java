@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.plane.common.annotation.UserId;
 import com.plane.common.response.ApiResponse;
 import com.plane.trip.domain.TripStyle;
 import com.plane.user.dto.UserLoginRequest;
@@ -80,16 +81,19 @@ public class UserController {
 	}
 	
 	@PostMapping("/myPage")
-	public ResponseEntity<ApiResponse<UserMyPageResponse>> myPage(@RequestBody String userId) {
+	public ResponseEntity<ApiResponse<UserMyPageResponse>> myPage(@UserId String userId) {
 		
 		UserMyPageResponse userMyPageResponse = userService.getMyPage(userId);
 		return ResponseEntity.ok(ApiResponse.success(userMyPageResponse, "마이페이지 정보를 정상적으로 불러왔습니다."));
 	}
 	
 	@PatchMapping("/myPage")
-	public ResponseEntity<ApiResponse<Boolean>> updateMyPage(@Valid @RequestBody UserMyPageRequest userMyPageRequest) {
+	public ResponseEntity<ApiResponse<Boolean>> updateMyPage(
+			@UserId String userId,
+			@Valid @RequestBody UserMyPageRequest userMyPageRequest
+			) {
 		
-		userService.updateMyPage(userMyPageRequest);
+		userService.updateMyPage(userId, userMyPageRequest);
 		return ResponseEntity.ok(ApiResponse.success(true, "마이페이지 수정이 정상적으로 처리되었습니다."));
 	}
 	
@@ -146,9 +150,12 @@ public class UserController {
 	}
 	
 	@PatchMapping("/changePassword")
-	public ResponseEntity<ApiResponse<Void>> changePassword(@Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
+	public ResponseEntity<ApiResponse<Void>> changePassword(
+			@UserId String userId,
+			@Valid @RequestBody ChangePasswordRequest changePasswordRequest
+			) {
 		
-		userService.changePassword(changePasswordRequest);
+		userService.changePassword(userId, changePasswordRequest);
 		return ResponseEntity.ok(ApiResponse.success(null, "비밀번호가 정상적으로 변경되었습니다."));
 	}
 }
