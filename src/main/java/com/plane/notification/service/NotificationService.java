@@ -8,4 +8,6 @@ public interface NotificationService {
 
 	List<NotificationResponse> getNotificationList(String userId, String type);
 
+	int getUnconfirmedCount(String userId);
+
 }

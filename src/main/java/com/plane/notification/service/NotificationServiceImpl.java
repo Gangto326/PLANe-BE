@@ -31,6 +31,13 @@ public class NotificationServiceImpl implements NotificationService {
 		
 		throw new InvalidParameterException("타입은 미확인, 전체 중 하나여야 합니다.");
 	}
+
+
+	@Override
+	public int getUnconfirmedCount(String userId) {
+
+		return notificationRepository.countAllUnconfirmed(userId);
+	}
 	
 	
 	
