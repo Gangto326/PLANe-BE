@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.plane.notification.dto.NotificationDetailResponse;
 import com.plane.notification.dto.NotificationResponse;
@@ -71,6 +72,15 @@ public interface NotificationMapper {
 			AND deletedDate IS NULL
 			""")
 	NotificationDetailResponse getNotificationDetail(@Param("userId") String userId, @Param("noId") Long noId);
+
+
+	@Update("""
+			UPDATE Notification
+			SET deletedDate = NOW()
+			WHERE userId = #{userId}
+			AND noId = #{noId}
+			""")
+	int updateNotificationDelete(String userId, Long noId);
 
 	
 }

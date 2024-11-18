@@ -13,4 +13,6 @@ public interface NotificationService {
 
 	NotificationDetailResponse getNotificationDetail(String userId, Long noId);
 
+	boolean deleteNotification(String userId, Long noId);
+
 }

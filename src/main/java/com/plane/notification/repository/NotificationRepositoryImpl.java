@@ -42,6 +42,12 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 
 		return notificationMapper.getNotificationDetail(userId, noId);
 	}
+
+	@Override
+	public int deleteNotification(String userId, Long noId) {
+
+		return notificationMapper.updateNotificationDelete(userId, noId);
+	}
 	
 	
 	
