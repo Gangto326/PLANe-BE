@@ -2,17 +2,16 @@ package com.plane.notification.dto;
 
 import java.time.LocalDateTime;
 
-public class NotificationResponse {
+public class NotificationDetailResponse {
 
 	private Long noId;
-	private boolean isRead;
 	private String notificationType;
 	private Long contentId;
-	private String title;
+	private String details;
 	private LocalDateTime createdDate;
 	
 	
-	public NotificationResponse() {}
+	public NotificationDetailResponse() {}
 
 
 	public Long getNoId() {
@@ -25,16 +24,6 @@ public class NotificationResponse {
 	}
 
 
-	public boolean isRead() {
-		return isRead;
-	}
-
-
-	public void setRead(boolean isRead) {
-		this.isRead = isRead;
-	}
-
-
 	public String getNotificationType() {
 		return notificationType;
 	}
@@ -43,7 +32,7 @@ public class NotificationResponse {
 	public void setNotificationType(String notificationType) {
 		this.notificationType = notificationType;
 	}
-	
+
 
 	public Long getContentId() {
 		return contentId;
@@ -54,14 +43,14 @@ public class NotificationResponse {
 		this.contentId = contentId;
 	}
 
-	
-	public String getTitle() {
-		return title;
+
+	public String getDetails() {
+		return details;
 	}
 
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setDetails(String details) {
+		this.details = details;
 	}
 	
 
