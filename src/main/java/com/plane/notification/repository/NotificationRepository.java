@@ -15,4 +15,6 @@ public interface NotificationRepository {
 
 	NotificationDetailResponse getNotificationDetail(String userId, Long noId);
 
+	int deleteNotification(String userId, Long noId);
+
 }

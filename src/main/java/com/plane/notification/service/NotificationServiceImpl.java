@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.plane.common.exception.custom.ArticleNotFoundException;
+import com.plane.common.exception.custom.ArticleUpdateException;
 import com.plane.common.exception.custom.InvalidParameterException;
 import com.plane.notification.dto.NotificationDetailResponse;
 import com.plane.notification.dto.NotificationResponse;
@@ -52,6 +53,21 @@ public class NotificationServiceImpl implements NotificationService {
 		
 		NotificationDetailResponse notificationDetailResponse = notificationRepository.getNotificationDetail(userId, noId);
 		return notificationDetailResponse;
+	}
+
+
+	@Override
+	public boolean deleteNotification(String userId, Long noId) {
+		
+		if (!notificationRepository.existsNotificationByUserIdAndNoId(userId, noId)) {
+			throw new ArticleNotFoundException("해당 알림을 찾을 수 없습니다.");
+		}
+		
+		if (notificationRepository.deleteNotification(userId, noId) == 1) {
+			return true;
+		}
+		
+		throw new ArticleUpdateException("알림 삭제에 실패했습니다.");
 	}
 	
 	

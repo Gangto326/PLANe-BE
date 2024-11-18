@@ -3,6 +3,7 @@ package com.plane.notification.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +33,7 @@ public class NotificationController {
 	
 	
 	@GetMapping("")
-	public ResponseEntity<ApiResponse<List<NotificationResponse>>> NotificationList(
+	public ResponseEntity<ApiResponse<List<NotificationResponse>>> notificationList(
 			@UserId String userId,
 			@RequestParam String type
 			) {
@@ -43,7 +44,7 @@ public class NotificationController {
 	
 	
 	@GetMapping("/unconfirmed")
-	public ResponseEntity<ApiResponse<Integer>> NotificationUnconfirmed(@UserId String userId) {
+	public ResponseEntity<ApiResponse<Integer>> notificationUnconfirmed(@UserId String userId) {
 		
 		int unconfirmedCount = notificationService.getUnconfirmedCount(userId);
 		return ResponseEntity.ok(ApiResponse.success(unconfirmedCount, "미확인 알림 갯수를 반환했습니다."));
@@ -51,7 +52,7 @@ public class NotificationController {
 	
 	
 	@GetMapping("/{noId}")
-	public ResponseEntity<ApiResponse<NotificationDetailResponse>> NotificationDetail(
+	public ResponseEntity<ApiResponse<NotificationDetailResponse>> notificationDetail(
 			@UserId String userId,
 			@PathVariable Long noId
 			) {
@@ -60,5 +61,15 @@ public class NotificationController {
 		return ResponseEntity.ok(ApiResponse.success(notificationDetailResponse, "알림 세부 정보를 성공적으로 반환했습니다."));
 	}
 	
+	
+	@DeleteMapping("/delete")
+	public ResponseEntity<ApiResponse<Boolean>> notificationDelete(
+			@UserId String userId,
+			@RequestBody Long noId
+			) {
+		
+		notificationService.deleteNotification(userId, noId);
+		return ResponseEntity.ok(ApiResponse.success(true, "알림 삭제를 성공적으로 완료했습니다."));
+	}
 	
 }
