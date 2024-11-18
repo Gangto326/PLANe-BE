@@ -26,12 +26,14 @@ public interface AccompanyMapper {
 	
 	@Select("""
 			SELECT EXISTS (
-	            SELECT 1
-	            FROM Board
-	            WHERE articleId = #{articleId}
-	            AND articleType = '동행'
-	            AND deletedDate IS NULL
-	        )
+				SELECT 1
+				FROM Board b
+				JOIN PLANe p ON b.tripId = p.tripId
+				WHERE b.articleId = #{articleId}
+				AND b.articleType = '동행'
+				AND b.deletedDate IS NULL
+				AND p.departureDate > CURRENT_DATE()
+			)
 			""")
 	boolean existsAccompanyArticleByArticleId(@Param("articleId") Long articleId);
 	
