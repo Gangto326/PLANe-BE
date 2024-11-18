@@ -23,6 +23,12 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 
 		return notificationMapper.selectNotificationsByType(userId, type);
 	}
+
+	@Override
+	public int countAllUnconfirmed(String userId) {
+
+		return notificationMapper.countAllUnconfirmed(userId);
+	}
 	
 	
 	

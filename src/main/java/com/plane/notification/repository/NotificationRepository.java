@@ -8,4 +8,6 @@ public interface NotificationRepository {
 
 	List<NotificationResponse> findAllNotifications(String userId, String type);
 
+	int countAllUnconfirmed(String userId);
+
 }
