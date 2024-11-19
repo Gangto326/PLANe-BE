@@ -173,11 +173,11 @@ public class ArticleControllerTest {
 	void testArticleReport() throws Exception {
 		System.out.println("==== ArticleReport Test Start ====");
 		
-		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTY1NDUyOSwiZXhwIjoxNzMxNjkwNTI5fQ.v8AfQ_sjUddlRCNbzRcdt9F0mfM07FAU-uLClPvFiF67DQR8SgINeaFGC23l9rCH";
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTk5MzYzMSwiZXhwIjoxNzMyMDI5NjMxfQ.wVC_3bxlVyjgSYYGh1RKBBGnL2KbVsCJPvo3kir14LGh27_Vo1YerjXyXQgHkHTo";
 		
 		
 		ArticleReportRequest articleReportRequest = new ArticleReportRequest();
-		articleReportRequest.setArticleId(10L);
+		articleReportRequest.setArticleId(4L);
 		articleReportRequest.setReportId(1);
 		articleReportRequest.setDetails("내 글을 내가 신고한다.");
 		

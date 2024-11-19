@@ -2,11 +2,13 @@ package com.plane.notification.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.plane.notification.dto.NotificationCreateRequest;
 import com.plane.notification.dto.NotificationDetailResponse;
 import com.plane.notification.dto.NotificationResponse;
 
@@ -14,24 +16,7 @@ import com.plane.notification.dto.NotificationResponse;
 public interface NotificationMapper {
 
 	@Select("""
-			SELECT n.noId, n.isRead, n.notificationType, n.contentId,
-			CASE 
-				WHEN n.notificationType IN ('comment', 'article') 
-				THEN (
-					SELECT title
-					FROM Board
-					WHERE articleId = n.contentId
-					)
-				WHEN n.notificationType = 'accompany'
-				THEN (
-					SELECT b.title 
-					FROM AccompanyApply a 
-					JOIN Board b ON a.articleId = b.articleId 
-					WHERE a.applyId = n.contentId
-					)
-			ELSE NULL
-			END as title,
-			n.createdDate
+			SELECT n.noId, n.isRead, n.notificationType, n.contentId, n.title, n.createdDate
 			FROM Notification n
 			WHERE n.userId = #{userId}
 			AND n.deletedDate IS NULL
@@ -81,6 +66,13 @@ public interface NotificationMapper {
 			AND noId = #{noId}
 			""")
 	int updateNotificationDelete(String userId, Long noId);
+
+	
+	@Insert("""
+			INSERT INTO Notification (`userId`, `notificationType`, `contentId`, `title`)
+			VALUES (#{receiverId}, #{request.notificationType}, #{request.contentId}, #{request.title})
+			""")
+	int insertNotification(@Param("receiverId") String receiverId, @Param("request") NotificationCreateRequest notificationCreateRequest);
 
 	
 }

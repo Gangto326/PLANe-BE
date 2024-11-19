@@ -57,7 +57,6 @@ public class AuthController {
 		return ResponseEntity.ok()
 	            .headers(httpHeaders)
 	            .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
-	            .header("Access-Control-Allow-Credentials", "true")  // 명시적으로 추가
 	            .header("Access-Control-Expose-Headers", "Set-Cookie")
 	            .body(ApiResponse.success(null, "로그인 성공"));
 	}

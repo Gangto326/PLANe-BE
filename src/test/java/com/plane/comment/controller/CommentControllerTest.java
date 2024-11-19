@@ -68,10 +68,10 @@ public class CommentControllerTest {
 	void testComment() throws Exception {
 		System.out.println("==== Comment Test Start ====");
 		
-		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTY1NDUyOSwiZXhwIjoxNzMxNjkwNTI5fQ.v8AfQ_sjUddlRCNbzRcdt9F0mfM07FAU-uLClPvFiF67DQR8SgINeaFGC23l9rCH";
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTk5MzYzMSwiZXhwIjoxNzMyMDI5NjMxfQ.wVC_3bxlVyjgSYYGh1RKBBGnL2KbVsCJPvo3kir14LGh27_Vo1YerjXyXQgHkHTo";
 		
 		CommentRequest commentRequest = new CommentRequest();
-		commentRequest.setArticleId(8L);
+		commentRequest.setArticleId(9L);
 		commentRequest.setCommentContents("댓글댓글");
 		commentRequest.setParents(null);
 		commentRequest.setStatus("공개");
@@ -101,7 +101,7 @@ public class CommentControllerTest {
 		CommentUpdateRequest commentUpdateRequest = new CommentUpdateRequest();
 		
 		commentUpdateRequest.setArticleId(8L);
-		commentUpdateRequest.setCommentId(1);
+		commentUpdateRequest.setCommentId(1L);
 		commentUpdateRequest.setCommentContents("수정수정");
 		commentUpdateRequest.setStatus("비공개");
 		
@@ -133,7 +133,7 @@ public class CommentControllerTest {
 		CommentDeleteRequest commentDeleteRequest = new CommentDeleteRequest();
 		
 		commentDeleteRequest.setArticleId(8L);
-		commentDeleteRequest.setCommentId(1);
+		commentDeleteRequest.setCommentId(1L);
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		String content = objectMapper.writeValueAsString(commentDeleteRequest);
@@ -153,15 +153,15 @@ public class CommentControllerTest {
 	
 	@Test
 	@DisplayName("댓글 신고하기")
-	@Disabled
+//	@Disabled
 	void testCommentReport() throws Exception {
 		System.out.println("==== CommentReport Test Start ====");
 		
-		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTY1NDUyOSwiZXhwIjoxNzMxNjkwNTI5fQ.v8AfQ_sjUddlRCNbzRcdt9F0mfM07FAU-uLClPvFiF67DQR8SgINeaFGC23l9rCH";
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMTk5MzYzMSwiZXhwIjoxNzMyMDI5NjMxfQ.wVC_3bxlVyjgSYYGh1RKBBGnL2KbVsCJPvo3kir14LGh27_Vo1YerjXyXQgHkHTo";
 		
 		
 		CommentReportRequest commentReportRequest = new CommentReportRequest();
-		commentReportRequest.setCommentId(1);
+		commentReportRequest.setCommentId(1L);
 		commentReportRequest.setReportId(1);
 		commentReportRequest.setDetails("내 댓글을 내가 신고한다.");
 		

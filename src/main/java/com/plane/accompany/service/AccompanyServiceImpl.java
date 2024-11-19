@@ -17,6 +17,8 @@ import com.plane.accompany.dto.AccompanyTripInfo;
 import com.plane.accompany.dto.AccompanyUpdateRequest;
 import com.plane.accompany.dto.ApplyType;
 import com.plane.accompany.repository.AccompanyRepository;
+import com.plane.article.dto.ArticleNotificationInfo;
+import com.plane.article.repository.ArticleRepository;
 import com.plane.common.exception.custom.ArticleNotFoundException;
 import com.plane.common.exception.custom.CreationFailedException;
 import com.plane.common.exception.custom.DuplicateException;
@@ -24,6 +26,10 @@ import com.plane.common.exception.custom.InvalidParameterException;
 import com.plane.common.exception.custom.InvalidStateException;
 import com.plane.common.exception.custom.RegistNotFoundException;
 import com.plane.common.exception.custom.UpdateFailedException;
+import com.plane.notification.dto.NotificationAction;
+import com.plane.notification.dto.NotificationCreateRequest;
+import com.plane.notification.dto.NotificationTargetType;
+import com.plane.notification.service.NotificationService;
 
 import jakarta.validation.Valid;
 
@@ -32,10 +38,14 @@ import jakarta.validation.Valid;
 public class AccompanyServiceImpl implements AccompanyService {
 
 	private final AccompanyRepository accompanyRepository;
+	private final ArticleRepository articleRepository;
+	private final NotificationService notificationService;
 
 	@Autowired
-	public AccompanyServiceImpl(AccompanyRepository accompanyRepository) {
+	public AccompanyServiceImpl(AccompanyRepository accompanyRepository, ArticleRepository articleRepository, NotificationService notificationService) {
 		this.accompanyRepository = accompanyRepository;
+		this.articleRepository = articleRepository;
+		this.notificationService = notificationService;
 	}
 
 	@Override
@@ -60,6 +70,22 @@ public class AccompanyServiceImpl implements AccompanyService {
 		int result = accompanyRepository.insertApplyDetails(accompanyApplyDto.getApplyId(), accompanyRegistRequest.getAccompanyDetailList(), false);
 		
 		if (result == accompanyRegistRequest.getAccompanyDetailList().size()) {
+			
+			try {
+				ArticleNotificationInfo articleNotificationInfo = articleRepository.selectArticleNotificationInfo(accompanyRegistRequest.getArticleId());
+				
+				NotificationCreateRequest notificationCreateRequest = new NotificationCreateRequest();
+				notificationCreateRequest.setNotificationType("accompany");
+				notificationCreateRequest.setContentId(accompanyApplyDto.getApplyId());
+				notificationCreateRequest.setDetails(articleNotificationInfo.getTitle());
+				notificationCreateRequest.setType(NotificationTargetType.ACCOMPANY);
+				notificationCreateRequest.setAction(NotificationAction.REQUEST);
+				
+				notificationService.createNotification(articleNotificationInfo.getAuthorId(), notificationCreateRequest);
+			} catch (Exception e) {
+				return true;
+			}
+			
 			return true;
 		}
 		
@@ -160,6 +186,22 @@ public class AccompanyServiceImpl implements AccompanyService {
 			
 			// 승낙처리
 			accompanyRepository.updateAccompanyApplyStatus(accompanyAcceptRequest.getApplyId());
+			
+			try {
+				ArticleNotificationInfo articleNotificationInfo = articleRepository.selectArticleNotificationInfo(tripInfo.getArticleId());
+				
+				NotificationCreateRequest notificationCreateRequest = new NotificationCreateRequest();
+				notificationCreateRequest.setNotificationType("accompany");
+				notificationCreateRequest.setContentId(accompanyAcceptRequest.getApplyId());
+				notificationCreateRequest.setDetails(articleNotificationInfo.getTitle());
+				notificationCreateRequest.setType(NotificationTargetType.ACCOMPANY);
+				notificationCreateRequest.setAction(NotificationAction.ACCEPT);
+				
+				notificationService.createNotification(tripInfo.getApplicantId(), notificationCreateRequest);
+			} catch (Exception e) {
+				return true;
+			}
+			
 			return true;
 		}
 		

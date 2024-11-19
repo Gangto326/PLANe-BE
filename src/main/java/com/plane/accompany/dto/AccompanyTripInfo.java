@@ -5,7 +5,7 @@ public class AccompanyTripInfo {
 	private Long tripId;
     private int accompanyNum;
     private String applicantId;
-    
+    private Long articleId;
     
 	public AccompanyTripInfo() {}
 
@@ -37,6 +37,16 @@ public class AccompanyTripInfo {
 
 	public void setApplicantId(String applicantId) {
 		this.applicantId = applicantId;
+	}
+
+
+	public Long getArticleId() {
+		return articleId;
+	}
+
+
+	public void setArticleId(Long articleId) {
+		this.articleId = articleId;
 	}
     
 }

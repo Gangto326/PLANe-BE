@@ -1,6 +1,7 @@
 package com.plane.user.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.plane.trip.domain.TripStyle;
 import com.plane.user.domain.User;
@@ -45,4 +46,5 @@ public interface UserRepository {
 
 	List<String> selectIdByEmail(FindIdRequest findIdRequest);
 
+	String selectUserNicknameByUserId(String userId);
 }

@@ -183,5 +183,13 @@ public interface UserMapper {
                LIMIT 1;
 		   """)
 	Optional<String> selectCodeByEmail(FindIdRequest findIdRequest);
+
+
+	@Select("""
+		       SELECT nickName
+		       FROM users
+		       WHERE userId = #{userId}
+		   """)
+	String selectUserNicknameByUserId(String userId);
 	
 }
