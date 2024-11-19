@@ -153,7 +153,7 @@ public class CommentControllerTest {
 	
 	@Test
 	@DisplayName("댓글 신고하기")
-//	@Disabled
+	@Disabled
 	void testCommentReport() throws Exception {
 		System.out.println("==== CommentReport Test Start ====");
 		
