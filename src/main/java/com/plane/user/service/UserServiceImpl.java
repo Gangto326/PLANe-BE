@@ -9,6 +9,7 @@ import com.plane.common.exception.custom.InvalidPasswordException;
 import com.plane.common.exception.custom.UserNotFoundException;
 import com.plane.common.exception.custom.UserUpdateException;
 import com.plane.common.exception.custom.VerificationCodeException;
+import com.plane.common.service.S3Service;
 import com.plane.common.util.FormatUtil;
 import com.plane.common.util.HashUtil;
 import com.plane.user.domain.User;
@@ -33,6 +34,7 @@ public class UserServiceImpl implements UserService{
 	private final UserPreferenceService userPreferenceService;
 	private final FormatUtil formatUtil;
 	private final HashUtil hashUtil;
+	private final S3Service s3Service;
 	
 	@Autowired
 	public UserServiceImpl(
@@ -40,13 +42,15 @@ public class UserServiceImpl implements UserService{
 			AuthRepository authRepository,
 			UserPreferenceService userPreferenceService,
 			FormatUtil formatUtil,
-			HashUtil hashUtil
+			HashUtil hashUtil,
+			S3Service s3Service
 			) {
 		this.userRepository = userRepository;
 		this.authRepository = authRepository;
 		this.userPreferenceService = userPreferenceService;
 		this.formatUtil = formatUtil;
 		this.hashUtil = hashUtil;
+		this.s3Service = s3Service;
 	}
 
 	
@@ -106,6 +110,23 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public boolean updateMyPage(String userId, UserMyPageRequest userMyPageRequest) {
 		
+		if (userMyPageRequest.getFile() != null && !userMyPageRequest.getFile().isEmpty()) {
+			s3Service.validateImageFile(userMyPageRequest.getFile());
+			
+			User user = userRepository.selectUserByUserId(userId);
+			
+			if (user == null) {
+				throw new UserNotFoundException("사용자를 찾을 수 없습니다.");
+			}
+			
+			if (user.getProfileUrl() != null) {
+				s3Service.deleteFile(user.getProfileUrl());
+            }
+			
+			String imageUrl = s3Service.uploadFile(userMyPageRequest.getFile());
+			userMyPageRequest.setProfileUrl(imageUrl);
+		}
+		
 		// 비트로 변경 확인
 		final int USER_UPDATE = 1;
 	    final int STYLE_UPDATE = 2;
@@ -149,7 +170,6 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public boolean changePassword(String userId, ChangePasswordRequest changePasswordRequest) {
 		
-		// 아이디 존재 여부 확인 --> login 로직 사용 (id, password && password != newPassword 모두 확인 필요)
 		UserLoginRequest userLoginRequest = new UserLoginRequest();
 		userLoginRequest.setUserId(userId);
 		userLoginRequest.setHashedPassword(hashUtil.hashPassword(userLoginRequest.getPassword()));

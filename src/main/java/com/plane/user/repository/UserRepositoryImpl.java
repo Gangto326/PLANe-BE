@@ -129,5 +129,11 @@ public class UserRepositoryImpl implements UserRepository{
 
 		return userMapper.selectUserNicknameByUserId(userId);
 	}
+
+	@Override
+	public User selectUserByUserId(String userId) {
+
+		return userMapper.selectUserByUserId(userId);
+	}
 	
 }

@@ -9,6 +9,7 @@ public class UserMyPageResponse {
 	
 	private String userId;
 	private String nickName;
+	private String role;
 	private Double manner;
 	private String profileUrl;
 	private String introduce;
@@ -35,6 +36,14 @@ public class UserMyPageResponse {
 
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public Double getManner() {

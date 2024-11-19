@@ -3,6 +3,7 @@ package com.plane.user.dto;
 import java.util.List;
 
 import org.hibernate.validator.constraints.URL;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -30,6 +31,8 @@ public class UserMyPageRequest {
 	
 	@Size(max = 3, message = "여행 테마는 최대 3개까지 선택 가능합니다")
 	private List<Integer> tripThema;
+	
+	private MultipartFile file;
 	
 	
 	public UserMyPageRequest() {}
@@ -81,6 +84,14 @@ public class UserMyPageRequest {
 
 	public void setTripThema(List<Integer> tripThema) {
 		this.tripThema = tripThema;
+	}
+
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
 	}
 		
 }

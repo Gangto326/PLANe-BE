@@ -108,6 +108,23 @@ public class JwtUtil {
 		
 		return null;
 	}
+	
+	
+	public String getRole(String token, String type) {
+		
+		if(isValidToken(token, type)) {
+			
+			Claims payload = Jwts.parser()
+					.verifyWith(getSecretKey(type))
+					.build()
+					.parseSignedClaims(token)
+					.getPayload();
+			
+			return payload.get("role", String.class);
+		}
+		
+		return null;
+	}
 
 	
 	public boolean isValidToken(String token, String type) {

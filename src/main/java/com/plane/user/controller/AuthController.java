@@ -46,10 +46,10 @@ public class AuthController {
 		// RefreshToken을 HttpOnly Cookie로 전달.
 		ResponseCookie responseCookie = ResponseCookie
 				.from(HeaderUtil.getRefreshCookieName(), authResponse.getRefreshToken())
-//				.domain("localhost") // 어떤 사이트에서 쿠키를 사용할 수 있도록 허용할 지 설정.
+				.domain("localhost") // 어떤 사이트에서 쿠키를 사용할 수 있도록 허용할 지 설정.
 				.path("/") // 위 사이트에서 쿠키를 허용할 경로를 설정.
 				.httpOnly(true) // HTTP 통신을 위해서만 사용하도록 설정.
-				.secure(true) // Set-Cookie 설정.
+				.secure(false) // Set-Cookie 설정.
 				.maxAge(authResponse.getMaxAge() / 1000) // RefreshToken과 동일한 만료 시간으로 설정.
 				.sameSite("None") // 동일한 사이트에서 사용할 수 있도록 설정 None: 동일한 사이트가 아니어도 된다.
 				.build();

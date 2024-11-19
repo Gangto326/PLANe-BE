@@ -47,4 +47,6 @@ public interface UserRepository {
 	List<String> selectIdByEmail(FindIdRequest findIdRequest);
 
 	String selectUserNicknameByUserId(String userId);
+
+	User selectUserByUserId(String userId);
 }

@@ -6,21 +6,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class CORSConfig implements WebMvcConfigurer {
-	
-	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		
-		registry
-			.addMapping("/**") // 허용하려는 API 요청 경로
-			.allowedMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS") // 허용하려는 HTTP Method 설정 (OPTIONS는 Preflight 설정)
-			.allowedOrigins("http://localhost:5173", "https://ad83-175-209-203-65.ngrok-free.app") // 허용하려는 클라이언트 측 주소
-			.allowedOriginPatterns("*")
-			.allowedHeaders("*")
-			.allowCredentials(true) // HttpOnly Cookie를 사용하기 위한 설정
-			.exposedHeaders("Authorization", "Access-Control-Allow-Headers")
-			.maxAge(3600); // Preflight Cache 설정
-		
-//		WebMvcConfigurer.super.addCorsMappings(registry);
-	}
-	
+    
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry
+            .addMapping("/**")
+            .allowedOrigins("http://localhost:5173")
+            .allowedMethods("*")
+            .allowedHeaders("*")
+            .exposedHeaders("Authorization", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
+            .allowCredentials(true)
+            .maxAge(3600);
+    }
+    
 }
