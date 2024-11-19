@@ -92,6 +92,7 @@ local.properties
 .settings
 .springBeans
 .sts4-cache
+**/application.properties
 
 # IntelliJ
 .idea/
