@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.plane.article.repository.ArticleRepository;
 import com.plane.comment.domain.Comment;
 import com.plane.comment.dto.CommentDeleteRequest;
+import com.plane.comment.dto.CommentNotificationInfo;
 import com.plane.comment.dto.CommentReportRequest;
 import com.plane.comment.dto.CommentRequest;
 import com.plane.comment.dto.CommentResponse;
@@ -20,6 +21,10 @@ import com.plane.common.exception.custom.DuplicateException;
 import com.plane.common.exception.custom.CommentNotFoundException;
 import com.plane.common.exception.custom.CommentUpdateException;
 import com.plane.common.exception.custom.UnauthorizedException;
+import com.plane.notification.dto.NotificationAction;
+import com.plane.notification.dto.NotificationCreateRequest;
+import com.plane.notification.dto.NotificationTargetType;
+import com.plane.notification.service.NotificationService;
 
 import jakarta.validation.Valid;
 
@@ -29,11 +34,13 @@ public class CommentServiceImpl implements CommentService {
 
 	private final CommentRepository commentRepository;
 	private final ArticleRepository articleRepository;
+	private final NotificationService notificationService;
 
 	@Autowired
-	public CommentServiceImpl(CommentRepository commentRepository, ArticleRepository articleRepository) {
+	public CommentServiceImpl(CommentRepository commentRepository, ArticleRepository articleRepository, NotificationService notificationService) {
 		this.commentRepository = commentRepository;
 		this.articleRepository = articleRepository;
+		this.notificationService = notificationService;
 	}
 
 	
@@ -135,6 +142,22 @@ public class CommentServiceImpl implements CommentService {
 		}
 		
 		if (commentRepository.insertReport(userId, commentReportRequest) == 1) {
+			
+			try {
+				CommentNotificationInfo notificationInfo = commentRepository.selectCommentNotificationInfo(commentReportRequest.getCommentId());
+				
+				NotificationCreateRequest notificationCreateRequest = new NotificationCreateRequest();
+				notificationCreateRequest.setNotificationType("comment");
+				notificationCreateRequest.setContentId(notificationInfo.getArticleId());
+				notificationCreateRequest.setDetails(notificationInfo.getCommentContents());
+				notificationCreateRequest.setType(NotificationTargetType.COMMENT);
+				notificationCreateRequest.setAction(NotificationAction.REPORT);
+				
+				notificationService.createNotification(notificationInfo.getAuthorId(), notificationCreateRequest);
+			} catch (Exception e) {
+				return true;
+			}
+			
 			return true;
 		}
 		

@@ -2,6 +2,7 @@ package com.plane.notification.service;
 
 import java.util.List;
 
+import com.plane.notification.dto.NotificationCreateRequest;
 import com.plane.notification.dto.NotificationDetailResponse;
 import com.plane.notification.dto.NotificationResponse;
 
@@ -14,5 +15,7 @@ public interface NotificationService {
 	NotificationDetailResponse getNotificationDetail(String userId, Long noId);
 
 	boolean deleteNotification(String userId, Long noId);
+	
+	boolean createNotification(String userId, NotificationCreateRequest notificationCreateRequest);
 
 }

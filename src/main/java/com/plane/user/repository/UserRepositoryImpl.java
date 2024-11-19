@@ -1,6 +1,7 @@
 package com.plane.user.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -121,6 +122,12 @@ public class UserRepositoryImpl implements UserRepository{
 	public List<String> selectIdByEmail(FindIdRequest findIdRequest) {
 		
 		return userMapper.selectUserIdByEmail(findIdRequest.getEmail());
+	}
+
+	@Override
+	public String selectUserNicknameByUserId(String userId) {
+
+		return userMapper.selectUserNicknameByUserId(userId);
 	}
 	
 }

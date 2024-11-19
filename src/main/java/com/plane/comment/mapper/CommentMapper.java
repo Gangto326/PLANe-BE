@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Update;
 
 import com.plane.comment.domain.Comment;
 import com.plane.comment.dto.CommentDeleteRequest;
+import com.plane.comment.dto.CommentNotificationInfo;
 import com.plane.comment.dto.CommentReportRequest;
 import com.plane.comment.dto.CommentRequest;
 import com.plane.comment.dto.CommentResponse;
@@ -68,7 +69,7 @@ public interface CommentMapper {
 			FROM Comment
 			WHERE commentId = #{commentId}
 			""")
-	Comment selectCommentByCommentId(@Param("commentId") Integer commentId);
+	Comment selectCommentByCommentId(@Param("commentId") Long commentId);
 
 
 	
@@ -90,7 +91,7 @@ public interface CommentMapper {
 	            WHERE commentId = #{commentId}
 	        )
 			""")
-	boolean existsCommentByCommentId(@Param("commentId") Integer commentId);
+	boolean existsCommentByCommentId(@Param("commentId") Long commentId);
 
 
 	@Select("""
@@ -101,7 +102,7 @@ public interface CommentMapper {
 	            AND userId = #{userId}
 	        )
 			""")
-	boolean existsReportByUserIdAndCommentId(@Param("userId") String userId, @Param("commentId") Integer commentId);
+	boolean existsReportByUserIdAndCommentId(@Param("userId") String userId, @Param("commentId") Long commentId);
 
 
 	@Insert("""
@@ -109,5 +110,13 @@ public interface CommentMapper {
 			VALUES (#{commentReportRequest.commentId}, #{userId}, #{commentReportRequest.reportId}, #{commentReportRequest.details})
 			""")
 	int insertReport(@Param("userId") String userId, @Param("commentReportRequest") CommentReportRequest commentReportRequest);
+	
+	
+	@Select("""
+	        SELECT commentContents, authorId, articleId
+	        FROM Comment 
+	        WHERE commentId = #{commentId}
+	        """)
+	CommentNotificationInfo selectCommentNotificationInfo(@Param("commentId") Long commentId);
 
 }

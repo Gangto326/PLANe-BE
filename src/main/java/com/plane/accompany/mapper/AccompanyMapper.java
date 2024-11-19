@@ -176,7 +176,7 @@ public interface AccompanyMapper {
 
 
 	@Select("""
-	        SELECT p.tripId, p.accompanyNum, aa.userId as applicantId
+	        SELECT p.tripId, p.accompanyNum, aa.userId as applicantId, b.articleId
 	        FROM AccompanyApply aa
 	        JOIN Board b ON aa.articleId = b.articleId
 	        JOIN PLANe p ON b.tripId = p.tripId

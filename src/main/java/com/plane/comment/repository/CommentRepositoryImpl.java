@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.plane.comment.domain.Comment;
 import com.plane.comment.dto.CommentDeleteRequest;
+import com.plane.comment.dto.CommentNotificationInfo;
 import com.plane.comment.dto.CommentReportRequest;
 import com.plane.comment.dto.CommentRequest;
 import com.plane.comment.dto.CommentResponse;
@@ -42,7 +43,7 @@ public class CommentRepositoryImpl implements CommentRepository {
 	}
 
 	@Override
-	public Comment selectCommentByCommentId(Integer commentId) {
+	public Comment selectCommentByCommentId(Long commentId) {
 		
 		return commentMapper.selectCommentByCommentId(commentId);
 	}
@@ -54,13 +55,13 @@ public class CommentRepositoryImpl implements CommentRepository {
 	}
 
 	@Override
-	public boolean existsCommentByCommentId(Integer commentId) {
+	public boolean existsCommentByCommentId(Long commentId) {
 		
 		return commentMapper.existsCommentByCommentId(commentId);
 	}
 
 	@Override
-	public boolean existsReportByUserIdAndCommentId(String userId, Integer commentId) {
+	public boolean existsReportByUserIdAndCommentId(String userId, Long commentId) {
 		
 		return commentMapper.existsReportByUserIdAndCommentId(userId, commentId);
 	}
@@ -69,6 +70,12 @@ public class CommentRepositoryImpl implements CommentRepository {
 	public int insertReport(String userId, CommentReportRequest commentReportRequest) {
 		
 		return commentMapper.insertReport(userId, commentReportRequest);
+	}
+
+	@Override
+	public CommentNotificationInfo selectCommentNotificationInfo(Long commentId) {
+
+		return commentMapper.selectCommentNotificationInfo(commentId);
 	}
 	
 	

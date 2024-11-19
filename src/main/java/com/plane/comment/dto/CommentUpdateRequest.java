@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 public class CommentUpdateRequest {
 	
 	@NotNull(message = "댓글 번호는 필수입니다.")
-	private Integer commentId;
+	private Long commentId;
 	
 	@NotNull(message = "글 번호는 필수입니다.")
 	private Long articleId;
@@ -24,11 +24,11 @@ public class CommentUpdateRequest {
 	public CommentUpdateRequest() {}
 
 	
-	public Integer getCommentId() {
+	public Long getCommentId() {
 		return commentId;
 	}
 
-	public void setCommentId(Integer commentId) {
+	public void setCommentId(Long commentId) {
 		this.commentId = commentId;
 	}
 

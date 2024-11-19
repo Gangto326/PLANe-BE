@@ -10,11 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleInteractionRequset;
+import com.plane.article.dto.ArticleNotificationInfo;
 import com.plane.article.dto.ArticleReportRequest;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
 import com.plane.article.repository.ArticleRepository;
+import com.plane.comment.dto.CommentNotificationInfo;
 import com.plane.common.dto.PageInfo;
 import com.plane.common.dto.PageRequest;
 import com.plane.common.dto.PageResponse;
@@ -25,16 +27,22 @@ import com.plane.common.exception.custom.ArticleUpdateException;
 import com.plane.common.exception.custom.CreationFailedException;
 import com.plane.common.exception.custom.DuplicateException;
 import com.plane.common.exception.custom.UnauthorizedException;
+import com.plane.notification.dto.NotificationAction;
+import com.plane.notification.dto.NotificationCreateRequest;
+import com.plane.notification.dto.NotificationTargetType;
+import com.plane.notification.service.NotificationService;
 
 @Service
 @Transactional
 public class ArticleServiceImpl implements ArticleService {
 
 	private final ArticleRepository articleRepository;
+	private final NotificationService notificationService;
 	
 	@Autowired
-	public ArticleServiceImpl(ArticleRepository articleRepository) {
+	public ArticleServiceImpl(ArticleRepository articleRepository, NotificationService notificationService) {
 		this.articleRepository = articleRepository;
+		this.notificationService = notificationService;
 	}
 
 	
@@ -173,6 +181,23 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 		
 		if (articleRepository.insertReport(userId, articleReportRequest) == 1) {
+			
+			try {
+				ArticleNotificationInfo notificationInfo = articleRepository.selectArticleNotificationInfo(articleReportRequest.getArticleId());
+				
+				NotificationCreateRequest notificationCreateRequest = new NotificationCreateRequest();
+				notificationCreateRequest.setNotificationType("accompany");
+				notificationCreateRequest.setContentId(articleReportRequest.getArticleId());
+				notificationCreateRequest.setDetails(notificationInfo.getTitle());
+				notificationCreateRequest.setType(NotificationTargetType.ARTICLE);
+				notificationCreateRequest.setAction(NotificationAction.REPORT);
+				
+				notificationService.createNotification(notificationInfo.getAuthorId(), notificationCreateRequest);
+			} catch (Exception e) {
+				
+				return true;
+			}
+			
 			return true;
 		}
 		

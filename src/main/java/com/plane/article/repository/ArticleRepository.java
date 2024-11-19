@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleInteractionRequset;
+import com.plane.article.dto.ArticleNotificationInfo;
 import com.plane.article.dto.ArticleReportRequest;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
@@ -41,5 +42,6 @@ public interface ArticleRepository {
 	
 	int insertReport(String userId, ArticleReportRequest articleReportRequest);
 
+	ArticleNotificationInfo selectArticleNotificationInfo(Long articleId);
 
 }

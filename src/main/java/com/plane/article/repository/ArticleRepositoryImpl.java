@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleInteractionRequset;
+import com.plane.article.dto.ArticleNotificationInfo;
 import com.plane.article.dto.ArticleReportRequest;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
@@ -99,5 +100,12 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 		
 		return articleMapper.insertReport(userId, articleReportRequest);
 	}
+
+	@Override
+	public ArticleNotificationInfo selectArticleNotificationInfo(Long articleId) {
+
+		return articleMapper.selectArticleNotificationInfo(articleId);
+	}
+
 	
 }

@@ -4,24 +4,35 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.plane.common.exception.custom.ArticleNotFoundException;
 import com.plane.common.exception.custom.ArticleUpdateException;
 import com.plane.common.exception.custom.InvalidParameterException;
+import com.plane.common.exception.custom.SendNotificationException;
+import com.plane.common.util.NotificationTitleGenerator;
+import com.plane.notification.dto.NotificationCreateRequest;
 import com.plane.notification.dto.NotificationDetailResponse;
 import com.plane.notification.dto.NotificationResponse;
+import com.plane.notification.dto.NotificationTarget;
+import com.plane.notification.dto.NotificationTargetType;
 import com.plane.notification.repository.NotificationRepository;
+import com.plane.user.repository.UserRepository;
 
 @Service
 @Transactional
 public class NotificationServiceImpl implements NotificationService {
 
 	private final NotificationRepository notificationRepository;
+	private final UserRepository userRepository;
+	private final NotificationTitleGenerator notificationTitleGenerator;
 
 	@Autowired
-	public NotificationServiceImpl(NotificationRepository notificationRepository) {
+	public NotificationServiceImpl(NotificationRepository notificationRepository, UserRepository userRepository, NotificationTitleGenerator notificationTitleGenerator) {
 		this.notificationRepository = notificationRepository;
+		this.userRepository = userRepository;
+		this.notificationTitleGenerator = notificationTitleGenerator;
 	}
 
 	
@@ -69,8 +80,26 @@ public class NotificationServiceImpl implements NotificationService {
 		
 		throw new ArticleUpdateException("알림 삭제에 실패했습니다.");
 	}
+
 	
-	
+	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW)  // 알림이 메인 서비스 로직에 영향을 주지 않도록 새로운 트랜잭션으로 처리
+	public boolean createNotification(String receiverId, NotificationCreateRequest notificationCreateRequest) {
+		
+		NotificationTarget target = new NotificationTarget();
+		target.setType(notificationCreateRequest.getType());
+		target.setNickname(userRepository.selectUserNicknameByUserId(receiverId));
+		target.setContent(notificationCreateRequest.getDetails());
+		
+		String title = notificationTitleGenerator.generateTitle(target, notificationCreateRequest.getAction());
+		notificationCreateRequest.setTitle(title);
+		
+		if (notificationRepository.insertNotification(receiverId, notificationCreateRequest) == 1) {
+			return true;
+		}
+		
+		return false;
+	}
 	
 	
 }

@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Update;
 import com.plane.article.domain.Article;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleInteractionRequset;
+import com.plane.article.dto.ArticleNotificationInfo;
 import com.plane.article.dto.ArticleReportRequest;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
@@ -241,5 +242,13 @@ public interface ArticleMapper {
 			""")
 	int insertReport(@Param("userId") String userId, @Param("articleReportRequest") ArticleReportRequest articleReportRequest);
 
-	
+
+	@Select("""
+			SELECT title, authorId
+			FROM Board
+			WHERE articleId = #{articleId}
+			""")
+	ArticleNotificationInfo selectArticleNotificationInfo(@Param("articleId") Long articleId);
+
+
 }

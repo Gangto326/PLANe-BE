@@ -2,6 +2,7 @@ package com.plane.notification.repository;
 
 import java.util.List;
 
+import com.plane.notification.dto.NotificationCreateRequest;
 import com.plane.notification.dto.NotificationDetailResponse;
 import com.plane.notification.dto.NotificationResponse;
 
@@ -16,5 +17,7 @@ public interface NotificationRepository {
 	NotificationDetailResponse getNotificationDetail(String userId, Long noId);
 
 	int deleteNotification(String userId, Long noId);
+
+	int insertNotification(String receiverId, NotificationCreateRequest notificationCreateRequest);
 
 }

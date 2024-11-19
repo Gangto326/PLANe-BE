@@ -26,7 +26,7 @@ CREATE TABLE `Notification` (
 	`isRead` BOOL NOT NULL DEFAULT FALSE,
 	`notificationType` VARCHAR(100) NOT NULL DEFAULT '기본' COMMENT '기본, 동행, 신고, 매너 등',
 	`contentId` BIGINT(20) NOT NULL COMMENT '관련 컨텐츠의 ID',
-	`details` VARCHAR(255) NOT NULL,
+	`title` VARCHAR(255) NOT NULL,
 	`createdDate` TIMESTAMP NOT NULL DEFAULT NOW(),
 	`deletedDate` TIMESTAMP NULL,
 	PRIMARY KEY (`noId`),
@@ -218,11 +218,13 @@ CREATE TABLE `Comment` (
 	`authorId` VARCHAR(100) NOT NULL,
 	`parents` BIGINT(20) NULL COMMENT 'NULL이면 최상위 글',
 	`commentContents` VARCHAR(255) NOT NULL,
+	`status` VARCHAR(10) NOT NULL DEFAULT '공개',
 	`createdDate` TIMESTAMP NOT NULL DEFAULT NOW(),
 	`updatedDate` TIMESTAMP NULL,
 	PRIMARY KEY (`commentId`),
 	FOREIGN KEY (`articleId`) REFERENCES `Board`(`articleId`),
-	FOREIGN KEY (`authorId`) REFERENCES `Users`(`userId`)
+	FOREIGN KEY (`authorId`) REFERENCES `Users`(`userId`),
+	FOREIGN KEY (`parents`) REFERENCES `Comment`(`commentId`)
 );
 
 CREATE TABLE `AccompanyApply` (

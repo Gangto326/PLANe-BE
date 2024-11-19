@@ -9,6 +9,7 @@ public class Notification {
 	private boolean isRead;
 	private String notificationType;
 	private Long contentId;
+	private String title;
 	private String details;
 	private LocalDateTime createdDate;
 	private LocalDateTime deletedDate;
@@ -64,6 +65,16 @@ public class Notification {
 
 	public void setContentId(Long contentId) {
 		this.contentId = contentId;
+	}
+
+
+	public String getTitle() {
+		return title;
+	}
+
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 
