@@ -55,6 +55,10 @@ public class UserEmailServiceImpl implements UserEmailService {
 			throw new UserNotFoundException("해당 ID를 사용하는 회원이 없습니다.");
 		}
 		
+		if (!userRepository.existsByEmail(findPasswordRequest.getEmail())) {
+			throw new UserNotFoundException("해당 이메일로 등록된 ID가 없습니다.");
+		}
+		
 		String newPassword = passwordGenerator.generatePassword();
 
 		String subject = "[PLANe] 새로운 비밀번호 발급";
@@ -85,10 +89,6 @@ public class UserEmailServiceImpl implements UserEmailService {
 
 	@Override
 	public void sendVerificationCode(EmailVerificationRequest findIdRequest) {
-		
-		if (!userRepository.existsByEmail(findIdRequest.getEmail())) {
-			throw new UserNotFoundException("해당 이메일로 등록된 ID가 없습니다.");
-		}
 		
 		String verificationCode = passwordGenerator.generateVerificationCode();
 

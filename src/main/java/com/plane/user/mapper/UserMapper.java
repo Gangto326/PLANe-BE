@@ -81,49 +81,6 @@ public interface UserMapper {
 	UserMyPageResponse selectUserMyPage(String userId);
 
 	
-	//////////////////////////////// Trip 패키지로 변경
-	@Delete("""
-			DELETE
-			FROM UsersTripStyle
-			WHERE userId = #{userId}
-			""")
-	int deleteTripStyle(String userId);
-
-	
-	@Delete("""
-			DELETE
-			FROM UsersTripThema
-			WHERE userId = #{userId}
-			""")
-	int deleteTripThema(String userId);
-
-
-	@Insert("""
-			<script>
-			INSERT INTO UsersTripStyle (userId, styleId)
-	        VALUES
-	        <foreach collection='tripStyle' item='styleId' separator=','>
-	            (#{userId}, #{styleId})
-	        </foreach>
-	        </script>
-			""")
-	int insertTripStyle(@Param("userId") String userId, @Param("tripStyle") List<Integer> tripStyle);
-
-
-	@Insert("""
-			<script>
-			INSERT INTO UsersTripThema (userId, themaId)
-	        VALUES
-	        <foreach collection="tripThema" item="themaId" separator=",">
-	            (#{userId}, #{themaId})
-	        </foreach>
-	        </script>
-			""")
-	int insertTripThema(@Param("userId") String userId, @Param("tripThema") List<Integer> tripThema);
-	
-	//////////////////////////////////////////////////
-
-	
 	@Update("""
 			UPDATE Users 
 	        SET nickName = #{request.nickName},

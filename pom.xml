@@ -30,6 +30,8 @@
 		<java.version>17</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    	<maven.compiler.source>${java.version}</maven.compiler.source>
+    	<maven.compiler.target>${java.version}</maven.compiler.target>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -119,6 +121,18 @@
 		    <groupId>org.springframework.cloud</groupId>
 		    <artifactId>spring-cloud-starter-aws</artifactId>
 		    <version>2.2.6.RELEASE</version>
+		</dependency>
+		
+		<!-- JTS (Point 객체를 위한 라이브러리) -->
+	    <dependency>
+	        <groupId>org.locationtech.jts</groupId>
+	        <artifactId>jts-core</artifactId>
+	        <version>1.19.0</version>
+	    </dependency>
+	    
+	    <dependency>
+		    <groupId>com.fasterxml.jackson.datatype</groupId>
+		    <artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
 		
 	</dependencies>

@@ -10,12 +10,12 @@ CREATE TABLE `Users` (
 	`role` VARCHAR(10) NOT NULL DEFAULT '회원' COMMENT '회원, 동행, 관리자',
 	`email` VARCHAR(100) NULL COMMENT '비밀번호 찾기 시 사용',
 	`manner` DOUBLE NOT NULL DEFAULT 0,
-	`profileUrl` VARCHAR(255) NULL DEFAULT '기본 이미지',
+	`profileUrl` VARCHAR(255) NULL,
 	`introduce` VARCHAR(100) NULL,
 	`authentication` BOOL NOT NULL DEFAULT FALSE,
 	`createdDate` TIMESTAMP NOT NULL DEFAULT NOW(),
 	`state` VARCHAR(10) NOT NULL DEFAULT '정상' COMMENT '정상, 정지, 탈퇴',
-	`isPublic` BOOL NOT NULL DEFAULT TRUE,
+	`isPublic` BOOL NOT NULL DEFAULT FALSE,
     `loginAttempts` INT NOT NULL DEFAULT 0,
 	PRIMARY KEY (`userId`)
 );
@@ -53,6 +53,7 @@ CREATE TABLE `PLANe` (
 	`isLiked` BOOL NOT NULL DEFAULT FALSE,
 	`isPublic` BOOL NOT NULL DEFAULT FALSE,
 	`isReviewed` BOOL NOT NULL DEFAULT FALSE,
+	`deletedDate` TIMESTAMP NULL,
 	PRIMARY KEY (`tripId`),
 	FOREIGN KEY (`userId`) REFERENCES `Users`(`userId`),
 	FOREIGN KEY (`regionId`) REFERENCES `Region`(`regionId`)
@@ -63,10 +64,10 @@ CREATE TABLE `TripPlan` (
 	`tripId` BIGINT(20) NOT NULL,
 	`tripDay` INT NOT NULL COMMENT '1~3일',
 	`tripOrder` INT NOT NULL COMMENT '해당 위치의 여행 순서',
-	`name` VARCHAR(100) NOT NULL,
+	`title` VARCHAR(100) NOT NULL,
+	`memo` VARCHAR(255) NULL,
 	`point` POINT NOT NULL COMMENT '해당 위치의 좌표값',
-	`address` VARCHAR(100) NULL COMMENT '도로명 우선',
-	`numAddress` VARCHAR(100) NULL COMMENT '도로명 주소 없을 시 필수',
+	`address` VARCHAR(100) NULL COMMENT '도로명 우선'
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`tripId`) REFERENCES `PLANe`(`tripId`)
 );

@@ -53,6 +53,10 @@ public class JwtFilter extends OncePerRequestFilter {
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest httpServletRequest) throws ServletException {
 		
+		if ("OPTIONS".equalsIgnoreCase(httpServletRequest.getMethod())) {
+	        return true;
+	    }
+		
 		// 필터를 거치치 않을 URI 설정.
 		String[] excludeURIList = {
 				"/api/auth/login", "/api/auth/logout",

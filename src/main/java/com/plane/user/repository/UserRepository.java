@@ -24,14 +24,6 @@ public interface UserRepository {
 
 	int updateUser(String userId, UserMyPageRequest userMyPageRequest);
 
-	int deleteTripStyle(String userId);
-
-	int deleteTripThema(String userId);
-
-	int insertTripStyle(String userId, List<Integer> tripStyle);
-
-	int insertTripThema(String userId, List<Integer> tripThema);
-
 	int findUserById(String userId);
 
 	int updateUserPassword(String userId, String newPassword);

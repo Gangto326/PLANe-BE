@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.plane.trip.repository.TripRepository;
 import com.plane.user.repository.UserRepository;
 
 @Service
@@ -13,10 +14,12 @@ import com.plane.user.repository.UserRepository;
 public class UserPreferenceServiceImpl implements UserPreferenceService{
 	
 	private final UserRepository userRepository;
+	private final TripRepository tripRepository;
 	
 	@Autowired
-	public UserPreferenceServiceImpl(UserRepository userRepository) {
+	public UserPreferenceServiceImpl(UserRepository userRepository, TripRepository tripRepository) {
 		this.userRepository = userRepository;
+		this.tripRepository = tripRepository;
 	}
 
 	
@@ -27,10 +30,10 @@ public class UserPreferenceServiceImpl implements UserPreferenceService{
             return false;
         }
         
-        userRepository.deleteTripStyle(userId);
+        tripRepository.deleteTripStyle(userId);
         
         if (!tripStyle.isEmpty()) {
-            userRepository.insertTripStyle(userId, tripStyle);
+        	tripRepository.insertTripStyle(userId, tripStyle);
         }
         
         return true;
@@ -43,10 +46,10 @@ public class UserPreferenceServiceImpl implements UserPreferenceService{
             return false;
         }
         
-        userRepository.deleteTripThema(userId);
+        tripRepository.deleteTripThema(userId);
         
         if (!tripThema.isEmpty()) {
-            userRepository.insertTripThema(userId, tripThema);
+        	tripRepository.insertTripThema(userId, tripThema);
         }
         
         return true;
