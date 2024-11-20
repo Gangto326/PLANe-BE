@@ -38,6 +38,10 @@ public class UserSignupRequest {
 	@Pattern(regexp = "^[a-zA-Z0-9가-힣]{2,30}$", message = "닉네임은 2-30자의 영문, 숫자, 한글만 가능합니다")
 	private String nickName;
 	
+	
+	@NotBlank(message = "인증 번호는 필수입니다")
+	private String verificationCode;
+	
 	private String hashedPassword;
 	private String hashedPhone;
 	
@@ -114,8 +118,18 @@ public class UserSignupRequest {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
 
+	public String getVerificationCode() {
+		return verificationCode;
+	}
 
+	
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
+	}
+
+	
 	public String getHashedPassword() {
 		return hashedPassword;
 	}

@@ -182,7 +182,7 @@ public interface UserMapper {
             AND createdDate > DATE_SUB(NOW(), INTERVAL 10 MINUTE)
             LIMIT 1;
 		    """)
-	Optional<String> selectCodeByEmail(FindIdRequest findIdRequest);
+	Optional<String> selectCodeByEmail(@Param("email") String email, @Param("verificationCode") String verificationCode);
 
 
 	@Select("""
@@ -199,5 +199,6 @@ public interface UserMapper {
 			WHERE userId = #{userId}
 			""")
 	User selectUserByUserId(@Param("userId") String userId);
+
 	
 }

@@ -57,6 +57,11 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public boolean signup(UserSignupRequest userSignupRequest) {
 		
+		// 인증번호 확인
+		if (!userRepository.existsCodeByEmail(userSignupRequest.getEmail(), userSignupRequest.getVerificationCode())) {
+			throw new VerificationCodeException("인증 번호가 일치하지 않거나 만료되었습니다.");
+		}
+		
 		// 비밀번호 일치 여부 확인
 		if (!userSignupRequest.getPassword().equals(userSignupRequest.getConfirmPassword())) {
 			throw new InvalidPasswordException("Password != ConfirmPassword");
@@ -198,7 +203,7 @@ public class UserServiceImpl implements UserService{
 	public UserIdResponse findId(FindIdRequest findIdRequest) {
 		
 		// 인증번호 확인
-		if (!userRepository.existsCodeByEmail(findIdRequest)) {
+		if (!userRepository.existsCodeByEmail(findIdRequest.getEmail(), findIdRequest.getVerificationCode())) {
 			throw new VerificationCodeException("인증코드가 일치하지 않거나 유효기간이 만료된 코드입니다.");
 		}
 		

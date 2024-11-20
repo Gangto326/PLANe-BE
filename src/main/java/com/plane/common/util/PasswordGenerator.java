@@ -42,4 +42,33 @@ public class PasswordGenerator {
         
     }
     
+    
+    public String generateVerificationCode() {
+    	
+        StringBuilder password = new StringBuilder();
+        SecureRandom random = new SecureRandom();
+        
+        password.append(UPPERCASE.charAt(random.nextInt(UPPERCASE.length())));
+        password.append(DIGITS.charAt(random.nextInt(DIGITS.length())));
+        
+        // 나머지 4자리는 모든 문자열에서 랜덤 선택
+        String allChars = UPPERCASE + DIGITS;
+        for (int i = 0; i < 4; i++) {
+            password.append(allChars.charAt(random.nextInt(allChars.length())));
+        }
+        
+        // 생성된 비밀번호를 섞어서 패턴 방지
+        char[] passwordArray = password.toString().toCharArray();
+        for (int i = passwordArray.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            char temp = passwordArray[i];
+            passwordArray[i] = passwordArray[j];
+            passwordArray[j] = temp;
+        }
+        
+        return new String(passwordArray);
+        
+    }
+    
+    
 }

@@ -42,11 +42,12 @@ public interface UserRepository {
 
 	int insertVerificationCode(String email, String verificationCode);
 
-	boolean existsCodeByEmail(FindIdRequest findIdRequest);
+	boolean existsCodeByEmail(String email, String verificationCode);
 
 	List<String> selectIdByEmail(FindIdRequest findIdRequest);
 
 	String selectUserNicknameByUserId(String userId);
 
 	User selectUserByUserId(String userId);
+
 }

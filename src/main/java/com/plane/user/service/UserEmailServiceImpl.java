@@ -90,7 +90,7 @@ public class UserEmailServiceImpl implements UserEmailService {
 			throw new UserNotFoundException("해당 이메일로 등록된 ID가 없습니다.");
 		}
 		
-		String verificationCode = passwordGenerator.generatePassword();
+		String verificationCode = passwordGenerator.generateVerificationCode();
 
 		String subject = "[PLANe] 인증번호 발급";
 		
@@ -108,7 +108,7 @@ public class UserEmailServiceImpl implements UserEmailService {
         
         try {
         	javaMailSender.send(createMail(findIdRequest.getEmail(), subject, content));
-        	userRepository.insertVerificationCode(findIdRequest.getEmail(), verificationCode);   	
+        	userRepository.insertVerificationCode(findIdRequest.getEmail(), verificationCode);
         } catch (Exception e) {
             throw new EmailException("이메일 전송 실패");
         }

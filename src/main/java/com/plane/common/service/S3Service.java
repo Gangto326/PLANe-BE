@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.plane.common.exception.custom.FileDeleteException;
@@ -51,7 +50,9 @@ public class S3Service {
         this.bucket = bucket;
     }
 
-   
+
+
+
     public String uploadFile(MultipartFile file) {
     	
         try {
@@ -72,7 +73,7 @@ public class S3Service {
         }
     }
 
-   
+
     public List<String> uploadFiles(List<MultipartFile> files) {
     	
         List<String> urls = new ArrayList<>();
@@ -141,9 +142,11 @@ public class S3Service {
         // 실제 파일 내용 검증
         try {
             BufferedImage image = ImageIO.read(file.getInputStream());
+
             if (image == null) {
                 throw new InvalidFileException("유효하지 않은 이미지 파일입니다.");
             }
+            
         } catch (Exception e) {
             throw new InvalidFileException("이미지 파일 검증에 실패했습니다.");
         }
