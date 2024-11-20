@@ -55,5 +55,12 @@ public class TripRepositoryImpl implements TripRepository {
 		
 		return tripMapper.insertTripThema(userId, tripThema);
 	}
+
+
+	@Override
+	public int deletePlane(String userId, Long tripId) {
+
+		return tripMapper.updatePlaneDeletedByTripId(userId, tripId);
+	}
 	
 }

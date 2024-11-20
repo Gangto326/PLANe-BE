@@ -82,11 +82,23 @@ public class TripServiceImpl implements TripService {
             tripPlanDto.setMapx(coord.getMapx());
             tripPlanDto.setMapy(coord.getMapy());
             
+            
             if (tripRepository.insertTripPlan(tripPlanDto) != 1) {
             	throw new UpdateFailedException("여행 계획 추가에 실패하였습니다.");
             }
         }
     }
+
+
+	@Override
+	public boolean deletePlane(String userId, Long tripId) {
+		
+		if (tripRepository.deletePlane(userId, tripId) == 1) {
+			return true;
+		}
+		
+		throw new UpdateFailedException("여행 삭제에 실패했습니다.");
+	}
 	
 	
 }

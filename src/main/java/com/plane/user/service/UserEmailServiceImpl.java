@@ -90,8 +90,10 @@ public class UserEmailServiceImpl implements UserEmailService {
 	@Override
 	public void sendVerificationCode(EmailVerificationRequest findIdRequest) {
 		
+		userRepository.updateVerificationCodeDelete(findIdRequest.getEmail());
+		
 		String verificationCode = passwordGenerator.generateVerificationCode();
-
+		
 		String subject = "[PLANe] 인증번호 발급";
 		
         String content = String.format("""

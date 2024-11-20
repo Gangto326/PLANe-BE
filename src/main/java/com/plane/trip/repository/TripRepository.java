@@ -19,4 +19,6 @@ public interface TripRepository {
 
 	int insertTripThema(String userId, List<Integer> tripThema);
 
+	int deletePlane(String userId, Long tripId);
+
 }
