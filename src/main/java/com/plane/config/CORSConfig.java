@@ -6,17 +6,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class CORSConfig implements WebMvcConfigurer {
-    
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry
             .addMapping("/**")
-            .allowedOrigins("http://localhost:5173")
-            .allowedMethods("*")
+            .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")  
+            .allowedOrigins("http://localhost:5173")  // allowedOriginPatterns 제거
             .allowedHeaders("*")
             .exposedHeaders("Authorization", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
             .allowCredentials(true)
             .maxAge(3600);
     }
-    
 }

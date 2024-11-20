@@ -51,8 +51,6 @@ public class S3Service {
     }
 
 
-
-
     public String uploadFile(MultipartFile file) {
     	
         try {
@@ -97,12 +95,12 @@ public class S3Service {
     }
 
     
-    // 파일명 생성 (경로 포함)
+    // 파일명 생성
     private String createFileName(String originalFileName) {
     	
         return UUID.randomUUID() + getExtension(originalFileName);
     }
-
+    
 
     // 파일 확장자 추출
     private String getExtension(String fileName) {

@@ -177,7 +177,7 @@ public class UserServiceImpl implements UserService{
 		
 		UserLoginRequest userLoginRequest = new UserLoginRequest();
 		userLoginRequest.setUserId(userId);
-		userLoginRequest.setHashedPassword(hashUtil.hashPassword(userLoginRequest.getPassword()));
+		userLoginRequest.setHashedPassword(hashUtil.hashPassword(changePasswordRequest.getPassword()));
 		
 		if (authRepository.selectUser(userLoginRequest) == null) {
 			throw new UserNotFoundException("해당 ID를 사용하는 회원이 없습니다.");
