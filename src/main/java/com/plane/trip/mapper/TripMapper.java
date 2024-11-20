@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.plane.trip.domain.TripStyle;
 import com.plane.trip.domain.TripThema;
@@ -97,5 +98,15 @@ public interface TripMapper {
 			VALUES (#{tripId}, #{tripDay}, #{tripOrder}, #{title}, #{memo}, ST_GeomFromText(CONCAT('POINT(', #{mapx}, ' ', #{mapy}, ')')), #{address})
 			""")
 	int insertTripPlan(TripPlanDto tripPlanDto);
+
+
+	@Update("""
+			UPDATE PLANe
+			SET deletedDate = NOW()
+			WHERE userId = #{userId}
+			AND tripId = #{tripId}
+			""")
+	int updatePlaneDeletedByTripId(String userId, Long tripId);
+	
 
 }

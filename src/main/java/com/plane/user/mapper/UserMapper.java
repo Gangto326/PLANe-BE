@@ -1,5 +1,6 @@
 package com.plane.user.mapper;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -129,7 +130,7 @@ public interface UserMapper {
 			VALUES (#{email}, #{verificationCode})
 			""")
 	int insertVerificationCode(@Param("email") String email, @Param("verificationCode") String verificationCode);
-
+	
 	
 	@Select("""
 	        SELECT *
@@ -137,6 +138,7 @@ public interface UserMapper {
 	        WHERE email = #{email}
 	        AND verificationCode = #{verificationCode}
             AND createdDate > DATE_SUB(NOW(), INTERVAL 10 MINUTE)
+            AND deletedDate IS NULL
             LIMIT 1;
 		    """)
 	Optional<String> selectCodeByEmail(@Param("email") String email, @Param("verificationCode") String verificationCode);
@@ -158,4 +160,19 @@ public interface UserMapper {
 	User selectUserByUserId(@Param("userId") String userId);
 
 	
+	@Update("""
+			UPDATE VerificationCodes
+	        SET deletedDate = NOW()
+			WHERE email = #{email}
+			AND deletedDate IS NULL
+			""")
+	int updateVerificationCodeDelete(String email);
+
+	
+	@Delete("""
+	        DELETE FROM VerificationCodes
+	        WHERE createdDate < DATE_SUB(NOW(), INTERVAL 10 MINUTE)
+	        OR deletedDate IS NOT NULL
+	        """)
+	int deleteVerificationCodes();
 }

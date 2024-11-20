@@ -1,5 +1,7 @@
 package com.plane.trip.dto;
 
+import org.locationtech.jts.geom.Point;
+
 public class TripPlanDto {
 	
 	private Long tripId;

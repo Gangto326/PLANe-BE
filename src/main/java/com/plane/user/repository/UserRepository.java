@@ -42,4 +42,7 @@ public interface UserRepository {
 
 	User selectUserByUserId(String userId);
 
+	int updateVerificationCodeDelete(String email);
+	
+	int deleteVerificationCodes();
 }

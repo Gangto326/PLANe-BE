@@ -112,5 +112,17 @@ public class UserRepositoryImpl implements UserRepository{
 		return userMapper.selectUserByUserId(userId);
 	}
 
+	@Override
+	public int updateVerificationCodeDelete(String email) {
+
+		return userMapper.updateVerificationCodeDelete(email);
+	}
+
+	@Override
+	public int deleteVerificationCodes() {
+
+		return userMapper.deleteVerificationCodes();
+	}
+
 	
 }

@@ -2,6 +2,7 @@ package com.plane.trip.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,17 @@ public class TripController {
 		
 		tripService.createPlane(userId, tripCreateRequest);
 		return ResponseEntity.ok(ApiResponse.success(true, "여행 생성에 성공했습니다."));
+	}
+	
+	
+	@DeleteMapping("")
+	public ResponseEntity<ApiResponse<Boolean>> planeDelete(
+			@UserId String userId,
+			@RequestBody Long tripId
+			) {
+		
+		tripService.deletePlane(userId, tripId);
+		return ResponseEntity.ok(ApiResponse.success(true, "여행 삭제에 성공했습니다."));
 	}
 	
 }

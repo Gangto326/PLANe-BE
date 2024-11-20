@@ -6,4 +6,6 @@ public interface TripService {
 
 	boolean createPlane(String userId, TripCreateRequest tripCreateRequest);
 
+	boolean deletePlane(String userId, Long tripId);
+
 }

@@ -87,6 +87,10 @@ public class GlobalExceptionHandler {
         
         // 외래키 제약조건 위반
         if (e instanceof DataIntegrityViolationException) {
+        	
+        	System.out.println(e.getLocalizedMessage());
+        	System.out.println(e.getMessage());
+        	
             return ResponseEntity
                 .status(ErrorCode.DATABASE_ERROR.getStatus())
                 .body(ApiResponse.error(ErrorCode.DATABASE_ERROR, "데이터베이스 제약조건 위반이 발생했습니다"));
