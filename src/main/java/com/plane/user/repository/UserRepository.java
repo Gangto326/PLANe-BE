@@ -50,5 +50,4 @@ public interface UserRepository {
 
 	User selectUserByUserId(String userId);
 
-
 }

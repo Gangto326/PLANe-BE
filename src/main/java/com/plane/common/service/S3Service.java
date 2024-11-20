@@ -50,7 +50,8 @@ public class S3Service {
         this.bucket = bucket;
     }
 
-   
+
+
 
     public String uploadFile(MultipartFile file) {
     	
@@ -72,7 +73,6 @@ public class S3Service {
         }
     }
 
-   
 
     public List<String> uploadFiles(List<MultipartFile> files) {
     	
@@ -98,7 +98,6 @@ public class S3Service {
 
     
     // 파일명 생성 (경로 포함)
-
     private String createFileName(String originalFileName) {
     	
         return UUID.randomUUID() + getExtension(originalFileName);
@@ -143,7 +142,7 @@ public class S3Service {
         // 실제 파일 내용 검증
         try {
             BufferedImage image = ImageIO.read(file.getInputStream());
-            
+
             if (image == null) {
                 throw new InvalidFileException("유효하지 않은 이미지 파일입니다.");
             }
