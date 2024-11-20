@@ -65,7 +65,7 @@ CREATE TABLE `TripPlan` (
 	`tripDay` INT NOT NULL COMMENT '1~3일',
 	`tripOrder` INT NOT NULL COMMENT '해당 위치의 여행 순서',
 	`title` VARCHAR(100) NOT NULL,
-	`comment` VARCHAR(255) NULL,
+	`memo` VARCHAR(255) NULL,
 	`point` POINT NOT NULL COMMENT '해당 위치의 좌표값',
 	`address` VARCHAR(100) NULL COMMENT '도로명 우선'
 	PRIMARY KEY (`id`),

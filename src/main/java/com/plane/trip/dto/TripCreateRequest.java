@@ -1,9 +1,8 @@
 package com.plane.trip.dto;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-
-import com.plane.trip.domain.TripThema;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Max;
@@ -29,12 +28,12 @@ public class TripCreateRequest {
 	
 	@NotNull(message = "출발일은 필수입니다.")
     @Future(message = "출발일은 현재 날짜 이후여야 합니다.")
-	private Date departureDate;
+	private LocalDate departureDate;
 	
 	
 	@NotNull(message = "도착일은 필수입니다.")
     @Future(message = "도착일은 현재 날짜 이후여야 합니다.")
-	private Date arrivedDate;
+	private LocalDate arrivedDate;
 	
 	
 	@Pattern(regexp = "^(임시저장|저장)$", message = "글 상태는 임시저장, 저장 중 하나여야 합니다")
@@ -58,7 +57,7 @@ public class TripCreateRequest {
 	private List<CoordinateDto> day3;
 	
 	@Size(max = 3, message = "여행 테마는 최대 3개까지 선택 가능합니다")
-	private List<TripThema> tripThema;
+	private List<Integer> tripThema;
 	
 	
 	public TripCreateRequest() {}
@@ -94,22 +93,22 @@ public class TripCreateRequest {
 	}
 
 
-	public Date getDepartureDate() {
+	public LocalDate getDepartureDate() {
 		return departureDate;
 	}
 
 
-	public void setDepartureDate(Date departureDate) {
+	public void setDepartureDate(LocalDate departureDate) {
 		this.departureDate = departureDate;
 	}
 
 
-	public Date getArrivedDate() {
+	public LocalDate getArrivedDate() {
 		return arrivedDate;
 	}
 
 
-	public void setArrivedDate(Date arrivedDate) {
+	public void setArrivedDate(LocalDate arrivedDate) {
 		this.arrivedDate = arrivedDate;
 	}
 
@@ -174,12 +173,12 @@ public class TripCreateRequest {
 	}
 
 
-	public List<TripThema> getTripThema() {
+	public List<Integer> getTripThema() {
 		return tripThema;
 	}
 
 
-	public void setTripThema(List<TripThema> tripThema) {
+	public void setTripThema(List<Integer> tripThema) {
 		this.tripThema = tripThema;
 	}
 	

@@ -1,16 +1,15 @@
 package com.plane.trip.dto;
 
-import org.locationtech.jts.geom.Point;
-
 public class TripPlanDto {
 	
 	private Long tripId;
 	private int tripDay;
 	private int tripOrder;
 	private String title;
-	private String comment;
+	private String memo;
 	private String address;
-	private Point point;
+	private Double mapx;
+	private Double mapy;
 	
 	
 	public TripPlanDto() {}
@@ -56,13 +55,13 @@ public class TripPlanDto {
 	}
 
 
-	public String getComment() {
-		return comment;
+	public String getMemo() {
+		return memo;
 	}
 
 
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setMemo(String memo) {
+		this.memo = memo;
 	}
 
 
@@ -76,13 +75,23 @@ public class TripPlanDto {
 	}
 
 
-	public Point getPoint() {
-		return point;
+	public Double getMapx() {
+		return mapx;
 	}
 
 
-	public void setPoint(Point point) {
-		this.point = point;
+	public void setMapx(Double mapx) {
+		this.mapx = mapx;
+	}
+
+
+	public Double getMapy() {
+		return mapy;
+	}
+
+
+	public void setMapy(Double mapy) {
+		this.mapy = mapy;
 	}
 	
 }

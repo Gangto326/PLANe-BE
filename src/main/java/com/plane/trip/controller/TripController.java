@@ -33,7 +33,7 @@ public class TripController {
 			) {
 		
 		tripService.createPlane(userId, tripCreateRequest);
-		return ResponseEntity.ok(ApiResponse.success(true, "댓글을 불러왔습니다."));
+		return ResponseEntity.ok(ApiResponse.success(true, "여행 생성에 성공했습니다."));
 	}
 	
 }

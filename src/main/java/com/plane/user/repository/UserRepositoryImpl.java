@@ -41,8 +41,6 @@ public class UserRepositoryImpl implements UserRepository{
 	@Override
 	public UserProfileResponse selectUserProfile(String userId) {
 		
-		UserProfileResponse asd = userMapper.selectUserProfile(userId);
-		
 		return userMapper.selectUserProfile(userId);
 	}
 
@@ -58,29 +56,7 @@ public class UserRepositoryImpl implements UserRepository{
 		return userMapper.updateUser(userId, userMyPageRequest);
 	}
 
-	@Override
-	public int deleteTripStyle(String userId) {
-		
-		return userMapper.deleteTripStyle(userId);
-	}
-
-	@Override
-	public int deleteTripThema(String userId) {
-		
-		return userMapper.deleteTripThema(userId);
-	}
-
-	@Override
-	public int insertTripStyle(String userId, List<Integer> tripStyle) {
-		
-		return userMapper.insertTripStyle(userId, tripStyle);
-	}
-
-	@Override
-	public int insertTripThema(String userId, List<Integer> tripThema) {
-		
-		return userMapper.insertTripThema(userId, tripThema);
-	}
+	
 
 	@Override
 	public int findUserById(String userId) {

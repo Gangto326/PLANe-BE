@@ -5,7 +5,7 @@ public class CoordinateDto {
 	private Integer tripOrder;
 	private String addr1;
 	private String title;
-	private String comment;
+	private String memo;
 	private Double mapx;
 	private Double mapy;
 	
@@ -43,13 +43,13 @@ public class CoordinateDto {
 	}
 	
 
-	public String getComment() {
-		return comment;
+	public String getMemo() {
+		return memo;
 	}
 
 
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setMemo(String memo) {
+		this.memo = memo;
 	}
 
 

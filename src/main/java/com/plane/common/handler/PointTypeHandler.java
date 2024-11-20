@@ -21,8 +21,13 @@ public class PointTypeHandler extends BaseTypeHandler<Point> {
 		
 		// Point 객체를 WKT(Well-Known Text) 형식의 문자열로 변환
 	    // 예: POINT(127.1234 37.5678)
-	    String wkt = String.format("POINT(%f %f)", parameter.getX(), parameter.getY());
-	    ps.setString(i, wkt);
+		if (parameter == null) {
+            ps.setNull(i, java.sql.Types.OTHER);
+            return;
+        }
+		
+		String pointStr = String.format("ST_GeomFromText('POINT(%f %f)')", parameter.getX(), parameter.getY());
+		ps.setString(i, pointStr);
 	}
 
 	
