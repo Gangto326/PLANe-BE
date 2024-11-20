@@ -206,10 +206,11 @@ CREATE TABLE `TripMap` (
 
 CREATE TABLE `Record` (
 	`id` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT 'PK',
-	`id2` BIGINT(20) NOT NULL,
+	`mapId` BIGINT(20) NOT NULL,
 	`RecordPictureUrl` VARCHAR(255) NOT NULL,
+	`OriginalFilename` VARCHAR(255) NOT NULL,
 	PRIMARY KEY (`id`),
-	FOREIGN KEY (`id2`) REFERENCES `PLANe`(`tripId`)
+	FOREIGN KEY (`mapId`) REFERENCES `TripMap`(`mapId`)
 );
 
 CREATE TABLE `Comment` (
