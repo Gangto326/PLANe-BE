@@ -269,7 +269,6 @@ public class UserControllerTest {
 		findIdRequest.setEmail("kangsansam@naver.com");
 		findIdRequest.setVerificationCode("$H939t%Fxa");
 		
-		
 		ObjectMapper objectMapper = new ObjectMapper();
 		String content = objectMapper.writeValueAsString(findIdRequest);
 		

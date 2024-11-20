@@ -32,7 +32,7 @@ public class FormatUtil {
 	        throw new InvalidParameterException("아이디는 영문과 숫자만 가능합니다.");
 	    }
 		
-		return pattern.matcher(userId).find();
+		return true;
 	}
 	
 	
