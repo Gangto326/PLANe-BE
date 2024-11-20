@@ -1,5 +1,8 @@
 package com.plane.article.dto;
 
+import org.hibernate.validator.constraints.URL;
+import org.springframework.web.multipart.MultipartFile;
+
 //import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.NotBlank;
@@ -20,6 +23,11 @@ public class ArticleUpdateRequest {
 	@NotBlank(message = "내용은 필수입니다.")
 	private String content;
 	
+	
+	@URL(message = "올바른 URL 형식이 아닙니다")
+	private String articlePictureUrl;
+	
+	private MultipartFile file;
 	
 //	private LocalDateTime updatedDate;
 
@@ -54,6 +62,26 @@ public class ArticleUpdateRequest {
 
 	public void setContent(String content) {
 		this.content = content;
-	}	
+	}
+
+
+	public String getArticlePictureUrl() {
+		return articlePictureUrl;
+	}
+
+
+	public void setArticlePictureUrl(String articlePictureUrl) {
+		this.articlePictureUrl = articlePictureUrl;
+	}
+
+
+	public MultipartFile getFile() {
+		return file;
+	}
+
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
 	
 }

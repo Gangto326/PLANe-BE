@@ -44,7 +44,7 @@ public interface UserMapper {
 	
 	
 	@Select("""
-		    SELECT userId, nickName, manner, profileUrl, introduce, isPublic
+		    SELECT userId, nickName, role, manner, profileUrl, introduce, isPublic
 		    FROM Users
 		    WHERE userId = #{userId}
 		    """)
@@ -68,7 +68,7 @@ public interface UserMapper {
 
 	
 	@Select("""
-		    SELECT userId, nickName, manner, profileUrl, introduce, isPublic
+		    SELECT userId, nickName, role, manner, profileUrl, introduce, isPublic
 		    FROM Users
 		    WHERE userId = #{userId}
 		    """)
@@ -152,18 +152,18 @@ public interface UserMapper {
 
 
 	@Select("""
-		       SELECT userId
-		       FROM users
-		       WHERE userId = #{userId}
-		   """)
+	        SELECT userId
+	        FROM users
+	        WHERE userId = #{userId}
+		    """)
 	Optional<String> selectUserIdById(String userId);
 
 	
 	@Select("""
-		       SELECT userId
-		       FROM users
-		       WHERE email = #{email}
-		   """)
+			SELECT userId
+	        FROM users
+	        WHERE email = #{email}
+		    """)
 	List<String> selectUserIdByEmail(String email);
 
 	
@@ -175,21 +175,30 @@ public interface UserMapper {
 
 	
 	@Select("""
-		       SELECT *
-		       FROM VerificationCodes
-		       WHERE email = #{email}
-		       AND verificationCode = #{verificationCode}
-               AND createdDate > DATE_SUB(NOW(), INTERVAL 10 MINUTE)
-               LIMIT 1;
-		   """)
-	Optional<String> selectCodeByEmail(FindIdRequest findIdRequest);
+	        SELECT *
+	        FROM VerificationCodes
+	        WHERE email = #{email}
+	        AND verificationCode = #{verificationCode}
+            AND createdDate > DATE_SUB(NOW(), INTERVAL 10 MINUTE)
+            LIMIT 1;
+		    """)
+	Optional<String> selectCodeByEmail(@Param("email") String email, @Param("verificationCode") String verificationCode);
 
 
 	@Select("""
-		       SELECT nickName
-		       FROM users
-		       WHERE userId = #{userId}
-		   """)
+			SELECT nickName
+			FROM users
+			WHERE userId = #{userId}
+		    """)
 	String selectUserNicknameByUserId(String userId);
+
+
+	@Select("""
+			SELECT *
+			FROM Users
+			WHERE userId = #{userId}
+			""")
+	User selectUserByUserId(@Param("userId") String userId);
+
 	
 }

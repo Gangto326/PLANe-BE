@@ -113,9 +113,9 @@ public class UserRepositoryImpl implements UserRepository{
 	}
 
 	@Override
-	public boolean existsCodeByEmail(FindIdRequest findIdRequest) {
+	public boolean existsCodeByEmail(String email, String verificationCode) {
 		
-		return userMapper.selectCodeByEmail(findIdRequest).isPresent();
+		return userMapper.selectCodeByEmail(email, verificationCode).isPresent();
 	}
 
 	@Override
@@ -129,5 +129,12 @@ public class UserRepositoryImpl implements UserRepository{
 
 		return userMapper.selectUserNicknameByUserId(userId);
 	}
+
+	@Override
+	public User selectUserByUserId(String userId) {
+
+		return userMapper.selectUserByUserId(userId);
+	}
+
 	
 }

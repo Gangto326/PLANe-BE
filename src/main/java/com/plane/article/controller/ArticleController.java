@@ -74,7 +74,7 @@ public class ArticleController {
 	@PatchMapping("/update")
 	public ResponseEntity<ApiResponse<Boolean>> articleUpdate(
 			@UserId String userId,
-			@Valid @RequestBody ArticleUpdateRequest articleUpdateRequest
+			@Valid @ModelAttribute ArticleUpdateRequest articleUpdateRequest
 			) {
 		
 		articleService.updateArticle(userId, articleUpdateRequest);

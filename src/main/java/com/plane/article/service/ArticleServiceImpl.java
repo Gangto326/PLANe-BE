@@ -27,10 +27,13 @@ import com.plane.common.exception.custom.ArticleUpdateException;
 import com.plane.common.exception.custom.CreationFailedException;
 import com.plane.common.exception.custom.DuplicateException;
 import com.plane.common.exception.custom.UnauthorizedException;
+import com.plane.common.exception.custom.UserNotFoundException;
+import com.plane.common.service.S3Service;
 import com.plane.notification.dto.NotificationAction;
 import com.plane.notification.dto.NotificationCreateRequest;
 import com.plane.notification.dto.NotificationTargetType;
 import com.plane.notification.service.NotificationService;
+import com.plane.user.domain.User;
 
 @Service
 @Transactional
@@ -38,11 +41,13 @@ public class ArticleServiceImpl implements ArticleService {
 
 	private final ArticleRepository articleRepository;
 	private final NotificationService notificationService;
+	private final S3Service s3Service;
 	
 	@Autowired
-	public ArticleServiceImpl(ArticleRepository articleRepository, NotificationService notificationService) {
+	public ArticleServiceImpl(ArticleRepository articleRepository, NotificationService notificationService, S3Service s3Service) {
 		this.articleRepository = articleRepository;
 		this.notificationService = notificationService;
+		this.s3Service = s3Service;
 	}
 
 	
@@ -91,6 +96,18 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		if (article.getDeletedDate() != null) {
 			throw new ArticleNotFoundException("삭제된 게시글입니다.");
+		}
+		
+		// 사진 추가
+		if (articleUpdateRequest.getFile() != null && !articleUpdateRequest.getFile().isEmpty()) {
+			s3Service.validateImageFile(articleUpdateRequest.getFile());
+			
+			if (article.getArticlePictureUrl() != null) {
+				s3Service.deleteFile(article.getArticlePictureUrl());
+            }
+			
+			String imageUrl = s3Service.uploadFile(articleUpdateRequest.getFile());
+			articleUpdateRequest.setArticlePictureUrl(imageUrl);
 		}
 		
 		if (articleRepository.updateArticle(userId, articleUpdateRequest) == 1) {
