@@ -32,13 +32,14 @@ public class NotificationTitleGenerator {
         return switch (target.getType()) {
         	case ARTICLE, COMMENT -> throw new IllegalArgumentException("Unexpected value: " + target.getType());
             case ACCOMPANY -> String.format("%s님이 '%s' 동행에 신청하였습니다", target.getNickname(), target.getContent());
+            case REVIEW -> String.format("'%s' 여행이 종료되었습니다. 리뷰를 작성해주세요!", target.getNickname(), target.getContent());
         };
     }
 
     
     private String generateAcceptTitle(NotificationTarget target) {
         return switch (target.getType()) {
-        	case ARTICLE, COMMENT -> throw new IllegalArgumentException("Unexpected value: " + target.getType());
+        	case ARTICLE, COMMENT, REVIEW -> throw new IllegalArgumentException("Unexpected value: " + target.getType());
             case ACCOMPANY -> String.format("%s님의 '%s' 동행 신청이 수락되었습니다", target.getNickname(), target.getContent());
         };
     }

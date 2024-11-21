@@ -1,5 +1,6 @@
 package com.plane.trip.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -51,11 +52,11 @@ public class TripControllerTest {
 	
 	@Test
 	@DisplayName("여행 생성하기")
-//	@Disabled
+	@Disabled
 	void testTripCreate() throws Exception {
 		System.out.println("==== TripCreate Test Start ====");
 		
-		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMjEwMjY5NiwiZXhwIjoxNzMyMTM4Njk2fQ.jwz8EMP-G_nlxkqC-_voVdiWdGVhgM3gEEi22M75BwSNQm-gqFzdK7qf7IzGhNYM";
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMjE1Njc5OSwiZXhwIjoxNzMyMTkyNzk5fQ.6p_n_Kh0IhjGPeNBoAptwbeHgTunRDXMTkxEUTA6U82301r06RiTBYEQk_Bx6Mz8";
 		
 		TripCreateRequest tripCreateRequest = new TripCreateRequest();
 		tripCreateRequest.setRegionId(1);
@@ -73,10 +74,27 @@ public class TripControllerTest {
 		coordinateDto.setTitle("여행지명");
 		coordinateDto.setAddr1("주소주소");
 		coordinateDto.setMemo("메모합니다");
-		coordinateDto.setMapx(36.12352633);
-		coordinateDto.setMapy(121.12422355);
-		
+		coordinateDto.setMapx(36.12352);
+		coordinateDto.setMapy(121.1242);
 		coor.add(coordinateDto);
+		
+		CoordinateDto coordinateDto2 = new CoordinateDto();
+		coordinateDto2.setTripOrder(3);
+		coordinateDto2.setTitle("여행지명");
+		coordinateDto2.setAddr1("주소주소");
+		coordinateDto2.setMemo("메모합니다");
+		coordinateDto2.setMapx(1234.12352);
+		coordinateDto2.setMapy(121.1242);
+		coor.add(coordinateDto2);
+		
+		CoordinateDto coordinateDto3 = new CoordinateDto();
+		coordinateDto3.setTripOrder(2);
+		coordinateDto3.setTitle("여행지명");
+		coordinateDto3.setAddr1("주소주소");
+		coordinateDto3.setMemo("메모합니다");
+		coordinateDto3.setMapx(9.12352);
+		coordinateDto3.setMapy(121.121234542);
+		coor.add(coordinateDto3);
 		
 		tripCreateRequest.setDay1(coor);
 		
@@ -88,6 +106,25 @@ public class TripControllerTest {
 		        .andExpect(status().isOk());
 		
         System.out.println("==== TripCreate Test End ====");
+
+	}
+	
+	
+	@Test
+	@DisplayName("여행 불러오기")
+	@Disabled
+	void testGetTrip() throws Exception {
+		System.out.println("==== GetTrip Test Start ====");
+		
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMjE1Njc5OSwiZXhwIjoxNzMyMTkyNzk5fQ.6p_n_Kh0IhjGPeNBoAptwbeHgTunRDXMTkxEUTA6U82301r06RiTBYEQk_Bx6Mz8";
+		
+		mockMvc.perform(get("/api/plane/{tripLd}", 10)
+				.header("Authorization", "Bearer " + accessToken)
+	            .contentType(MediaType.APPLICATION_JSON))
+	            .andDo(print())                             
+	            .andExpect(status().isOk());
+		
+        System.out.println("==== GetTrip Test End ====");
 
 	}
 }

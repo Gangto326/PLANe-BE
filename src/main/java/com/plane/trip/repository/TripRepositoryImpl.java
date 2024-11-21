@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.plane.trip.dto.TripCreateRequest;
+import com.plane.trip.dto.TripResponse;
 import com.plane.trip.dto.TripPlanDto;
 import com.plane.trip.mapper.TripMapper;
 
@@ -61,6 +62,20 @@ public class TripRepositoryImpl implements TripRepository {
 	public int deletePlane(String userId, Long tripId) {
 
 		return tripMapper.updatePlaneDeletedByTripId(userId, tripId);
+	}
+
+
+	@Override
+	public boolean existsTripByTripId(Long tripId) {
+
+		return tripMapper.existsTripByTripId(tripId);
+	}
+
+
+	@Override
+	public TripResponse selectTripDetail(Long tripId) {
+
+		return tripMapper.selectTripDetail(tripId);
 	}
 	
 }

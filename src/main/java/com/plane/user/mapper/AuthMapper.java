@@ -3,6 +3,7 @@ package com.plane.user.mapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -14,6 +15,17 @@ import com.plane.user.dto.UserLoginRequest;
 
 @Mapper
 public interface AuthMapper {
+	
+	@Select("""
+			SELECT EXISTS (
+	            SELECT 1
+	            FROM Users
+	            WHERE userId = #{userId}
+	            AND state != '탈퇴'
+	        )
+			""")
+	boolean existsUserById(String userId);
+	
 	
 	@Select("SELECT * FROM users WHERE userId = #{userId}")
 	User selectUserById(String userId);

@@ -84,13 +84,14 @@ public class S3Service {
     }
 
     
+    // 파일 삭제 에러를 던지지 않게 변경
     public void deleteFile(String fileUrl) {
     	
         try {
             String fileName = extractFileName(fileUrl);
             amazonS3Client.deleteObject(bucket, fileName);
         } catch (Exception e) {
-            throw new FileDeleteException("파일 삭제에 실패했습니다.");
+        	return;
         }
     }
 

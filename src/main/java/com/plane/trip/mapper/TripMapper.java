@@ -4,15 +4,19 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.plane.trip.domain.TripStyle;
 import com.plane.trip.domain.TripThema;
 import com.plane.trip.dto.TripCreateRequest;
+import com.plane.trip.dto.TripResponse;
 import com.plane.trip.dto.TripPlanDto;
 
 @Mapper
@@ -108,5 +112,49 @@ public interface TripMapper {
 			""")
 	int updatePlaneDeletedByTripId(String userId, Long tripId);
 	
+	
+	@Select("""
+			SELECT EXISTS (
+	            SELECT 1
+	            FROM PLANe
+	            WHERE tripId = #{tripId}
+	            AND deletedDate IS NULL
+	        )
+			""")
+	boolean existsTripByTripId(@Param("tripId") Long tripId);
 
+	
+	@Select("""
+    		SELECT tripId, tripName, departureDate, arrivedDate, state, accompanyNum, tripDays, isLiked, isPublic, isReviewed
+    		FROM PLANe
+    		WHERE tripId = #{tripId}
+    		AND deletedDate IS NULL
+    		""")
+	@Results({
+		@Result(property = "tripId", column = "tripId"),
+        @Result(property = "tripName", column = "tripName"),
+        @Result(property = "departureDate", column = "departureDate"),
+        @Result(property = "arrivedDate", column = "arrivedDate"),
+        @Result(property = "state", column = "state"),
+        @Result(property = "accompanyNum", column = "accompanyNum"),
+        @Result(property = "tripDays", column = "tripDays"),
+        @Result(property = "isLiked", column = "isLiked"),
+        @Result(property = "isPublic", column = "isPublic"),
+        @Result(property = "isReviewed", column = "isReviewed"),
+        @Result(property = "themaList", column = "tripId",
+            many = @Many(select = "selectTripThemasByTripId")),
+        @Result(property = "planList", column = "tripId",
+            many = @Many(select = "selectTripPlans"))
+    })
+	TripResponse selectTripDetail(@Param("tripId") Long tripId);
+	
+	
+	@Select("""
+			SELECT id, tripId, tripDay, tripOrder, title, memo, ST_X(point) AS mapx, ST_Y(point) AS mapy, address
+			FROM TripPlan
+			WHERE tripId = #{tripId}
+			ORDER BY tripOrder ASC
+			""")
+	List<TripPlanDto> selectTripPlans(@Param("tripId") Long tripId);
+	
 }

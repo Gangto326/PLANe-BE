@@ -20,4 +20,6 @@ public interface AuthRepository {
 
 	User selectUser(String userId);
 	
+	boolean existsUserById(String userId);
+	
 }

@@ -4,6 +4,7 @@ public enum NotificationTargetType {
 
 	 ARTICLE, // 게시글
 	 COMMENT, // 댓글
-	 ACCOMPANY // 동행
+	 ACCOMPANY, // 동행
+	 REVIEW
 	
 }

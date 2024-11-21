@@ -67,5 +67,12 @@ public class AuthRepositoryImpl implements AuthRepository {
 		authMapper.updateTokenActiveByIdAndToken(userId, refreshToken);
 	}
 
+
+	@Override
+	public boolean existsUserById(String userId) {
+		
+		return authMapper.existsUserById(userId);
+	}
+
 	
 }

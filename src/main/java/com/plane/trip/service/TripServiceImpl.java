@@ -1,5 +1,7 @@
 package com.plane.trip.service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.locationtech.jts.geom.Coordinate;
@@ -12,11 +14,21 @@ import org.springframework.transaction.annotation.Transactional;
 import com.plane.accompany.repository.AccompanyRepository;
 import com.plane.common.exception.custom.CreationFailedException;
 import com.plane.common.exception.custom.InvalidParameterException;
+import com.plane.common.exception.custom.TripNotFoundException;
 import com.plane.common.exception.custom.UpdateFailedException;
+import com.plane.common.exception.custom.UserNotFoundException;
+import com.plane.notification.service.NotificationSchedulerService;
+import com.plane.trip.domain.TripThema;
 import com.plane.trip.dto.CoordinateDto;
 import com.plane.trip.dto.TripCreateRequest;
+import com.plane.trip.dto.TripDetailResponse;
+import com.plane.trip.dto.TripResponse;
 import com.plane.trip.dto.TripPlanDto;
+import com.plane.trip.dto.TripUpdateRequest;
 import com.plane.trip.repository.TripRepository;
+import com.plane.user.repository.AuthRepository;
+
+import jakarta.validation.Valid;
 
 @Service
 @Transactional
@@ -24,12 +36,16 @@ public class TripServiceImpl implements TripService {
 
 	private final TripRepository tripRepository;
 	private final AccompanyRepository accompanyRepository;
+	private final AuthRepository authRepository;
+	private final NotificationSchedulerService notificationSchedulerService;
 	private final GeometryFactory geometryFactory = new GeometryFactory();
 	
 	@Autowired
-	public TripServiceImpl(TripRepository tripRepository, AccompanyRepository accompanyRepository) {
+	public TripServiceImpl(TripRepository tripRepository, AccompanyRepository accompanyRepository, AuthRepository authRepository, NotificationSchedulerService notificationSchedulerService) {
 		this.tripRepository = tripRepository;
 		this.accompanyRepository = accompanyRepository;
+		this.authRepository = authRepository;
+		this.notificationSchedulerService = notificationSchedulerService;
 	}
 
 	
@@ -56,7 +72,12 @@ public class TripServiceImpl implements TripService {
         	tripRepository.insertTripThema(userId, tripCreateRequest.getTripThema());
         }
         
+        // 동행 정보에 팀장 정보 추가
         if (accompanyRepository.insertAccompany(tripCreateRequest.getTripId(), userId, "팀장") == 1) {
+        	
+        	// 후기 알림 발송 예약
+        	notificationSchedulerService.scheduleTripReviewNotification(tripCreateRequest.getTripId(), tripCreateRequest.getTripName(), tripCreateRequest.getArrivedDate(), userId);
+        	
         	return true;
         }
         
@@ -82,7 +103,6 @@ public class TripServiceImpl implements TripService {
             tripPlanDto.setMapx(coord.getMapx());
             tripPlanDto.setMapy(coord.getMapy());
             
-            
             if (tripRepository.insertTripPlan(tripPlanDto) != 1) {
             	throw new UpdateFailedException("여행 계획 추가에 실패하였습니다.");
             }
@@ -98,6 +118,65 @@ public class TripServiceImpl implements TripService {
 		}
 		
 		throw new UpdateFailedException("여행 삭제에 실패했습니다.");
+	}
+
+
+	@Override
+	public boolean updatePlane(String userId, @Valid TripUpdateRequest tripUpdateRequest) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public TripDetailResponse getPlane(String userId, Long tripId) {
+		
+		if (!authRepository.existsUserById(userId)) {
+			throw new UserNotFoundException("유저가 존재하지 않습니다.");
+		}
+		
+		TripResponse tripResponse = tripRepository.selectTripDetail(tripId);
+		
+		if (tripResponse == null) {
+			throw new TripNotFoundException("해당 여행을 찾을 수 없습니다.");
+		}
+		
+		TripDetailResponse tripDetailResponse = new TripDetailResponse();
+		
+		tripDetailResponse.setTripId(tripResponse.getTripId());
+		tripDetailResponse.setTripName(tripResponse.getTripName());
+		tripDetailResponse.setDepartureDate(tripResponse.getDepartureDate());
+		tripDetailResponse.setArrivedDate(tripResponse.getArrivedDate());
+		tripDetailResponse.setAccompanyNum(tripResponse.getAccompanyNum());
+		tripDetailResponse.setTripDays(tripResponse.getTripDays());
+		tripDetailResponse.setLiked(tripResponse.isLiked());
+		tripDetailResponse.setPublic(tripResponse.isPublic());
+		tripDetailResponse.setReviewed(tripResponse.isReviewed());
+		tripDetailResponse.setThemaList(tripResponse.getThemaList());
+		
+		if (tripResponse.getPlanList() == null) {
+		    throw new TripNotFoundException("해당 여행의 정보를 찾을 수 없습니다.");
+		}
+		
+		List<TripPlanDto> planList = tripResponse.getPlanList();
+		
+		List<TripPlanDto> day1 = new ArrayList<>();
+		List<TripPlanDto> day2 = new ArrayList<>();
+		List<TripPlanDto> day3 = new ArrayList<>();
+		
+		for (TripPlanDto plan: planList) {
+			switch (plan.getTripDay()) {
+				case 1 -> day1.add(plan);
+				case 2 -> day2.add(plan);
+				case 3 -> day3.add(plan);
+			}
+		}
+		
+		tripDetailResponse.setDay1(day1);
+		tripDetailResponse.setDay2(day2);
+		tripDetailResponse.setDay3(day3);
+		
+		return tripDetailResponse;
 	}
 	
 	
