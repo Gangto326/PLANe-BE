@@ -80,7 +80,7 @@ public interface NotificationMapper {
 	@Select("""
 			SELECT *
 			FROM ScheduledNotification 
-			WHERE scheduledTime <= #{now} 
+			WHERE scheduledTime <= #{now}
 			AND isSent = false 
 			AND isActive = true
 			""")
@@ -97,8 +97,8 @@ public interface NotificationMapper {
 
 
 	@Insert("""
-	        INSERT INTO ScheduledNotification (tripId, userId, title)
-	        VALUES (#{notification.tripId}, #{notification.userId}, #{notification.title})
+	        INSERT INTO ScheduledNotification (tripId, userId, title, scheduledTime)
+	        VALUES (#{notification.tripId}, #{notification.userId}, #{notification.title}, #{notification.scheduledTime})
 	        """)
 	void save(@Param("notification") ScheduledNotification notification);
 }

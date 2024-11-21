@@ -27,7 +27,7 @@ import com.plane.common.response.ApiResponse;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("api/accompany")
+@RequestMapping("/api/accompany")
 public class AccompanyController {
 	
 	private final AccompanyService accompanyService;

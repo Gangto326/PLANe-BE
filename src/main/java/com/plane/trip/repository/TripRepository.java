@@ -2,6 +2,7 @@ package com.plane.trip.repository;
 
 import java.util.List;
 
+import com.plane.article.dto.ArticleCreateRequest;
 import com.plane.trip.dto.TripCreateRequest;
 import com.plane.trip.dto.TripResponse;
 import com.plane.trip.dto.TripUpdateRequest;
@@ -38,4 +39,6 @@ public interface TripRepository {
 	int deleteTripPlans(Long tripId);
 
 	int updatePlane(String userId, TripUpdateRequest tripUpdateRequest);
+
+	Integer selectAccompanyNum(String userId, Long tripId);
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.plane.article.domain.Article;
+import com.plane.article.dto.ArticleCreateRequest;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleInteractionRequset;
 import com.plane.article.dto.ArticleNotificationInfo;
@@ -22,10 +23,12 @@ import com.plane.common.dto.PageRequest;
 import com.plane.common.dto.PageResponse;
 import com.plane.common.exception.ErrorCode;
 import com.plane.common.exception.SystemException;
+import com.plane.common.exception.custom.ArticleCreateException;
 import com.plane.common.exception.custom.ArticleNotFoundException;
 import com.plane.common.exception.custom.ArticleUpdateException;
 import com.plane.common.exception.custom.CreationFailedException;
 import com.plane.common.exception.custom.DuplicateException;
+import com.plane.common.exception.custom.InvalidParameterException;
 import com.plane.common.exception.custom.UnauthorizedException;
 import com.plane.common.exception.custom.UserNotFoundException;
 import com.plane.common.service.S3Service;
@@ -33,19 +36,24 @@ import com.plane.notification.dto.NotificationAction;
 import com.plane.notification.dto.NotificationCreateRequest;
 import com.plane.notification.dto.NotificationTargetType;
 import com.plane.notification.service.NotificationService;
+import com.plane.trip.repository.TripRepository;
 import com.plane.user.domain.User;
+
+import jakarta.validation.Valid;
 
 @Service
 @Transactional
 public class ArticleServiceImpl implements ArticleService {
 
 	private final ArticleRepository articleRepository;
+	private final TripRepository tripRepository;
 	private final NotificationService notificationService;
 	private final S3Service s3Service;
 	
 	@Autowired
-	public ArticleServiceImpl(ArticleRepository articleRepository, NotificationService notificationService, S3Service s3Service) {
+	public ArticleServiceImpl(ArticleRepository articleRepository, TripRepository tripRepository, NotificationService notificationService, S3Service s3Service) {
 		this.articleRepository = articleRepository;
+		this.tripRepository = tripRepository;
 		this.notificationService = notificationService;
 		this.s3Service = s3Service;
 	}
@@ -212,13 +220,41 @@ public class ArticleServiceImpl implements ArticleService {
 				notificationService.createNotification(notificationInfo.getAuthorId(), notificationCreateRequest);
 			} catch (Exception e) {
 				
-				return true;
+				return false;
 			}
 			
 			return true;
 		}
 		
 		throw new CreationFailedException("신고글 생성에 실패하였습니다");
+	}
+
+
+	@Override
+	public boolean createArticle(String userId, ArticleCreateRequest articleCreateRequest) {
+		
+		Integer accompanyNum = tripRepository.selectAccompanyNum(userId, articleCreateRequest.getTripId());
+		
+		if (accompanyNum == null || accompanyNum < 1) {
+			throw new InvalidParameterException("여행을 찾을 수 없습니다.");
+		}
+		
+		if (accompanyNum == 1 && articleCreateRequest.getArticleType().equals("동행")) {
+			throw new InvalidParameterException("동행 글에는 동행 인원이 있어야 합니다.");
+		}
+		
+		if (articleCreateRequest.getFile() != null && !articleCreateRequest.getFile().isEmpty()) {
+			s3Service.validateImageFile(articleCreateRequest.getFile());
+			
+			String imageUrl = s3Service.uploadFile(articleCreateRequest.getFile());
+			articleCreateRequest.setArticlePictureUrl(imageUrl);
+		}
+		
+		if (articleRepository.insertArticle(userId, articleCreateRequest) == 1) {
+			return true;
+		}
+		
+		throw new ArticleCreateException("게시글 생성 중 오류가 발생했습니다.");
 	}
 
 	

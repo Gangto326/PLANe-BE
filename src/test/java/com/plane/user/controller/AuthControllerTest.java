@@ -25,6 +25,8 @@ import com.plane.article.service.ArticleService;
 import com.plane.user.dto.UserLoginRequest;
 import com.plane.user.service.AuthService;
 
+import jakarta.servlet.http.Cookie;
+
 @AutoConfigureMockMvc
 @SpringBootTest(
 		properties = { 
@@ -40,4 +42,18 @@ public class AuthControllerTest {
 	@MockBean  // 가짜 객체 주입
 	private AuthService authService;
 	
+	
+	@Test
+	public void testRefreshToken() throws Exception {
+	   // Given
+	   String refreshToken = "eyJhbGciOiJIUzUxMiJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMjE5OTk2OSwiZXhwIjoxNzMyMjIxNTY5fQ.Wl3hT0cbU8vFBLSXJSUukvJDoj7mPelrMOANPFUfTLlFdcx73dQAJBhTP8zMD1CRBnF64jsbGc5xpfnwAyqjLQ";
+
+	   // When & Then
+	   mockMvc.perform(get("/api/auth/refresh")
+	           .cookie(new Cookie("refresh_token", refreshToken)))
+	           .andExpect(status().isOk())
+	           .andExpect(jsonPath("$.success").value(true))
+	           .andExpect(jsonPath("$.message").value("Token 발급 성공"))
+	           .andDo(print());  // 응답 결과를 콘솔에 출력
+	}
 }

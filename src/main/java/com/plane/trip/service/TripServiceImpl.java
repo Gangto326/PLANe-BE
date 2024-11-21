@@ -88,6 +88,7 @@ public class TripServiceImpl implements TripService {
             notification.setTripId(tripCreateRequest.getTripId());
             notification.setUserId(userId);
             notification.setTitle(tripCreateRequest.getTripName());
+            notification.setScheduledTime(tripCreateRequest.getArrivedDate().plusDays(1).atStartOfDay());
         	
         	notificationService.save(notification);
         	
@@ -174,6 +175,7 @@ public class TripServiceImpl implements TripService {
             notification.setTripId(tripUpdateRequest.getTripId());
             notification.setUserId(userId);
             notification.setTitle(tripUpdateRequest.getTripName());
+            notification.setScheduledTime(tripUpdateRequest.getArrivedDate().plusDays(1).atStartOfDay());
         	
         	notificationService.save(notification);
         	notificationService.updateStatus(tripUpdateRequest.getTripId());

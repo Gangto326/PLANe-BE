@@ -1,6 +1,7 @@
 package com.plane.article.service;
 
 import com.plane.article.domain.Article;
+import com.plane.article.dto.ArticleCreateRequest;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleInteractionRequset;
 import com.plane.article.dto.ArticleReportRequest;
@@ -27,5 +28,7 @@ public interface ArticleService {
 	boolean toggleInteraction(String userId, ArticleInteractionRequset articleInteractionRequset);
 
 	boolean reportArticle(String userId, ArticleReportRequest articleReportRequest);
+
+	boolean createArticle(String userId, @Valid ArticleCreateRequest articleCreateRequest);
 
 }

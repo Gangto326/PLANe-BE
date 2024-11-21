@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.plane.article.domain.Article;
+import com.plane.article.dto.ArticleCreateRequest;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleInteractionRequset;
 import com.plane.article.dto.ArticleNotificationInfo;
@@ -105,6 +106,12 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	public ArticleNotificationInfo selectArticleNotificationInfo(Long articleId) {
 
 		return articleMapper.selectArticleNotificationInfo(articleId);
+	}
+
+	@Override
+	public int insertArticle(String userId, ArticleCreateRequest articleCreateRequest) {
+
+		return articleMapper.insertArticle(userId, articleCreateRequest);
 	}
 
 	

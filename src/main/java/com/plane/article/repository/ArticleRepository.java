@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.plane.article.domain.Article;
+import com.plane.article.dto.ArticleCreateRequest;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleInteractionRequset;
 import com.plane.article.dto.ArticleNotificationInfo;
@@ -43,5 +44,7 @@ public interface ArticleRepository {
 	int insertReport(String userId, ArticleReportRequest articleReportRequest);
 
 	ArticleNotificationInfo selectArticleNotificationInfo(Long articleId);
+
+	int insertArticle(String userId, ArticleCreateRequest articleCreateRequest);
 
 }
