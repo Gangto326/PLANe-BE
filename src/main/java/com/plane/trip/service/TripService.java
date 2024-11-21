@@ -9,7 +9,7 @@ import jakarta.validation.Valid;
 
 public interface TripService {
 
-	boolean createPlane(String userId, TripCreateRequest tripCreateRequest);
+	long createPlane(String userId, TripCreateRequest tripCreateRequest);
 
 	boolean deletePlane(String userId, Long tripId);
 
