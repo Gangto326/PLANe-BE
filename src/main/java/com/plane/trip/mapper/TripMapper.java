@@ -17,6 +17,7 @@ import com.plane.trip.domain.TripStyle;
 import com.plane.trip.domain.TripThema;
 import com.plane.trip.dto.TripCreateRequest;
 import com.plane.trip.dto.TripResponse;
+import com.plane.trip.dto.TripUpdateRequest;
 import com.plane.trip.dto.TripPlanDto;
 
 @Mapper
@@ -156,5 +157,71 @@ public interface TripMapper {
 			ORDER BY tripOrder ASC
 			""")
 	List<TripPlanDto> selectTripPlans(@Param("tripId") Long tripId);
+
+
+	@Select("""
+			SELECT EXISTS (
+	            SELECT 1
+	            FROM PLANe
+	            WHERE userId = #{userId}
+	            AND tripId = #{tripId}
+	            AND deletedDate IS NULL
+	        )
+			""")
+	boolean existsUserByIdAndTripId(@Param("userId") String userId, @Param("tripId") Long tripId);
+
+	
+	@Select("""
+			SELECT EXISTS (
+	            SELECT 1
+	            FROM Accompany
+	            WHERE userId = #{userId}
+	            AND tripId = #{tripId}
+	            AND role != '일반'
+	        )
+			""")
+	boolean checkUpdatePermission(String userId, Long tripId);
+
+
+	@Delete("""
+			DELETE
+			FROM PLANeTripThema
+			WHERE tripId = #{tripId}
+			""")
+	int deleteTripThemaByTripId(@Param("tripId") Long tripId);
+	
+	
+	@Insert("""
+			<script>
+			INSERT INTO PLANeTripThema (tripId, themaId)
+	        VALUES
+	        <foreach collection="tripThema" item="themaId" separator=",">
+	            (#{tripId}, #{themaId})
+	        </foreach>
+	        </script>
+			""")
+	int insertTripThemaByTripId(@Param("tripId") Long tripId, @Param("tripThema") List<Integer> tripThema);
+
+
+	@Delete("""
+			DELETE
+			FROM TripPlan
+			WHERE tripId = #{tripId}
+			""")
+	int deleteTripPlans(@Param("tripId") Long tripId);
+
+	
+	@Update("""
+			UPDATE PLANe
+		    SET tripName = #{tripUpdateRequest.tripName},
+		        departureDate = #{tripUpdateRequest.departureDate},
+		        arrivedDate = #{tripUpdateRequest.arrivedDate},
+		        state = #{tripUpdateRequest.state},
+		        accompanyNum = #{tripUpdateRequest.accompanyNum},
+		        tripDays = #{tripUpdateRequest.tripDays}
+		    WHERE tripId = #{tripUpdateRequest.tripId}
+		    AND userId = #{userId}
+			""")
+	int updatePlane(@Param("userId") String userId, @Param("tripUpdateRequest") TripUpdateRequest tripUpdateRequest);
 	
 }

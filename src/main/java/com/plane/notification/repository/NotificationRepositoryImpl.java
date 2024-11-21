@@ -1,10 +1,12 @@
 package com.plane.notification.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.plane.common.dto.ScheduledNotification;
 import com.plane.notification.dto.NotificationCreateRequest;
 import com.plane.notification.dto.NotificationDetailResponse;
 import com.plane.notification.dto.NotificationResponse;
@@ -55,7 +57,24 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 
 		return notificationMapper.insertNotification(receiverId, notificationCreateRequest);
 	}
-	
+
+	@Override
+	public List<ScheduledNotification> findByScheduledTimeBeforeAndIsSentFalseAndIsActiveTrue(LocalDateTime now) {
+
+		return notificationMapper.findByScheduledTimeBeforeAndIsSentFalseAndIsActiveTrue(now);
+	}
+
+	@Override
+	public void updateStatus(Long tripId) {
+
+		notificationMapper.updateStatus(tripId);
+	}
+
+	@Override
+	public void save(ScheduledNotification notification) {
+
+		notificationMapper.save(notification);
+	}
 	
 	
 }

@@ -8,16 +8,20 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.plane.accompany.repository.AccompanyRepository;
+import com.plane.common.dto.ScheduledNotification;
 import com.plane.common.exception.custom.CreationFailedException;
 import com.plane.common.exception.custom.InvalidParameterException;
 import com.plane.common.exception.custom.TripNotFoundException;
+import com.plane.common.exception.custom.UnauthorizedException;
 import com.plane.common.exception.custom.UpdateFailedException;
 import com.plane.common.exception.custom.UserNotFoundException;
 import com.plane.notification.service.NotificationSchedulerService;
+import com.plane.notification.service.NotificationService;
 import com.plane.trip.domain.TripThema;
 import com.plane.trip.dto.CoordinateDto;
 import com.plane.trip.dto.TripCreateRequest;
@@ -38,14 +42,16 @@ public class TripServiceImpl implements TripService {
 	private final AccompanyRepository accompanyRepository;
 	private final AuthRepository authRepository;
 	private final NotificationSchedulerService notificationSchedulerService;
+	private final NotificationService notificationService;
 	private final GeometryFactory geometryFactory = new GeometryFactory();
 	
 	@Autowired
-	public TripServiceImpl(TripRepository tripRepository, AccompanyRepository accompanyRepository, AuthRepository authRepository, NotificationSchedulerService notificationSchedulerService) {
+	public TripServiceImpl(TripRepository tripRepository, AccompanyRepository accompanyRepository, AuthRepository authRepository, NotificationSchedulerService notificationSchedulerService, NotificationService notificationService) {
 		this.tripRepository = tripRepository;
 		this.accompanyRepository = accompanyRepository;
 		this.authRepository = authRepository;
 		this.notificationSchedulerService = notificationSchedulerService;
+		this.notificationService = notificationService;
 	}
 
 	
@@ -69,14 +75,21 @@ public class TripServiceImpl implements TripService {
         }
         
         if (tripCreateRequest.getTripThema() != null && !tripCreateRequest.getTripThema().isEmpty()) {
-        	tripRepository.insertTripThema(userId, tripCreateRequest.getTripThema());
+        	tripRepository.insertTripThemaByTripId(tripCreateRequest.getTripId(), tripCreateRequest.getTripThema());
         }
         
         // 동행 정보에 팀장 정보 추가
         if (accompanyRepository.insertAccompany(tripCreateRequest.getTripId(), userId, "팀장") == 1) {
         	
         	// 후기 알림 발송 예약
-        	notificationSchedulerService.scheduleTripReviewNotification(tripCreateRequest.getTripId(), tripCreateRequest.getTripName(), tripCreateRequest.getArrivedDate(), userId);
+//        	notificationSchedulerService.scheduleTripReviewNotification(tripCreateRequest.getTripId(), tripCreateRequest.getTripName(), tripCreateRequest.getArrivedDate(), userId);
+        	
+        	ScheduledNotification notification = new ScheduledNotification();
+            notification.setTripId(tripCreateRequest.getTripId());
+            notification.setUserId(userId);
+            notification.setTitle(tripCreateRequest.getTripName());
+        	
+        	notificationService.save(notification);
         	
         	return true;
         }
@@ -122,9 +135,53 @@ public class TripServiceImpl implements TripService {
 
 
 	@Override
-	public boolean updatePlane(String userId, @Valid TripUpdateRequest tripUpdateRequest) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean updatePlane(String userId, TripUpdateRequest tripUpdateRequest) {
+		
+		if (!tripRepository.existsTripByTripId(tripUpdateRequest.getTripId())) {
+			throw new TripNotFoundException("해당 여행이 존재하지 않습니다.");
+		}
+		
+		// 여행 수정 권한 확인 ('일반'은 권한 없음)
+		if (!tripRepository.checkUpdatePermission(userId, tripUpdateRequest.getTripId())) {
+			throw new UnauthorizedException("수정 권한이 없습니다.");
+		}
+		
+		// PLANe 업데이트
+		tripRepository.updatePlane(userId, tripUpdateRequest);
+		
+		// Delete & Insert
+		tripRepository.deleteTripPlans(tripUpdateRequest.getTripId());
+		
+		// 각 일자별 좌표 저장
+        saveDayPlans(tripUpdateRequest.getTripId(), 1, tripUpdateRequest.getDay1());
+        
+        if (tripUpdateRequest.getTripDays() >= 2) {
+            saveDayPlans(tripUpdateRequest.getTripId(), 2, tripUpdateRequest.getDay2());
+        }
+        
+        if (tripUpdateRequest.getTripDays() >= 3) {
+            saveDayPlans(tripUpdateRequest.getTripId(), 3, tripUpdateRequest.getDay3());
+        }
+        
+        if (tripUpdateRequest.getTripThema() != null && !tripUpdateRequest.getTripThema().isEmpty()) {
+        	
+        	tripRepository.deleteTripThemaByTripId(tripUpdateRequest.getTripId());
+        	tripRepository.insertTripThemaByTripId(tripUpdateRequest.getTripId(), tripUpdateRequest.getTripThema());
+        }
+        
+        try {
+        	ScheduledNotification notification = new ScheduledNotification();
+            notification.setTripId(tripUpdateRequest.getTripId());
+            notification.setUserId(userId);
+            notification.setTitle(tripUpdateRequest.getTripName());
+        	
+        	notificationService.save(notification);
+        	notificationService.updateStatus(tripUpdateRequest.getTripId());
+        } catch (Exception e) {
+        	return false;
+		}
+    	
+		return true;
 	}
 
 
