@@ -58,14 +58,14 @@ public interface UserMapper {
 
 
 	@Select("""
-		    SELECT mannerTagName
+		    SELECT id
 		    FROM MannerTags
 		    WHERE userId = #{userId}
 		    GROUP BY mannerTagName
 		    ORDER BY COUNT(*) DESC
 		    LIMIT 3
 		    """)
-	List<MannerTagDto> selectMannerTags(String userId);
+	List<Integer> selectMannerTags(String userId);
 
 	
 	@Select("""

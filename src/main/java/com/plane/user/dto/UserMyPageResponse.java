@@ -14,9 +14,9 @@ public class UserMyPageResponse {
 	private String profileUrl;
 	private String introduce;
 	private boolean isPublic;
-	private List<TripStyle> tripStyle;
-	private List<TripThema> tripThema;
-	private List<MannerTagDto> mannerTags;
+	private List<Integer> tripStyle;
+	private List<Integer> tripThema;
+	private List<Integer> mannerTags;
 	
 	
 	public UserMyPageResponse() {}
@@ -78,27 +78,27 @@ public class UserMyPageResponse {
 		this.isPublic = isPublic;
 	}
 
-	public List<TripStyle> getTripStyle() {
+	public List<Integer> getTripStyle() {
 		return tripStyle;
 	}
 
-	public void setTripStyle(List<TripStyle> tripStyle) {
+	public void setTripStyle(List<Integer> tripStyle) {
 		this.tripStyle = tripStyle;
 	}
 
-	public List<TripThema> getTripThema() {
+	public List<Integer> getTripThema() {
 		return tripThema;
 	}
 
-	public void setTripThema(List<TripThema> tripThema) {
+	public void setTripThema(List<Integer> tripThema) {
 		this.tripThema = tripThema;
 	}
 
-	public List<MannerTagDto> getMannerTags() {
+	public List<Integer> getMannerTags() {
 		return mannerTags;
 	}
 
-	public void setMannerTags(List<MannerTagDto> mannerTags) {
+	public void setMannerTags(List<Integer> mannerTags) {
 		this.mannerTags = mannerTags;
 	}
 	
