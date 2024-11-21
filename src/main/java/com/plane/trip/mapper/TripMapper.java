@@ -23,30 +23,30 @@ import com.plane.trip.dto.TripPlanDto;
 public interface TripMapper {
 	
 	@Select("""
-		    SELECT ts.styleId as id, ts.styleName
+		    SELECT ts.styleId as id
 		    FROM TripStyle ts
 		    JOIN UsersTripStyle uts ON ts.styleId = uts.styleId
 		    WHERE uts.userId = #{userId}
 		    """)
-	List<TripStyle> selectTripStylesByUserId(@Param("userId") String userId);
+	List<Integer> selectTripStylesByUserId(@Param("userId") String userId);
 	
 	
 	@Select("""
-		    SELECT tt.themaId as id, tt.themaName
+		    SELECT tt.themaId as id
 		    FROM TripThema tt
 		    JOIN UsersTripThema utt ON tt.themaId = utt.themaId
 		    WHERE utt.userId = #{userId}
 		    """)
-	List<TripThema> selectTripThemasByUserId(@Param("userId") String userId);
+	List<Integer> selectTripThemasByUserId(@Param("userId") String userId);
 	
 	
 	@Select("""
-		    SELECT tt.themaId as id, tt.themaName
+		    SELECT tt.themaId as id
 		    FROM TripThema tt
 		    JOIN PLANeTripThema ptt ON tt.themaId = ptt.themaId
 		    WHERE ptt.tripId = #{tripId}
 		    """)
-	List<TripThema> selectTripThemasByTripId(@Param("tripId") int tripId);
+	List<Integer> selectTripThemasByTripId(@Param("tripId") int tripId);
 	
 	
 	@Delete("""
