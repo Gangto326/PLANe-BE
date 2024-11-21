@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.plane.trip.dto.TripCreateRequest;
 import com.plane.trip.dto.TripResponse;
+import com.plane.trip.dto.TripUpdateRequest;
 import com.plane.trip.dto.TripPlanDto;
 import com.plane.trip.mapper.TripMapper;
 
@@ -76,6 +77,48 @@ public class TripRepositoryImpl implements TripRepository {
 	public TripResponse selectTripDetail(Long tripId) {
 
 		return tripMapper.selectTripDetail(tripId);
+	}
+
+
+	@Override
+	public boolean existsUserByIdAndTripId(String userId, Long tripId) {
+
+		return tripMapper.existsUserByIdAndTripId(userId, tripId);
+	}
+
+
+	@Override
+	public boolean checkUpdatePermission(String userId, Long tripId) {
+
+		return tripMapper.checkUpdatePermission(userId, tripId);
+	}
+
+
+	@Override
+	public int deleteTripThemaByTripId(Long tripId) {
+
+		return tripMapper.deleteTripThemaByTripId(tripId);
+	}
+
+
+	@Override
+	public int insertTripThemaByTripId(Long tripId, List<Integer> tripThema) {
+
+		return tripMapper.insertTripThemaByTripId(tripId, tripThema);
+	}
+
+
+	@Override
+	public int deleteTripPlans(Long tripId) {
+
+		return tripMapper.deleteTripPlans(tripId);
+	}
+
+
+	@Override
+	public int updatePlane(String userId, TripUpdateRequest tripUpdateRequest) {
+
+		return tripMapper.updatePlane(userId, tripUpdateRequest);
 	}
 	
 }

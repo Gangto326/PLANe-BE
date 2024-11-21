@@ -1,5 +1,6 @@
 package com.plane.notification.mapper;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
@@ -8,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.plane.common.dto.ScheduledNotification;
 import com.plane.notification.dto.NotificationCreateRequest;
 import com.plane.notification.dto.NotificationDetailResponse;
 import com.plane.notification.dto.NotificationResponse;
@@ -74,5 +76,29 @@ public interface NotificationMapper {
 			""")
 	int insertNotification(@Param("receiverId") String receiverId, @Param("request") NotificationCreateRequest notificationCreateRequest);
 
+
+	@Select("""
+			SELECT *
+			FROM ScheduledNotification 
+			WHERE scheduledTime <= #{now} 
+			AND isSent = false 
+			AND isActive = true
+			""")
+	List<ScheduledNotification> findByScheduledTimeBeforeAndIsSentFalseAndIsActiveTrue(@Param("now") LocalDateTime now);
+
 	
+	@Update("""
+	        UPDATE ScheduledNotification
+	        SET isSent = true,
+	        	isActive = false
+	        WHERE tripId = #{tripId}
+	        """)
+	void updateStatus(@Param("tripId") Long tripId);
+
+
+	@Insert("""
+	        INSERT INTO ScheduledNotification (tripId, userId, title)
+	        VALUES (#{notification.tripId}, #{notification.userId}, #{notification.title})
+	        """)
+	void save(@Param("notification") ScheduledNotification notification);
 }

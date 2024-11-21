@@ -2,6 +2,7 @@ package com.plane.notification.service;
 
 import java.util.List;
 
+import com.plane.common.dto.ScheduledNotification;
 import com.plane.notification.dto.NotificationCreateRequest;
 import com.plane.notification.dto.NotificationDetailResponse;
 import com.plane.notification.dto.NotificationResponse;
@@ -20,4 +21,7 @@ public interface NotificationService {
 	
 	boolean createNotificationTripReview(String userId, NotificationCreateRequest notificationCreateRequest);
 	
+	void save(ScheduledNotification notification);
+	
+	void updateStatus(Long tripId);
 }

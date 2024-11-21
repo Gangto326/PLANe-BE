@@ -61,7 +61,7 @@ public interface UserMapper {
 		    SELECT id
 		    FROM MannerTags
 		    WHERE userId = #{userId}
-		    GROUP BY mannerTagName
+		    GROUP BY id
 		    ORDER BY COUNT(*) DESC
 		    LIMIT 3
 		    """)

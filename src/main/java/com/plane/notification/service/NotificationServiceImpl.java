@@ -3,10 +3,12 @@ package com.plane.notification.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.plane.common.dto.ScheduledNotification;
 import com.plane.common.exception.custom.ArticleNotFoundException;
 import com.plane.common.exception.custom.ArticleUpdateException;
 import com.plane.common.exception.custom.InvalidParameterException;
@@ -128,6 +130,26 @@ public class NotificationServiceImpl implements NotificationService {
 		
 		return false;
 	}
+
+
+	@Override
+	@Async
+	@Transactional
+	public void save(ScheduledNotification notification) {
+		
+		notificationRepository.save(notification);
+	}
+
+
+	@Override
+	@Async
+	@Transactional
+	public void updateStatus(Long tripId) {
+
+		notificationRepository.updateStatus(tripId);
+	}
+	
+	
 	
 	
 }
