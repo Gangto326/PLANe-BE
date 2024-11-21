@@ -13,6 +13,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.plane.article.domain.Article;
+import com.plane.article.dto.ArticleCreateRequest;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleInteractionRequset;
 import com.plane.article.dto.ArticleNotificationInfo;
@@ -249,6 +250,13 @@ public interface ArticleMapper {
 			WHERE articleId = #{articleId}
 			""")
 	ArticleNotificationInfo selectArticleNotificationInfo(@Param("articleId") Long articleId);
+
+	
+	@Insert("""
+			INSERT INTO Board (`authorId`, `tripId`, `articleType`, `title`, `content`, `articlePictureUrl`)
+			VALUES (#{userId}, #{request.tripId}, #{request.articleType}, #{request.title}, #{request.content}, #{request.articlePictureUrl})
+			""")
+	int insertArticle(@Param("userId") String userId, @Param("request") ArticleCreateRequest articleCreateRequest);
 
 
 }

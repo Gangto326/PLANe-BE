@@ -42,7 +42,17 @@ public interface AuthMapper {
 	int insertToken(TokenDto tokenDto);
 
 
-	@Select("SELECT isActive FROM Tokens WHERE tokenValue = #{token} AND tokenType = 'RefreshToken'")
+	@Select("""
+			SELECT
+				CASE 
+					WHEN COUNT(*) > 0 THEN true
+					ELSE false 
+				END 
+			FROM Tokens 
+			WHERE tokenValue = #{token} 
+			AND tokenType = 'RefreshToken' 
+			AND isActive = true
+			""")
 	boolean isTokenActive(String token);
 
 	

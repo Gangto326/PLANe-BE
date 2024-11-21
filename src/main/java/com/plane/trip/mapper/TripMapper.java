@@ -223,5 +223,14 @@ public interface TripMapper {
 		    AND userId = #{userId}
 			""")
 	int updatePlane(@Param("userId") String userId, @Param("tripUpdateRequest") TripUpdateRequest tripUpdateRequest);
+
+	
+	@Select("""
+			SELECT accompanyNum
+			FROM PLANe
+			WHERE tripId = #{tripId}
+			AND userId = #{userId}
+			""")
+	Integer selectAccompanyNum(@Param("userId") String userId, @Param("tripId") Long tripId);
 	
 }

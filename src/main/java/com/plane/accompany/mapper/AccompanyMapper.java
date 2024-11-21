@@ -192,6 +192,7 @@ public interface AccompanyMapper {
 			SELECT COUNT(*)
 			FROM Accompany
 			WHERE tripId = #{tripId}
+			AND deletedDate IS NULL
 			""")
 	int countAccompanyByTripId(@Param("tripId") Long tripId);
 
@@ -207,6 +208,7 @@ public interface AccompanyMapper {
 			UPDATE AccompanyApply
 			SET isOk = 1
 			WHERE applyId = #{applyId}
+			AND deletedDate IS NULL
 			""")
 	int updateAccompanyApplyStatus(@Param("applyId") Long applyId);
 }

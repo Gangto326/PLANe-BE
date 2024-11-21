@@ -120,5 +120,12 @@ public class TripRepositoryImpl implements TripRepository {
 
 		return tripMapper.updatePlane(userId, tripUpdateRequest);
 	}
+
+
+	@Override
+	public Integer selectAccompanyNum(String userId, Long tripId) {
+		
+		return tripMapper.selectAccompanyNum(userId, tripId);
+	}
 	
 }

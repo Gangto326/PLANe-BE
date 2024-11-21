@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.plane.article.domain.Article;
+import com.plane.article.dto.ArticleCreateRequest;
 import com.plane.article.dto.ArticleDetailResponse;
 import com.plane.article.dto.ArticleInteractionRequset;
 import com.plane.article.dto.ArticleReportRequest;
@@ -175,6 +176,17 @@ public class ArticleController {
 		
 		articleService.reportArticle(userId, articleReportRequest);
 		return ResponseEntity.ok(ApiResponse.success(true, "게시글 신고가 완료되었습니다."));
+	}
+	
+	
+	@PostMapping("/create")
+	public ResponseEntity<ApiResponse<Boolean>> articleCreate(
+			@UserId String userId,
+			@Valid @RequestBody ArticleCreateRequest articleCreateRequest
+			) {
+		
+		articleService.createArticle(userId, articleCreateRequest);
+		return ResponseEntity.ok(ApiResponse.success(true, "게시글 생성이 완료되었습니다."));
 	}
 	
 }
