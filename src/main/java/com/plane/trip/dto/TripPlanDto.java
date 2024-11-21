@@ -1,22 +1,31 @@
 package com.plane.trip.dto;
 
-import org.locationtech.jts.geom.Point;
-
 public class TripPlanDto {
 	
+	private Long id;
 	private Long tripId;
 	private int tripDay;
 	private int tripOrder;
 	private String title;
 	private String memo;
-	private String address;
 	private Double mapx;
 	private Double mapy;
+	private String address;
 	
 	
 	public TripPlanDto() {}
 
 	
+	public Long getId() {
+		return id;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
 	public Long getTripId() {
 		return tripId;
 	}
@@ -67,16 +76,6 @@ public class TripPlanDto {
 	}
 
 
-	public String getAddress() {
-		return address;
-	}
-
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-
 	public Double getMapx() {
 		return mapx;
 	}
@@ -95,5 +94,16 @@ public class TripPlanDto {
 	public void setMapy(Double mapy) {
 		this.mapy = mapy;
 	}
+	
+	
+	public String getAddress() {
+		return address;
+	}
+
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	
 }

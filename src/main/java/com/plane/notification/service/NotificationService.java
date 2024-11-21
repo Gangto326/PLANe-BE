@@ -17,5 +17,7 @@ public interface NotificationService {
 	boolean deleteNotification(String userId, Long noId);
 	
 	boolean createNotification(String userId, NotificationCreateRequest notificationCreateRequest);
-
+	
+	boolean createNotificationTripReview(String userId, NotificationCreateRequest notificationCreateRequest);
+	
 }

@@ -18,6 +18,7 @@ import com.plane.notification.dto.NotificationResponse;
 import com.plane.notification.dto.NotificationTarget;
 import com.plane.notification.dto.NotificationTargetType;
 import com.plane.notification.repository.NotificationRepository;
+import com.plane.trip.repository.TripRepository;
 import com.plane.user.repository.UserRepository;
 
 @Service
@@ -26,12 +27,14 @@ public class NotificationServiceImpl implements NotificationService {
 
 	private final NotificationRepository notificationRepository;
 	private final UserRepository userRepository;
+	private final TripRepository tripRepository;
 	private final NotificationTitleGenerator notificationTitleGenerator;
 
 	@Autowired
-	public NotificationServiceImpl(NotificationRepository notificationRepository, UserRepository userRepository, NotificationTitleGenerator notificationTitleGenerator) {
+	public NotificationServiceImpl(NotificationRepository notificationRepository, UserRepository userRepository, TripRepository tripRepository, NotificationTitleGenerator notificationTitleGenerator) {
 		this.notificationRepository = notificationRepository;
 		this.userRepository = userRepository;
+		this.tripRepository = tripRepository;
 		this.notificationTitleGenerator = notificationTitleGenerator;
 	}
 
@@ -93,6 +96,31 @@ public class NotificationServiceImpl implements NotificationService {
 		
 		String title = notificationTitleGenerator.generateTitle(target, notificationCreateRequest.getAction());
 		notificationCreateRequest.setTitle(title);
+		
+		if (notificationRepository.insertNotification(receiverId, notificationCreateRequest) == 1) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
+	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public boolean createNotificationTripReview(String receiverId, NotificationCreateRequest notificationCreateRequest) {
+		
+		NotificationTarget target = new NotificationTarget();
+		target.setType(notificationCreateRequest.getType());
+		target.setNickname(userRepository.selectUserNicknameByUserId(receiverId));
+		target.setContent(notificationCreateRequest.getDetails());
+		
+		String title = notificationTitleGenerator.generateTitle(target, notificationCreateRequest.getAction());
+		notificationCreateRequest.setTitle(title);
+		
+		// 여행이 취소되었으면 후기 알림을 보내지 않음
+		if (!tripRepository.existsTripByTripId(notificationCreateRequest.getContentId())) {
+			return false;
+		}
 		
 		if (notificationRepository.insertNotification(receiverId, notificationCreateRequest) == 1) {
 			return true;

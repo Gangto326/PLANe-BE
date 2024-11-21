@@ -6,10 +6,13 @@ import java.sql.SQLException;
 
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.MappedTypes;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.io.WKBWriter;
 import org.locationtech.jts.io.WKTReader;
 
+@MappedTypes(Point.class)
 public class PointTypeHandler extends BaseTypeHandler<Point> {
 	
 	private final GeometryFactory geometryFactory = new GeometryFactory();
@@ -26,8 +29,9 @@ public class PointTypeHandler extends BaseTypeHandler<Point> {
             return;
         }
 		
-		String pointStr = String.format("ST_GeomFromText('POINT(%f %f)')", parameter.getX(), parameter.getY());
-		ps.setString(i, pointStr);
+		WKBWriter writer = new WKBWriter();
+	    byte[] wkb = writer.write(parameter);
+	    ps.setBytes(i, wkb);
 	}
 
 	
