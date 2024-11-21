@@ -34,13 +34,13 @@ public class TripController {
 	
 	
 	@PostMapping("")
-	public ResponseEntity<ApiResponse<Boolean>> planeCreate(
+	public ResponseEntity<ApiResponse<Long>> planeCreate(
 			@UserId String userId,
 			@Valid @RequestBody TripCreateRequest tripCreateRequest
 			) {
 		
-		tripService.createPlane(userId, tripCreateRequest);
-		return ResponseEntity.ok(ApiResponse.success(true, "여행 생성에 성공했습니다."));
+		long tripId = tripService.createPlane(userId, tripCreateRequest);
+		return ResponseEntity.ok(ApiResponse.success(tripId, "여행 생성에 성공했습니다."));
 	}
 	
 	

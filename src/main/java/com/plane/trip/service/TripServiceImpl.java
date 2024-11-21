@@ -56,7 +56,7 @@ public class TripServiceImpl implements TripService {
 
 	
 	@Override
-	public boolean createPlane(String userId, TripCreateRequest tripCreateRequest) {
+	public long createPlane(String userId, TripCreateRequest tripCreateRequest) {
 		
 		// 먼저 Trip 정보 저장하고 tripId 받아오기
         if (tripRepository.insertTrip(userId, tripCreateRequest) != 1) {
@@ -92,7 +92,7 @@ public class TripServiceImpl implements TripService {
         	
         	notificationService.save(notification);
         	
-        	return true;
+        	return tripCreateRequest.getTripId();
         }
         
         throw new CreationFailedException("여행 생성에 실패하였습니다.");
