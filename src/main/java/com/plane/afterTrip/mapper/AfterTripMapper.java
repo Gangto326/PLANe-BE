@@ -43,6 +43,7 @@ public interface AfterTripMapper {
 	        SELECT afterTripId, tripId, tripDay, content
 	        FROM AfterTrip
 	        WHERE tripId = #{tripId}
+	        AND deletedDate IS NULL
 	        ORDER BY tripDay
 	        """)
     @Results({

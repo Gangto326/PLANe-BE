@@ -201,11 +201,11 @@ public class ArticleControllerTest {
 	@Disabled
 	void articleCreateTest() throws Exception {
 		
-		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMjI1ODQ1MiwiZXhwIjoxNzMyMjk0NDUyfQ.b78-e2OCJv6XC585Q5BR2_XgYfwBJH_hmF34e9mtzgXywdQXSrpOxraYlSnYtR9-";
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMjI2MjQxNywiZXhwIjoxNzMyMjk4NDE3fQ.-6px6sMLg7kAy_5-XeYOmzSTvX8Y9E49oYqwkxTqEN3-4ONn2499AAMY1CANQ1nt";
 		
 		
 	    mockMvc.perform(multipart("/api/article/create")
-	            .param("tripId", "2")
+	            .param("tripId", "1")
 	            .param("articleType", "동행")  // "동행" 또는 "후기"
 	            .param("title", "테스트 제목")
 	            .param("content", "테스트 내용")

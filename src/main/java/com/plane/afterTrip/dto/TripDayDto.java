@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class TripDayDto {
 	
@@ -15,9 +16,10 @@ public class TripDayDto {
 	private Integer tripDay;
 	
 	
-	@NotBlank(message = "내용은 필수입니다.")
 	private String content;
 	
+	
+	@Size(max = 5, message = "각 일차별 사진은 5개까지 가능합니다")
 	private List<MultipartFile> files;
 	
 
