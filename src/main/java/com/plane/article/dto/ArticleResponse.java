@@ -29,7 +29,7 @@ public class ArticleResponse {
 	private LocalDate arrivedDate;
 	
     // tripId로 PLANeTripThema테이블에서 탐색
-	private List<TripThema> tripThema;
+	private List<Integer> tripThema;
 
 	
 	public ArticleResponse() {}
@@ -131,11 +131,11 @@ public class ArticleResponse {
 		this.arrivedDate = arrivedDate;
 	}
 
-	public List<TripThema> getTripThema() {
+	public List<Integer> getTripThema() {
 		return tripThema;
 	}
 
-	public void setTripThema(List<TripThema> tripThema) {
+	public void setTripThema(List<Integer> tripThema) {
 		this.tripThema = tripThema;
 	}
 	

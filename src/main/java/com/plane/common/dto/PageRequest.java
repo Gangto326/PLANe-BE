@@ -13,8 +13,6 @@ public class PageRequest {
     private int size = 12;
 
     
-    @Pattern(regexp = "^(createdDate|likeCount|viewCount)$", 
-            message = "정렬 기준은 createdDate, likeCount, viewCount 중 하나여야 합니다")
     private String sortBy = "createdDate";
 
     

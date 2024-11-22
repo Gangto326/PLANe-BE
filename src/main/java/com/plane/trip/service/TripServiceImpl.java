@@ -13,6 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.plane.accompany.repository.AccompanyRepository;
+import com.plane.article.dto.ArticleResponse;
+import com.plane.common.dto.PageInfo;
+import com.plane.common.dto.PageRequest;
+import com.plane.common.dto.PageResponse;
 import com.plane.common.dto.ScheduledNotification;
 import com.plane.common.exception.custom.CreationFailedException;
 import com.plane.common.exception.custom.InvalidParameterException;
@@ -27,6 +31,8 @@ import com.plane.trip.dto.CoordinateDto;
 import com.plane.trip.dto.TripCreateRequest;
 import com.plane.trip.dto.TripDetailResponse;
 import com.plane.trip.dto.TripResponse;
+import com.plane.trip.dto.TripSearchRequest;
+import com.plane.trip.dto.TripSearchResponse;
 import com.plane.trip.dto.TripPlanDto;
 import com.plane.trip.dto.TripUpdateRequest;
 import com.plane.trip.repository.TripRepository;
@@ -203,6 +209,7 @@ public class TripServiceImpl implements TripService {
 		TripDetailResponse tripDetailResponse = new TripDetailResponse();
 		
 		tripDetailResponse.setTripId(tripResponse.getTripId());
+		tripDetailResponse.setRegionId(tripResponse.getRegionId());
 		tripDetailResponse.setTripName(tripResponse.getTripName());
 		tripDetailResponse.setDepartureDate(tripResponse.getDepartureDate());
 		tripDetailResponse.setArrivedDate(tripResponse.getArrivedDate());
@@ -236,6 +243,29 @@ public class TripServiceImpl implements TripService {
 		tripDetailResponse.setDay3(day3);
 		
 		return tripDetailResponse;
+	}
+
+
+	@Override
+	public PageResponse<TripSearchResponse> getTripList(String userId, TripSearchRequest tripSearchRequest) {
+		
+		long total = tripRepository.countAllTrips(userId, tripSearchRequest);
+		
+		List<TripSearchResponse> tripList = tripRepository.selectTripsByPageRequest(userId, tripSearchRequest);
+        
+		PageRequest pageRequest = tripSearchRequest.getPageRequest();
+        // 페이지 정보 생성
+        int totalPages = (int) Math.ceil((double) total / pageRequest.getSize());
+        
+        // Front를 위한 메타 데이터 생성
+        PageInfo pageInfo = new PageInfo(
+            pageRequest.getPage(),
+            pageRequest.getSize(),
+            totalPages,
+            total
+        );
+        
+        return new PageResponse<>(tripList, pageInfo);
 	}
 	
 	

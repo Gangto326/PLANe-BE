@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.plane.trip.domain.Plane;
 import com.plane.trip.dto.TripCreateRequest;
 import com.plane.trip.dto.TripResponse;
+import com.plane.trip.dto.TripSearchRequest;
+import com.plane.trip.dto.TripSearchResponse;
 import com.plane.trip.dto.TripUpdateRequest;
 import com.plane.trip.dto.TripPlanDto;
 import com.plane.trip.mapper.TripMapper;
@@ -134,6 +136,20 @@ public class TripRepositoryImpl implements TripRepository {
 	public Plane selectPlaneByUserIdAndTripId(String userId, Long tripId) {
 
 		return tripMapper.selectPlaneByUserIdAndTripId(userId, tripId);
+	}
+
+
+	@Override
+	public long countAllTrips(String userId, TripSearchRequest tripSearchRequest) {
+
+		return tripMapper.countAllTrips(userId, tripSearchRequest);
+	}
+
+
+	@Override
+	public List<TripSearchResponse> selectTripsByPageRequest(String userId, TripSearchRequest tripSearchRequest) {
+
+		return tripMapper.selectTripsByPageRequest(userId, tripSearchRequest);
 	}
 
 	

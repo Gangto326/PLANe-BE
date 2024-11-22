@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.plane.trip.domain.TripThema;
 
-public class TripResponse {
+public class TripSearchResponse {
 	
 	private Long tripId;
 	private Long regionId;
@@ -18,11 +18,10 @@ public class TripResponse {
     private boolean isLiked;
     private boolean isPublic;
     private boolean isReviewed;
-    private List<TripThema> themaList;
-    private List<TripPlanDto> planList;
+    private List<Integer> tripThema;
     
     
-	public TripResponse() {}
+	public TripSearchResponse() {}
 
 
 	public Long getTripId() {
@@ -34,7 +33,7 @@ public class TripResponse {
 		this.tripId = tripId;
 	}
 
-	
+
 	public Long getRegionId() {
 		return regionId;
 	}
@@ -135,23 +134,13 @@ public class TripResponse {
 	}
 
 
-	public List<TripThema> getThemaList() {
-		return themaList;
+	public List<Integer> getTripThema() {
+		return tripThema;
 	}
 
 
-	public void setThemaList(List<TripThema> themaList) {
-		this.themaList = themaList;
-	}
-
-
-	public List<TripPlanDto> getPlanList() {
-		return planList;
-	}
-
-
-	public void setPlanList(List<TripPlanDto> planList) {
-		this.planList = planList;
+	public void setTripThema(List<Integer> tripThema) {
+		this.tripThema = tripThema;
 	}
     
 }

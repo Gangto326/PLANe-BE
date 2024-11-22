@@ -5,6 +5,8 @@ import java.util.List;
 import com.plane.trip.domain.Plane;
 import com.plane.trip.dto.TripCreateRequest;
 import com.plane.trip.dto.TripResponse;
+import com.plane.trip.dto.TripSearchRequest;
+import com.plane.trip.dto.TripSearchResponse;
 import com.plane.trip.dto.TripUpdateRequest;
 import com.plane.trip.dto.TripPlanDto;
 
@@ -43,5 +45,8 @@ public interface TripRepository {
 	Integer selectAccompanyNum(String userId, Long tripId);
 	
 	Plane selectPlaneByUserIdAndTripId(String userId, Long tripId);
+
+	long countAllTrips(String userId, TripSearchRequest tripSearchRequest);
 	
+	List<TripSearchResponse> selectTripsByPageRequest(String userId, TripSearchRequest tripSearchRequest);
 }

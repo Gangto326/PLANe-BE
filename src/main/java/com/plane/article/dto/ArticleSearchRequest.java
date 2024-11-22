@@ -22,7 +22,7 @@ public class ArticleSearchRequest {
     
 	private Integer regionId;
     
-	private List<TripThema> tripThema;
+	private List<Integer> tripThema;
     
      
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -68,12 +68,12 @@ public class ArticleSearchRequest {
 	}
 
 
-	public List<TripThema> getTripThema() {
+	public List<Integer> getTripThema() {
 		return tripThema;
 	}
 
 
-	public void setTripThema(List<TripThema> tripThema) {
+	public void setTripThema(List<Integer> tripThema) {
 		this.tripThema = tripThema;
 	}
 
