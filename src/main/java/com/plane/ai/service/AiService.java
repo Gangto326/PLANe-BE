@@ -32,14 +32,17 @@ public class AiService {
 		
 		PromptTemplate template = new PromptTemplate(command);
 		String message = template.render();
-		Message userMessage = new UserMessage(message);
+		
 		Message systemMessage = new SystemMessage(
 				"""
 				지금은 테스트 중이야 아무 말이나 해줘.
 				"""
 		);
 		
-		return chatModel.call(userMessage, systemMessage);
+		Message userMessage = new UserMessage(message);
+		
+		
+		return chatModel.call(systemMessage, userMessage);
 	}
 
 }

@@ -54,7 +54,7 @@ public class TripControllerTest {
 	void testTripCreate() throws Exception {
 		System.out.println("==== TripCreate Test Start ====");
 		
-		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMjE1Njc5OSwiZXhwIjoxNzMyMTkyNzk5fQ.6p_n_Kh0IhjGPeNBoAptwbeHgTunRDXMTkxEUTA6U82301r06RiTBYEQk_Bx6Mz8";
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMjIzMzYxMSwiZXhwIjoxNzMyMjY5NjExfQ.Di38kTx-K_sqYVnodt9l6yo0aJbN-tPbQl6JuNvv8DGvHjVuIYHZ81s5msIBLwew";
 		
 		TripCreateRequest tripCreateRequest = new TripCreateRequest();
 		tripCreateRequest.setRegionId(1);

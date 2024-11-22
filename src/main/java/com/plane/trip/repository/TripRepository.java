@@ -2,7 +2,7 @@ package com.plane.trip.repository;
 
 import java.util.List;
 
-import com.plane.article.dto.ArticleCreateRequest;
+import com.plane.trip.domain.Plane;
 import com.plane.trip.dto.TripCreateRequest;
 import com.plane.trip.dto.TripResponse;
 import com.plane.trip.dto.TripUpdateRequest;
@@ -28,7 +28,7 @@ public interface TripRepository {
 
 	TripResponse selectTripDetail(Long tripId);
 
-	boolean existsUserByIdAndTripId(String userId, Long tripId);
+	boolean existsTripByIdAndTripId(String userId, Long tripId);
 
 	boolean checkUpdatePermission(String userId, Long tripId);
 
@@ -41,4 +41,6 @@ public interface TripRepository {
 	int updatePlane(String userId, TripUpdateRequest tripUpdateRequest);
 
 	Integer selectAccompanyNum(String userId, Long tripId);
+	
+	Plane selectPlaneByUserIdAndTripId(String userId, Long tripId);
 }

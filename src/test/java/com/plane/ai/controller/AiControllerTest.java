@@ -1,6 +1,5 @@
 package com.plane.ai.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,11 +34,11 @@ public class AiControllerTest {
 	
 	@Test
 	@DisplayName("Ai 테스트")
-//	@Disabled
+	@Disabled
 	void testAi() throws Exception {
 		System.out.println("==== Ai Test Start ====");
 		
-		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMjE5OTk2OCwiZXhwIjoxNzMyMjM1OTY4fQ.VRs46FcnHLx3twLcjiaB04_BbubieY5uq-LDxKAYzzOX_uUN9QPIvL4jtws78ZBM";
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMjIzMzYxMSwiZXhwIjoxNzMyMjY5NjExfQ.Di38kTx-K_sqYVnodt9l6yo0aJbN-tPbQl6JuNvv8DGvHjVuIYHZ81s5msIBLwew";
 		
 		AiGenerateRequest aiGenerateRequest = new AiGenerateRequest();
 		

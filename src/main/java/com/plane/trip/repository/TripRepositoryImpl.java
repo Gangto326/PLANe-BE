@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.plane.trip.domain.Plane;
 import com.plane.trip.dto.TripCreateRequest;
 import com.plane.trip.dto.TripResponse;
 import com.plane.trip.dto.TripUpdateRequest;
@@ -81,9 +82,9 @@ public class TripRepositoryImpl implements TripRepository {
 
 
 	@Override
-	public boolean existsUserByIdAndTripId(String userId, Long tripId) {
+	public boolean existsTripByIdAndTripId(String userId, Long tripId) {
 
-		return tripMapper.existsUserByIdAndTripId(userId, tripId);
+		return tripMapper.existsTripByIdAndTripId(userId, tripId);
 	}
 
 
@@ -126,6 +127,13 @@ public class TripRepositoryImpl implements TripRepository {
 	public Integer selectAccompanyNum(String userId, Long tripId) {
 		
 		return tripMapper.selectAccompanyNum(userId, tripId);
+	}
+
+
+	@Override
+	public Plane selectPlaneByUserIdAndTripId(String userId, Long tripId) {
+
+		return tripMapper.selectPlaneByUserIdAndTripId(userId, tripId);
 	}
 	
 }
