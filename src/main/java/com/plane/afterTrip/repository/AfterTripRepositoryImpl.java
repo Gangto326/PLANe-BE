@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.plane.afterTrip.domain.AfterPic;
+import com.plane.afterTrip.dto.AfterTripResponse;
 import com.plane.afterTrip.dto.TripDayDto;
 import com.plane.afterTrip.mapper.AfterTripMapper;
 
@@ -31,6 +32,13 @@ public class AfterTripRepositoryImpl implements AfterTripRepository {
 	public int insertAfterPic(List<AfterPic> fileList) {
 
 		return afterTripMapper.insertAfterPic(fileList);
+	}
+
+
+	@Override
+	public List<AfterTripResponse> getAfterTripWithPics(Long tripId) {
+
+		return afterTripMapper.getAfterTripWithPics(tripId);
 	}
 	
 	

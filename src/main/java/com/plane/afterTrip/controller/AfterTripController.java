@@ -1,5 +1,7 @@
 package com.plane.afterTrip.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.plane.afterTrip.dto.AfterTripCreateRequest;
+import com.plane.afterTrip.dto.AfterTripResponse;
 import com.plane.afterTrip.service.AfterTripService;
 import com.plane.common.annotation.UserId;
 import com.plane.common.response.ApiResponse;
@@ -27,12 +30,13 @@ public class AfterTripController {
 	
 	
 	@GetMapping("/{tripId}")
-	public ResponseEntity<ApiResponse<?>> getAfterTrip(
+	public ResponseEntity<ApiResponse<List<AfterTripResponse>>> getAfterTrip(
 	    @UserId String userId,
 	    @PathVariable Long tripId
 	) {
 		
-	    return ResponseEntity.ok(ApiResponse.success(true, ""));
+		List<AfterTripResponse> afterTripResponseList = afterTripService.getAfterTrip(userId, tripId);
+	    return ResponseEntity.ok(ApiResponse.success(afterTripResponseList, "여행 정보를 성공적으로 가져왔습니다."));
 	}
 	
 	

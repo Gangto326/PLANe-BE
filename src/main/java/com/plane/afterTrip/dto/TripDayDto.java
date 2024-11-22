@@ -19,7 +19,7 @@ public class TripDayDto {
 	private String content;
 	
 	private List<MultipartFile> files;
-
+	
 
 	public TripDayDto() {}
 

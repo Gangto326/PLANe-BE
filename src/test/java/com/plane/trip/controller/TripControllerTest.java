@@ -50,11 +50,11 @@ public class TripControllerTest {
 	
 	@Test
 	@DisplayName("여행 생성하기")
-	@Disabled
+//	@Disabled
 	void testTripCreate() throws Exception {
 		System.out.println("==== TripCreate Test Start ====");
 		
-		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMjIzMzYxMSwiZXhwIjoxNzMyMjY5NjExfQ.Di38kTx-K_sqYVnodt9l6yo0aJbN-tPbQl6JuNvv8DGvHjVuIYHZ81s5msIBLwew";
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMjI1ODQ1MiwiZXhwIjoxNzMyMjk0NDUyfQ.b78-e2OCJv6XC585Q5BR2_XgYfwBJH_hmF34e9mtzgXywdQXSrpOxraYlSnYtR9-";
 		
 		TripCreateRequest tripCreateRequest = new TripCreateRequest();
 		tripCreateRequest.setRegionId(1);

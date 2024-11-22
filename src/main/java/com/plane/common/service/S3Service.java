@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.plane.common.dto.S3PicDto;
 import com.plane.common.exception.custom.FileDeleteException;
 import com.plane.common.exception.custom.FileUploadException;
 import com.plane.common.exception.custom.InvalidFileException;
@@ -72,14 +73,23 @@ public class S3Service {
     }
 
 
-    public List<String> uploadFiles(List<MultipartFile> files) {
+    public List<S3PicDto> uploadFiles(List<MultipartFile> files) {
     	
-        List<String> urls = new ArrayList<>();
+        List<S3PicDto> urls = new ArrayList<>();
         
+        // 검증이 모두 끝나면
         for (MultipartFile file : files) {
-        	
         	validateImageFile(file);
-            urls.add(uploadFile(file));
+        }
+        
+        // 이후 전부 삽입
+        for (MultipartFile file : files) {
+        	S3PicDto s3PicDto = new S3PicDto();
+        	
+        	s3PicDto.setUrl(uploadFile(file));
+        	s3PicDto.setOriginalFileName(file.getOriginalFilename());
+        	
+            urls.add(s3PicDto);
         }
         
         return urls;
