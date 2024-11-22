@@ -102,8 +102,8 @@ public interface TripMapper {
 
 
 	@Insert("""
-			INSERT INTO TripPlan (`tripId`, `tripDay`, `tripOrder`, `title`, `memo`, `point`, `address`)
-			VALUES (#{tripId}, #{tripDay}, #{tripOrder}, #{title}, #{memo}, ST_GeomFromText(CONCAT('POINT(', #{mapx}, ' ', #{mapy}, ')')), #{address})
+			INSERT INTO TripPlan (`tripId`, `tripDay`, `tripOrder`, `title`, `memo`, `point`, `address`, `url`)
+			VALUES (#{tripId}, #{tripDay}, #{tripOrder}, #{title}, #{memo}, ST_GeomFromText(CONCAT('POINT(', #{mapx}, ' ', #{mapy}, ')')), #{address}, #{url})
 			""")
 	int insertTripPlan(TripPlanDto tripPlanDto);
 
@@ -155,7 +155,7 @@ public interface TripMapper {
 	
 	
 	@Select("""
-			SELECT id, tripId, tripDay, tripOrder, title, memo, ST_X(point) AS mapx, ST_Y(point) AS mapy, address
+			SELECT id, tripId, tripDay, tripOrder, title, memo, ST_X(point) AS mapx, ST_Y(point) AS mapy, address, url
 			FROM TripPlan
 			WHERE tripId = #{tripId}
 			ORDER BY tripOrder ASC

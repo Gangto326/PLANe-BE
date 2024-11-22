@@ -11,6 +11,7 @@ public class TripPlanDto {
 	private Double mapx;
 	private Double mapy;
 	private String address;
+	private String url;
 	
 	
 	public TripPlanDto() {}
@@ -103,6 +104,16 @@ public class TripPlanDto {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+
+	public String getUrl() {
+		return url;
+	}
+
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	

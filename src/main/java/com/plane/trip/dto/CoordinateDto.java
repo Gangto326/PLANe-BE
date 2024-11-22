@@ -8,6 +8,7 @@ public class CoordinateDto {
 	private String memo;
 	private Double mapx;
 	private Double mapy;
+	private String url;
 	
 	
 	public CoordinateDto() {}
@@ -71,5 +72,16 @@ public class CoordinateDto {
 	public void setMapy(Double mapy) {
 		this.mapy = mapy;
 	}
+
+
+	public String getUrl() {
+		return url;
+	}
+
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
 	
 }
