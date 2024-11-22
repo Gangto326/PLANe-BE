@@ -1,14 +1,13 @@
-package com.plane.afterTrip.domain;
+package com.plane.afterTrip.dto;
 
-public class AfterPic {
+public class AfterPicResponse {
 
 	private Long id;
-	private Long afterTripId;
-	private String afterPictureUrl;
-	private String originalFilename;
-	
-	
-	public AfterPic() {}
+    private String afterPictureUrl;
+    private String originalFilename;
+    
+    
+	public AfterPicResponse() {}
 
 
 	public Long getId() {
@@ -21,16 +20,6 @@ public class AfterPic {
 	}
 
 	
-	public Long getAfterTripId() {
-		return afterTripId;
-	}
-
-
-	public void setAfterTripId(Long afterTripId) {
-		this.afterTripId = afterTripId;
-	}
-
-
 	public String getAfterPictureUrl() {
 		return afterPictureUrl;
 	}
@@ -49,6 +38,5 @@ public class AfterPic {
 	public void setOriginalFilename(String originalFilename) {
 		this.originalFilename = originalFilename;
 	}
-	
 	
 }
