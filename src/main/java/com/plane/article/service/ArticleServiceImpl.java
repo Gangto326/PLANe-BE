@@ -1,5 +1,6 @@
 package com.plane.article.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +37,7 @@ import com.plane.notification.dto.NotificationAction;
 import com.plane.notification.dto.NotificationCreateRequest;
 import com.plane.notification.dto.NotificationTargetType;
 import com.plane.notification.service.NotificationService;
+import com.plane.trip.domain.Plane;
 import com.plane.trip.repository.TripRepository;
 import com.plane.user.domain.User;
 
@@ -233,7 +235,9 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public boolean createArticle(String userId, ArticleCreateRequest articleCreateRequest) {
 		
-		Integer accompanyNum = tripRepository.selectAccompanyNum(userId, articleCreateRequest.getTripId());
+		 Plane plane = tripRepository.selectPlaneByUserIdAndTripId(userId, articleCreateRequest.getTripId());
+		 
+		 Integer accompanyNum = plane.getAccompanyNum();
 		
 		if (accompanyNum == null || accompanyNum < 1) {
 			throw new InvalidParameterException("여행을 찾을 수 없습니다.");
@@ -241,6 +245,10 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		if (accompanyNum == 1 && articleCreateRequest.getArticleType().equals("동행")) {
 			throw new InvalidParameterException("동행 글에는 동행 인원이 있어야 합니다.");
+		}
+		
+		if (plane.getArrivedDate().isAfter(LocalDate.now()) && articleCreateRequest.getArticleType().equals("후기")) {
+			throw new InvalidParameterException("후기 글은 여행이 끝난 이후여야 합니다.");
 		}
 		
 		if (articleCreateRequest.getFile() != null && !articleCreateRequest.getFile().isEmpty()) {

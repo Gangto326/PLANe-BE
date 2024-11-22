@@ -3,6 +3,7 @@ package com.plane.article.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -193,6 +194,27 @@ public class ArticleControllerTest {
 		
         System.out.println("==== ArticleReport Test End ====");
 
+	}
+	
+	@Test
+	@DisplayName("게시글 생성하기")
+	@Disabled
+	void articleCreateTest() throws Exception {
+		
+		String accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiJrYW5nc2Fuc2FtMTIzIiwicm9sZSI6Iu2ajOybkCIsImlhdCI6MTczMjIzMzYxMSwiZXhwIjoxNzMyMjY5NjExfQ.Di38kTx-K_sqYVnodt9l6yo0aJbN-tPbQl6JuNvv8DGvHjVuIYHZ81s5msIBLwew";
+		
+		
+	    mockMvc.perform(multipart("/api/article/create")
+	            .param("tripId", "2")
+	            .param("articleType", "동행")  // "동행" 또는 "후기"
+	            .param("title", "테스트 제목")
+	            .param("content", "테스트 내용")
+	            // articlePictureUrl은 선택적이므로 생략
+	            // file은 null이므로 생략
+	            .header("Authorization", "Bearer " + accessToken)
+	            .contentType(MediaType.MULTIPART_FORM_DATA))
+	            .andDo(print())
+	            .andExpect(status().isOk());
 	}
 	
 }

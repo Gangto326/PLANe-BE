@@ -13,6 +13,7 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.plane.trip.domain.Plane;
 import com.plane.trip.domain.TripStyle;
 import com.plane.trip.domain.TripThema;
 import com.plane.trip.dto.TripCreateRequest;
@@ -168,7 +169,7 @@ public interface TripMapper {
 	            AND deletedDate IS NULL
 	        )
 			""")
-	boolean existsUserByIdAndTripId(@Param("userId") String userId, @Param("tripId") Long tripId);
+	boolean existsTripByIdAndTripId(@Param("userId") String userId, @Param("tripId") Long tripId);
 
 	
 	@Select("""
@@ -232,5 +233,15 @@ public interface TripMapper {
 			AND userId = #{userId}
 			""")
 	Integer selectAccompanyNum(@Param("userId") String userId, @Param("tripId") Long tripId);
+	
+	
+	@Select("""
+    		SELECT *
+    		FROM PLANe
+    		WHERE tripId = #{tripId}
+    		AND userId = #{userId}
+    		AND deletedDate IS NULL
+    		""")
+	Plane selectPlaneByUserIdAndTripId(@Param("userId") String userId, @Param("tripId") Long tripId);
 	
 }

@@ -1,24 +1,155 @@
 package com.plane.trip.domain;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 public class Plane {
 	
-//	CREATE TABLE `PLANe` (
-//			`tripId` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT 'PK',
-//			`userId` VARCHAR(100) NOT NULL,
-//			`regionId` BIGINT(20) NOT NULL,
-//			`tripName` VARCHAR(100) NOT NULL,
-//			`departureDate` DATE NOT NULL,
-//			`arrivedDate` DATE NOT NULL COMMENT '계획에 맞게 자동 설정',
-//			`state` VARCHAR(10) NOT NULL DEFAULT '임시저장' COMMENT '임시저장, 확정',
-//			`accompanyNum` INT NOT NULL DEFAULT 1 COMMENT '최대 6',
-//			`tripDays` INT NOT NULL COMMENT '도착일 - 출발일',
-//			`isLiked` BOOL NOT NULL DEFAULT FALSE,
-//			`isPublic` BOOL NOT NULL DEFAULT FALSE,
-//			`isReviewed` BOOL NOT NULL DEFAULT FALSE,
-//			`deletedDate` TIMESTAMP NULL,
-//		);
+	private Long tripId;
+	private String userId;
+	private Integer regionId;
+	private String tripName;
+	private LocalDate departureDate;
+	private LocalDate arrivedDate;
+	private String state;
+	private Integer accompanyNum;
+	private Integer tripDays;
+	private boolean isLiked;
+	private boolean isPublic;
+	private boolean isReviewed;
+	private LocalDateTime deletedDate;
 	
 	
+	public Plane() {}
+
+
+	public Long getTripId() {
+		return tripId;
+	}
+
+
+	public void setTripId(Long tripId) {
+		this.tripId = tripId;
+	}
+
+
+	public String getUserId() {
+		return userId;
+	}
+
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+
+	public Integer getRegionId() {
+		return regionId;
+	}
+
+
+	public void setRegionId(Integer regionId) {
+		this.regionId = regionId;
+	}
+
+
+	public String getTripName() {
+		return tripName;
+	}
+
+
+	public void setTripName(String tripName) {
+		this.tripName = tripName;
+	}
+
+
+	public LocalDate getDepartureDate() {
+		return departureDate;
+	}
+
+
+	public void setDepartureDate(LocalDate departureDate) {
+		this.departureDate = departureDate;
+	}
+
+
+	public LocalDate getArrivedDate() {
+		return arrivedDate;
+	}
+
+
+	public void setArrivedDate(LocalDate arrivedDate) {
+		this.arrivedDate = arrivedDate;
+	}
+
+
+	public String getState() {
+		return state;
+	}
+
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+
+	public Integer getAccompanyNum() {
+		return accompanyNum;
+	}
+
+
+	public void setAccompanyNum(Integer accompanyNum) {
+		this.accompanyNum = accompanyNum;
+	}
+
+
+	public Integer getTripDays() {
+		return tripDays;
+	}
+
+
+	public void setTripDays(Integer tripDays) {
+		this.tripDays = tripDays;
+	}
+
+
+	public boolean isLiked() {
+		return isLiked;
+	}
+
+
+	public void setLiked(boolean isLiked) {
+		this.isLiked = isLiked;
+	}
+
+
+	public boolean isPublic() {
+		return isPublic;
+	}
+
+
+	public void setPublic(boolean isPublic) {
+		this.isPublic = isPublic;
+	}
+
+
+	public boolean isReviewed() {
+		return isReviewed;
+	}
+
+
+	public void setReviewed(boolean isReviewed) {
+		this.isReviewed = isReviewed;
+	}
+
+
+	public LocalDateTime getDeletedDate() {
+		return deletedDate;
+	}
+
+
+	public void setDeletedDate(LocalDateTime deletedDate) {
+		this.deletedDate = deletedDate;
+	}
 	
- 	
 }

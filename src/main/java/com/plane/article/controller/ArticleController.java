@@ -182,7 +182,7 @@ public class ArticleController {
 	@PostMapping("/create")
 	public ResponseEntity<ApiResponse<Boolean>> articleCreate(
 			@UserId String userId,
-			@Valid @RequestBody ArticleCreateRequest articleCreateRequest
+			@Valid @ModelAttribute ArticleCreateRequest articleCreateRequest
 			) {
 		
 		articleService.createArticle(userId, articleCreateRequest);

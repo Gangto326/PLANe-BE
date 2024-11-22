@@ -77,6 +77,8 @@ public class S3Service {
         List<String> urls = new ArrayList<>();
         
         for (MultipartFile file : files) {
+        	
+        	validateImageFile(file);
             urls.add(uploadFile(file));
         }
         
