@@ -114,19 +114,13 @@ public class ArticleController {
         
         
         // Thema 추출
-        List<TripThema> themaList = new ArrayList<>();
+        List<Integer> themaList = new ArrayList<>();
         
         if (tripThema != null && !tripThema.isEmpty()) {
             String[] themas = tripThema.split(",");
             
-            for (String thema : themas) {
-                String[] parts = thema.split(":");
-                
-                TripThema themaDto = new TripThema();
-                
-                themaDto.setId(Integer.parseInt(parts[0]));
-                themaDto.setThemaName(parts[1]);
-                themaList.add(themaDto);
+            for (String thema : themas) {                
+                themaList.add(Integer.parseInt(thema));
             }
         }
         

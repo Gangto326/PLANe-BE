@@ -18,6 +18,8 @@ import com.plane.trip.domain.TripStyle;
 import com.plane.trip.domain.TripThema;
 import com.plane.trip.dto.TripCreateRequest;
 import com.plane.trip.dto.TripResponse;
+import com.plane.trip.dto.TripSearchRequest;
+import com.plane.trip.dto.TripSearchResponse;
 import com.plane.trip.dto.TripUpdateRequest;
 import com.plane.trip.dto.TripPlanDto;
 
@@ -127,13 +129,14 @@ public interface TripMapper {
 
 	
 	@Select("""
-    		SELECT tripId, tripName, departureDate, arrivedDate, state, accompanyNum, tripDays, isLiked, isPublic, isReviewed
+    		SELECT tripId, regionId, tripName, departureDate, arrivedDate, state, accompanyNum, tripDays, isLiked, isPublic, isReviewed
     		FROM PLANe
     		WHERE tripId = #{tripId}
     		AND deletedDate IS NULL
     		""")
 	@Results({
 		@Result(property = "tripId", column = "tripId"),
+		@Result(property = "regionId", column = "regionId"),
         @Result(property = "tripName", column = "tripName"),
         @Result(property = "departureDate", column = "departureDate"),
         @Result(property = "arrivedDate", column = "arrivedDate"),
@@ -244,5 +247,72 @@ public interface TripMapper {
     		""")
 	Plane selectPlaneByUserIdAndTripId(@Param("userId") String userId, @Param("tripId") Long tripId);
 
+	
+	@Select("""
+			<script>
+			SELECT tripId, userId, regionId, tripName, departureDate, arrivedDate,
+			      state, accompanyNum, tripDays, isLiked, isPublic, isReviewed
+			FROM PLANe
+			<where>
+			   deletedDate IS NULL
+			   AND userId = #{userId}
+			   <if test="tripSearchRequest.regionId != null">
+			       AND regionId = #{tripSearchRequest.regionId}
+			   </if>
+			   <if test="tripSearchRequest.state != null">
+			       AND state = #{tripSearchRequest.state}
+			   </if>
+			   <if test="tripSearchRequest.accompanyNum != null">
+			       AND accompanyNum = #{tripSearchRequest.accompanyNum}
+			   </if>
+			   <if test="tripSearchRequest.tripDays != null">
+			       AND tripDays = #{tripSearchRequest.tripDays}
+			   </if>
+			   <if test="tripSearchRequest.isLiked != null">
+			       AND isLiked = #{tripSearchRequest.isLiked}
+			   </if>
+			   <if test="tripSearchRequest.isReviewed != null">
+			       AND isReviewed = #{tripSearchRequest.isReviewed}
+			   </if>
+			</where>
+			ORDER BY ${tripSearchRequest.pageRequest.sortBy} ${tripSearchRequest.pageRequest.sortDirection}
+			LIMIT #{tripSearchRequest.pageRequest.offset}, #{tripSearchRequest.pageRequest.size}
+			</script>
+			""")
+	@Results({
+		@Result(property = "tripThema", column = "tripId", many = @Many(select = "com.plane.trip.mapper.TripMapper.selectTripThemasByTripId"))
+	})
+	List<TripSearchResponse> selectTripsByPageRequest(@Param("userId") String userId, @Param("tripSearchRequest") TripSearchRequest tripSearchRequest);
+	
+	
+	@Select("""
+			<script>
+			SELECT COUNT(*)
+			FROM PLANe
+			<where>
+			   deletedDate IS NULL
+			   AND userId = #{userId}
+			   <if test="tripSearchRequest.regionId != null">
+			       AND regionId = #{tripSearchRequest.regionId}
+			   </if>
+			   <if test="tripSearchRequest.state != null">
+			       AND state = #{tripSearchRequest.state}
+			   </if>
+			   <if test="tripSearchRequest.accompanyNum != null">
+			       AND accompanyNum = #{tripSearchRequest.accompanyNum}
+			   </if>
+			   <if test="tripSearchRequest.tripDays != null">
+			       AND tripDays = #{tripSearchRequest.tripDays}
+			   </if>
+			   <if test="tripSearchRequest.isLiked != null">
+			       AND isLiked = true
+			   </if>
+			   <if test="tripSearchRequest.isReviewed != null">
+			       AND isReviewed = #{tripSearchRequest.isReviewed}
+			   </if>
+			</where>
+			</script>
+			""")
+	long countAllTrips(@Param("userId") String userId, @Param("tripSearchRequest") TripSearchRequest tripSearchRequest);
 	
 }

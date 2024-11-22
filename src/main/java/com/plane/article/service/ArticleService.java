@@ -29,6 +29,6 @@ public interface ArticleService {
 
 	boolean reportArticle(String userId, ArticleReportRequest articleReportRequest);
 
-	boolean createArticle(String userId, @Valid ArticleCreateRequest articleCreateRequest);
+	boolean createArticle(String userId, ArticleCreateRequest articleCreateRequest);
 
 }
