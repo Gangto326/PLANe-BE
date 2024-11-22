@@ -5,6 +5,7 @@ import java.util.List;
 import com.plane.afterTrip.domain.AfterPic;
 import com.plane.afterTrip.dto.AfterTripResponse;
 import com.plane.afterTrip.dto.TripDayDto;
+import com.plane.afterTrip.dto.TripDayUpdateDto;
 
 public interface AfterTripRepository {
 
@@ -13,5 +14,11 @@ public interface AfterTripRepository {
 	int insertAfterPic(List<AfterPic> fileList);
 
 	List<AfterTripResponse> getAfterTripWithPics(Long tripId);
+
+	int deleteAllPic(List<Long> afterTripIdList);
+
+	int deleteAfterTrip(Long tripId);
+
+	int insertAfterTrip(Long tripId, TripDayUpdateDto tripDayUpdateDto);
 
 }

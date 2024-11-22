@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.plane.afterTrip.domain.AfterPic;
 import com.plane.afterTrip.dto.AfterTripResponse;
 import com.plane.afterTrip.dto.TripDayDto;
+import com.plane.afterTrip.dto.TripDayUpdateDto;
 import com.plane.afterTrip.mapper.AfterTripMapper;
 
 @Repository
@@ -40,8 +41,27 @@ public class AfterTripRepositoryImpl implements AfterTripRepository {
 
 		return afterTripMapper.getAfterTripWithPics(tripId);
 	}
-	
-	
+
+
+	@Override
+	public int deleteAllPic(List<Long> afterTripIdList) {
+
+		return afterTripMapper.deleteAllPic(afterTripIdList);
+	}
+
+
+	@Override
+	public int deleteAfterTrip(Long tripId) {
+		
+		return afterTripMapper.deleteAfterTrip(tripId);
+	}
+
+
+	@Override
+	public int insertAfterTrip(Long tripId, TripDayUpdateDto tripDayUpdateDto) {
+
+		return afterTripMapper.insertAfterTrip(tripId, tripDayUpdateDto);
+	}
 	
 	
 }

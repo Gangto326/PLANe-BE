@@ -135,5 +135,6 @@ public class TripRepositoryImpl implements TripRepository {
 
 		return tripMapper.selectPlaneByUserIdAndTripId(userId, tripId);
 	}
+
 	
 }

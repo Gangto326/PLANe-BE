@@ -43,4 +43,5 @@ public interface TripRepository {
 	Integer selectAccompanyNum(String userId, Long tripId);
 	
 	Plane selectPlaneByUserIdAndTripId(String userId, Long tripId);
+	
 }
