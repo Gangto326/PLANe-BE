@@ -243,5 +243,6 @@ public interface TripMapper {
     		AND deletedDate IS NULL
     		""")
 	Plane selectPlaneByUserIdAndTripId(@Param("userId") String userId, @Param("tripId") Long tripId);
+
 	
 }

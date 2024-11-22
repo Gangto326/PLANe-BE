@@ -2,6 +2,7 @@ package com.plane.afterTrip.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Mapper;
@@ -15,6 +16,7 @@ import com.plane.afterTrip.domain.AfterPic;
 import com.plane.afterTrip.dto.AfterPicResponse;
 import com.plane.afterTrip.dto.AfterTripResponse;
 import com.plane.afterTrip.dto.TripDayDto;
+import com.plane.afterTrip.dto.TripDayUpdateDto;
 
 @Mapper
 public interface AfterTripMapper {
@@ -23,7 +25,7 @@ public interface AfterTripMapper {
 			INSERT INTO AfterTrip (`tripId`, `tripDay`, `content`)
             VALUES (#{tripId}, #{dayDto.tripDay}, #{dayDto.content})
 			""")
-	@Options(useGeneratedKeys = true, keyProperty = "dayDto.afterTripid")
+	@Options(useGeneratedKeys = true, keyProperty = "dayDto.afterTripId")
 	int insertAfterTrip(@Param("tripId") Long tripId, @Param("dayDto") TripDayDto tripDayDto);
 
 	
@@ -69,5 +71,33 @@ public interface AfterTripMapper {
     })
     List<AfterPicResponse> selectPictures(@Param("afterTripId") Long afterTripId);
     
+    
+    @Delete("""
+			<script>
+			DELETE
+			FROM AfterPic
+			WHERE afterTripId IN 
+		    <foreach item="id" collection="afterTripIdList" open="(" separator="," close=")">
+		        #{id}
+		    </foreach>
+		    </script>
+			""")
+	int deleteAllPic(List<Long> afterTripIdList);
+
+    
+    @Delete("""
+    		DELETE
+			FROM AfterTrip
+			WHERE tripId = #{tripId}
+    		""")
+	int deleteAfterTrip(Long tripId);
+
+
+    @Insert("""
+			INSERT INTO AfterTrip (`tripId`, `tripDay`, `content`)
+            VALUES (#{tripId}, #{dayDto.tripDay}, #{dayDto.content})
+			""")
+	int insertAfterTrip(@Param("tripId") Long tripId, @Param("dayDto") TripDayUpdateDto tripDayUpdateDto);
+
     
 }
