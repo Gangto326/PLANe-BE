@@ -24,6 +24,7 @@ import com.plane.common.exception.custom.TripNotFoundException;
 import com.plane.common.exception.custom.UnauthorizedException;
 import com.plane.common.exception.custom.UpdateFailedException;
 import com.plane.common.exception.custom.UserNotFoundException;
+import com.plane.common.service.S3Service;
 import com.plane.notification.service.NotificationSchedulerService;
 import com.plane.notification.service.NotificationService;
 import com.plane.trip.domain.TripThema;
@@ -49,15 +50,17 @@ public class TripServiceImpl implements TripService {
 	private final AuthRepository authRepository;
 	private final NotificationSchedulerService notificationSchedulerService;
 	private final NotificationService notificationService;
+	private final S3Service s3Service;
 	private final GeometryFactory geometryFactory = new GeometryFactory();
 	
 	@Autowired
-	public TripServiceImpl(TripRepository tripRepository, AccompanyRepository accompanyRepository, AuthRepository authRepository, NotificationSchedulerService notificationSchedulerService, NotificationService notificationService) {
+	public TripServiceImpl(TripRepository tripRepository, AccompanyRepository accompanyRepository, AuthRepository authRepository, NotificationSchedulerService notificationSchedulerService, NotificationService notificationService, S3Service s3Service) {
 		this.tripRepository = tripRepository;
 		this.accompanyRepository = accompanyRepository;
 		this.authRepository = authRepository;
 		this.notificationSchedulerService = notificationSchedulerService;
 		this.notificationService = notificationService;
+		this.s3Service = s3Service;
 	}
 
 	
@@ -122,6 +125,7 @@ public class TripServiceImpl implements TripService {
             tripPlanDto.setAddress(coord.getAddr1());
             tripPlanDto.setMapx(coord.getMapx());
             tripPlanDto.setMapy(coord.getMapy());
+            tripPlanDto.setUrl(s3Service.uploadFile(coord.getFile()));
             
             if (tripRepository.insertTripPlan(tripPlanDto) != 1) {
             	throw new UpdateFailedException("여행 계획 추가에 실패하였습니다.");

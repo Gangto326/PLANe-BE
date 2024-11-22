@@ -1,5 +1,7 @@
 package com.plane.trip.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class CoordinateDto {
 	
 	private Integer tripOrder;
@@ -8,6 +10,7 @@ public class CoordinateDto {
 	private String memo;
 	private Double mapx;
 	private Double mapy;
+	private MultipartFile file;
 	
 	
 	public CoordinateDto() {}
@@ -70,6 +73,16 @@ public class CoordinateDto {
 
 	public void setMapy(Double mapy) {
 		this.mapy = mapy;
+	}
+
+
+	public MultipartFile getFile() {
+		return file;
+	}
+
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
 	}
 	
 }
