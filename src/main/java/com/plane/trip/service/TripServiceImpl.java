@@ -1,6 +1,7 @@
 package com.plane.trip.service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -276,6 +277,12 @@ public class TripServiceImpl implements TripService {
 	@Override
 	public UpcomingTripResponse getUpcomingTrip(String userId) {
 		
-		return tripRepository.selectUpcomingTrip(userId);
+		UpcomingTripResponse upcomingTripResponse = tripRepository.selectUpcomingTrip(userId);
+		
+		if (upcomingTripResponse != null) {
+			upcomingTripResponse.setdDay(ChronoUnit.DAYS.between(LocalDate.now(), upcomingTripResponse.getDepartureDate()));
+		}
+		
+		return upcomingTripResponse;
 	}
 }
