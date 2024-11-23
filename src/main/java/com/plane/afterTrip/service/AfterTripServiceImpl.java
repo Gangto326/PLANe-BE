@@ -171,5 +171,17 @@ public class AfterTripServiceImpl implements AfterTripService {
 		
 		return false;
 	}
+
+
+	@Override
+	public boolean deleteAfterTrip(String userId, Long tripId) {
+		
+		if (!tripRepository.existsTripByIdAndTripId(userId, tripId)) {
+			throw new TripNotFoundException("해당 여행을 찾을 수 없습니다.");
+		}
+		
+		afterTripRepository.deleteAfterTrip(tripId);
+		return true;
+	}
 	
 }

@@ -14,4 +14,6 @@ public interface AfterTripService {
 
 	boolean updateAfterTrip(String userId, AfterTripUpdateRequest afterTripUpdateRequest);
 
+	boolean deleteAfterTrip(String userId, Long tripId);
+
 }
