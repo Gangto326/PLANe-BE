@@ -146,10 +146,8 @@ public interface TripMapper {
         @Result(property = "isLiked", column = "isLiked"),
         @Result(property = "isPublic", column = "isPublic"),
         @Result(property = "isReviewed", column = "isReviewed"),
-        @Result(property = "themaList", column = "tripId",
-            many = @Many(select = "selectTripThemasByTripId")),
-        @Result(property = "planList", column = "tripId",
-            many = @Many(select = "selectTripPlans"))
+        @Result(property = "themaList", column = "tripId", many = @Many(select = "selectTripThemasByTripId")),
+        @Result(property = "planList", column = "tripId", many = @Many(select = "selectTripPlans"))
     })
 	TripResponse selectTripDetail(@Param("tripId") Long tripId);
 	
@@ -280,6 +278,7 @@ public interface TripMapper {
 			</script>
 			""")
 	@Results({
+		@Result(property = "tripId", column = "tripId"),
 		@Result(property = "tripThema", column = "tripId", many = @Many(select = "com.plane.trip.mapper.TripMapper.selectTripThemasByTripId"))
 	})
 	List<TripSearchResponse> selectTripsByPageRequest(@Param("userId") String userId, @Param("tripSearchRequest") TripSearchRequest tripSearchRequest);

@@ -176,6 +176,7 @@ public interface ArticleMapper {
 		    </script>
 			""")
 	@Results({
+		@Result(property = "tripId", column = "tripId"),
 		@Result(property = "tripThema", column = "tripId", many = @Many(select = "com.plane.trip.mapper.TripMapper.selectTripThemasByTripId"))
 	})
 	List<ArticleResponse> selectArticlesByPageRequest(@Param("userId") String userId, @Param("articleSearchRequest") ArticleSearchRequest articleSearchRequest);
