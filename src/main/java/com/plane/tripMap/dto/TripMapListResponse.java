@@ -1,27 +1,16 @@
 package com.plane.tripMap.dto;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import jakarta.validation.constraints.NotNull;
-
-public class TripMapCreateRequest {
+public class TripMapListResponse {
 	
-	@NotNull(message = "여행 ID는 필수입니다.")
 	private Long tripId;
-	
-	@NotNull(message = "지역 코드는 필수입니다.")
 	private Integer regionId;
-	
-	
 	private Double mapx;
 	private Double mapy;
-	private MultipartFile file;
+	private String mapPictureUrl;
 	private String mapContent;
 	
-	private String mapPictureUrl;
 	
-	
-	public TripMapCreateRequest() {}
+	public TripMapListResponse() {}
 
 
 	public Long getTripId() {
@@ -32,7 +21,7 @@ public class TripMapCreateRequest {
 	public void setTripId(Long tripId) {
 		this.tripId = tripId;
 	}
-	
+
 
 	public Integer getRegionId() {
 		return regionId;
@@ -64,13 +53,13 @@ public class TripMapCreateRequest {
 	}
 
 
-	public MultipartFile getFile() {
-		return file;
+	public String getMapPictureUrl() {
+		return mapPictureUrl;
 	}
 
 
-	public void setFile(MultipartFile file) {
-		this.file = file;
+	public void setMapPictureUrl(String mapPictureUrl) {
+		this.mapPictureUrl = mapPictureUrl;
 	}
 
 
@@ -81,16 +70,6 @@ public class TripMapCreateRequest {
 
 	public void setMapContent(String mapContent) {
 		this.mapContent = mapContent;
-	}
-
-
-	public String getMapPictureUrl() {
-		return mapPictureUrl;
-	}
-
-
-	public void setMapPictureUrl(String mapPictureUrl) {
-		this.mapPictureUrl = mapPictureUrl;
 	}
 	
 }
