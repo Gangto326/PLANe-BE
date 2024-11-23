@@ -18,7 +18,7 @@ public interface TripMapMapper {
             VALUES (#{userId}, #{request.tripId}, #{request.regionId}, ST_GeomFromText(CONCAT('POINT(', #{request.mapx}, ' ', #{request.mapy}, ')')), #{request.mapPictureUrl}, #{request.mapContent})
 			""")
 	int insertTripMap(@Param("userId") String userId, @Param("request") TripMapCreateRequest tripMapCreateRequest);
-
+	
 
 	@Select("""
 		    SELECT EXISTS (
