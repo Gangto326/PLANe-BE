@@ -11,6 +11,7 @@ import com.plane.trip.dto.TripResponse;
 import com.plane.trip.dto.TripSearchRequest;
 import com.plane.trip.dto.TripSearchResponse;
 import com.plane.trip.dto.TripUpdateRequest;
+import com.plane.trip.dto.UpcomingTripResponse;
 import com.plane.trip.dto.TripPlanDto;
 import com.plane.trip.mapper.TripMapper;
 
@@ -150,6 +151,13 @@ public class TripRepositoryImpl implements TripRepository {
 	public List<TripSearchResponse> selectTripsByPageRequest(String userId, TripSearchRequest tripSearchRequest) {
 
 		return tripMapper.selectTripsByPageRequest(userId, tripSearchRequest);
+	}
+
+
+	@Override
+	public UpcomingTripResponse selectUpcomingTrip(String userId) {
+
+		return tripMapper.selectUpcomingTrip(userId);
 	}
 
 	

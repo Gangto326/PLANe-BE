@@ -142,7 +142,7 @@ public interface ArticleMapper {
 	            ) THEN true 
 	            ELSE false 
 	        END as isRecommand,
-	        p.accompanyNum, r.sigungu, p.departureDate, p.arrivedDate, b.tripId
+	        p.accompanyNum, p.regionId, p.departureDate, p.arrivedDate, b.tripId
 		    FROM Board b
 		    LEFT JOIN Users u ON b.authorId = u.userId
 		    LEFT JOIN PLANe p ON b.tripId = p.tripId

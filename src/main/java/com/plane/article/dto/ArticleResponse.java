@@ -25,7 +25,7 @@ public class ArticleResponse {
     
     // tripId로 PLANe테이블에서 탐색
 	private Integer accompanyNum;
-	private String sigungu;
+	private Integer regionId;
 	private LocalDate departureDate;
 	private LocalDate arrivedDate;
 	
@@ -117,14 +117,17 @@ public class ArticleResponse {
 	public void setAccompanyNum(Integer accompanyNum) {
 		this.accompanyNum = accompanyNum;
 	}
+	
 
-	public String getSigungu() {
-		return sigungu;
+	public Integer getRegionId() {
+		return regionId;
 	}
 
-	public void setSigungu(String sigungu) {
-		this.sigungu = sigungu;
+
+	public void setRegionId(Integer regionId) {
+		this.regionId = regionId;
 	}
+
 
 	public LocalDate getDepartureDate() {
 		return departureDate;

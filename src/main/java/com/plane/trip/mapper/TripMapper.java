@@ -21,6 +21,7 @@ import com.plane.trip.dto.TripResponse;
 import com.plane.trip.dto.TripSearchRequest;
 import com.plane.trip.dto.TripSearchResponse;
 import com.plane.trip.dto.TripUpdateRequest;
+import com.plane.trip.dto.UpcomingTripResponse;
 import com.plane.trip.dto.TripPlanDto;
 
 @Mapper
@@ -313,5 +314,19 @@ public interface TripMapper {
 			</script>
 			""")
 	long countAllTrips(@Param("userId") String userId, @Param("tripSearchRequest") TripSearchRequest tripSearchRequest);
+
+
+	@Select("""
+		    SELECT p.tripId, p.regionId, p.tripName, p.departureDate
+		    FROM PLANe p
+		    INNER JOIN Accompany a ON p.tripId = a.tripId
+		    WHERE a.userId = #{userId}
+		    AND p.deletedDate IS NULL
+		    AND p.departureDate > CURDATE()
+		    AND p.state = '저장'
+		    ORDER BY p.departureDate ASC
+		    LIMIT 1
+			""")
+	UpcomingTripResponse selectUpcomingTrip(String userId);
 	
 }

@@ -8,6 +8,7 @@ import com.plane.trip.dto.TripResponse;
 import com.plane.trip.dto.TripSearchRequest;
 import com.plane.trip.dto.TripSearchResponse;
 import com.plane.trip.dto.TripUpdateRequest;
+import com.plane.trip.dto.UpcomingTripResponse;
 import com.plane.trip.dto.TripPlanDto;
 
 public interface TripRepository {
@@ -49,4 +50,6 @@ public interface TripRepository {
 	long countAllTrips(String userId, TripSearchRequest tripSearchRequest);
 	
 	List<TripSearchResponse> selectTripsByPageRequest(String userId, TripSearchRequest tripSearchRequest);
+
+	UpcomingTripResponse selectUpcomingTrip(String userId);
 }

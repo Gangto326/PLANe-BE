@@ -7,6 +7,7 @@ import com.plane.trip.dto.TripResponse;
 import com.plane.trip.dto.TripSearchRequest;
 import com.plane.trip.dto.TripSearchResponse;
 import com.plane.trip.dto.TripUpdateRequest;
+import com.plane.trip.dto.UpcomingTripResponse;
 
 import jakarta.validation.Valid;
 
@@ -21,5 +22,7 @@ public interface TripService {
 	TripDetailResponse getPlane(String userId, Long tripId);
 
 	PageResponse<TripSearchResponse> getTripList(String userId, TripSearchRequest tripSearchRequest);
+
+	UpcomingTripResponse getUpcomingTrip(String userId);
 
 }
