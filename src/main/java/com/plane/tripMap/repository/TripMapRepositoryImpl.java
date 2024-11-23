@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.plane.tripMap.dto.TripMapCreateRequest;
+import com.plane.tripMap.dto.TripMapDetailResponse;
 import com.plane.tripMap.dto.TripMapListResponse;
 import com.plane.tripMap.mapper.TripMapMapper;
 
@@ -39,8 +40,15 @@ public class TripMapRepositoryImpl implements TripMapRepository {
 	}
 
 
+	@Override
+	public List<TripMapDetailResponse> selectAllTripMapDetail(String userId, Integer regionId) {
+		
+		return tripMapMapper.selectAllTripMapDetail(userId, regionId);
+	}
 
 
+	
+	
 	
 	
 }

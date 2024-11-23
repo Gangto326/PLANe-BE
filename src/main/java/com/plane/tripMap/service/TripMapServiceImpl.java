@@ -11,6 +11,7 @@ import com.plane.common.exception.custom.TripNotFoundException;
 import com.plane.common.service.S3Service;
 import com.plane.trip.repository.TripRepository;
 import com.plane.tripMap.dto.TripMapCreateRequest;
+import com.plane.tripMap.dto.TripMapDetailResponse;
 import com.plane.tripMap.dto.TripMapListResponse;
 import com.plane.tripMap.repository.TripMapRepository;
 
@@ -56,6 +57,17 @@ public class TripMapServiceImpl implements TripMapService {
 	public List<TripMapListResponse> getTripMapList(String userId) {
 		
 		return tripMapRepository.selectAllTripMapByUserId(userId);
+	}
+
+
+	@Override
+	public List<TripMapDetailResponse> getTripMapDetail(String userId, Integer regionId) {
+		
+		if (!tripMapRepository.existsMapByUserIdAndRegionId(userId, regionId)) {
+			throw new TripNotFoundException("해당 지역의 여행 정보가 없습니다.");
+		}
+		
+		return tripMapRepository.selectAllTripMapDetail(userId, regionId);
 	}
 	
 	

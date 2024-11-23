@@ -254,7 +254,7 @@ public interface TripMapper {
 			      (
 			      	SELECT url
 			      	FROM TripPlan tp
-			      	WHERE tp.tripId = p.tripId 
+			      	WHERE tp.tripId = tripId 
 			      	AND tp.url IS NOT NULL
 			      	ORDER BY RAND() 
 			      	LIMIT 1

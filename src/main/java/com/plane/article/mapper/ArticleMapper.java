@@ -48,6 +48,10 @@ public interface ArticleMapper {
                 ) THEN true 
                 ELSE false 
             END as isRecommand,
+            CASE 
+               WHEN b.authorId = #{currentUserId} THEN true 
+               ELSE false 
+            END as isAuthor,
 	        p.accompanyNum, p.regionId, p.departureDate, p.arrivedDate
 	        FROM Board b
 	        LEFT JOIN PLANe p ON b.tripId = p.tripId
@@ -140,7 +144,17 @@ public interface ArticleMapper {
 	            ) THEN true 
 	            ELSE false 
 	        END as isRecommand,
-	        p.accompanyNum, p.regionId, p.departureDate, p.arrivedDate, b.tripId
+	        CASE 
+               WHEN b.authorId = #{currentUserId} THEN true 
+               ELSE false 
+            END as isAuthor,
+            p.accompanyNum,
+	        (
+		        SELECT p.accompanyNum - COUNT(*)
+		        FROM Accompany a
+		        WHERE a.tripId = b.tripId
+	        ) as accompanyCount,
+	        p.regionId, p.departureDate, p.arrivedDate, p.tripDays, b.tripId
 		    FROM Board b
 		    LEFT JOIN Users u ON b.authorId = u.userId
 		    LEFT JOIN PLANe p ON b.tripId = p.tripId
