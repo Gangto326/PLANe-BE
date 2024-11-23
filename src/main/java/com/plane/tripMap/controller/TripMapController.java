@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,7 +57,7 @@ public class TripMapController {
 	}
 	
 	
-	@GetMapping("/{mapId}")
+	@GetMapping("/{regionId}")
 	public ResponseEntity<ApiResponse<List<TripMapDetailResponse>>> tripMapDetail(
 		    @UserId String userId,
 		    @PathVariable Integer regionId
@@ -63,6 +65,17 @@ public class TripMapController {
 		
 		List<TripMapDetailResponse> tripMapDetailList = tripMapService.getTripMapDetail(userId, regionId);
 		return ResponseEntity.ok(ApiResponse.success(tripMapDetailList, "해당 지역의 정보를 성공적으로 가져왔습니다."));
+	}
+	
+	
+	@DeleteMapping("")
+	public ResponseEntity<ApiResponse<Boolean>> deleteTripMap(
+		    @UserId String userId,
+		    @RequestBody Long mapId
+			) {
+		
+		tripMapService.deleteTripMap(userId, mapId);
+		return ResponseEntity.ok(ApiResponse.success(true, "여행 지도를 성공적으로 삭제했습니다."));
 	}
 	
 }

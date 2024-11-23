@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.plane.common.exception.custom.CreationFailedException;
 import com.plane.common.exception.custom.DuplicateException;
 import com.plane.common.exception.custom.TripNotFoundException;
+import com.plane.common.exception.custom.UpdateFailedException;
 import com.plane.common.service.S3Service;
 import com.plane.trip.repository.TripRepository;
 import com.plane.tripMap.dto.TripMapCreateRequest;
@@ -71,6 +72,19 @@ public class TripMapServiceImpl implements TripMapService {
 	}
 	
 	
+	@Override
+	public boolean deleteTripMap(String userId, Long mapId) {
+		
+		if (!tripMapRepository.existsMapByUserIdAndMapId(userId, mapId)) {
+			throw new TripNotFoundException("해당 지역의 여행 정보가 없습니다.");
+		}
+		
+		if (tripMapRepository.deleteTripMap(userId, mapId) == 1) {
+			return true;
+		}
+		
+		throw new UpdateFailedException("지도 삭제 중 오류가 발생했습니다.");
+	}
 	
 	
 }

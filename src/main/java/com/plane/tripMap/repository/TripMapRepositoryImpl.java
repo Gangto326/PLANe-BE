@@ -47,6 +47,20 @@ public class TripMapRepositoryImpl implements TripMapRepository {
 	}
 
 
+	@Override
+	public int deleteTripMap(String userId, Long mapId) {
+		
+		return tripMapMapper.updateTripMapDelete(userId, mapId);
+	}
+
+
+	@Override
+	public boolean existsMapByUserIdAndMapId(String userId, Long mapId) {
+		
+		return tripMapMapper.existsMapByUserIdAndMapId(userId, mapId);
+	}
+
+
 	
 	
 	

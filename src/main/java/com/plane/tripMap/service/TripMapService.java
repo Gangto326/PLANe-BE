@@ -14,4 +14,6 @@ public interface TripMapService {
 
 	List<TripMapDetailResponse> getTripMapDetail(String userId, Integer regionId);
 
+	boolean deleteTripMap(String userId, Long mapId);
+
 }
