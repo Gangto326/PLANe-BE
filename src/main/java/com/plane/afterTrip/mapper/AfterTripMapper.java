@@ -27,7 +27,7 @@ public interface AfterTripMapper {
 			""")
 	@Options(useGeneratedKeys = true, keyProperty = "dayDto.afterTripId")
 	int insertAfterTrip(@Param("tripId") Long tripId, @Param("dayDto") TripDayDto tripDayDto);
-
+	
 	
 	@Insert("""
 			<script>

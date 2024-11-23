@@ -16,4 +16,8 @@ public interface TripMapRepository {
 
 	List<TripMapDetailResponse> selectAllTripMapDetail(String userId, Integer regionId);
 
+	int deleteTripMap(String userId, Long mapId);
+
+	boolean existsMapByUserIdAndMapId(String userId, Long mapId);
+
 }

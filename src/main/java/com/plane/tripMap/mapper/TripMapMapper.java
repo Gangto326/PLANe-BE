@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.plane.tripMap.dto.TripMapCreateRequest;
 import com.plane.tripMap.dto.TripMapDetailResponse;
@@ -56,5 +57,26 @@ public interface TripMapMapper {
 			""")
 	List<TripMapDetailResponse> selectAllTripMapDetail(@Param("userId") String userId, @Param("regionId") Integer regionId);
 
+	
+	@Update("""
+			UPDATE TripMap
+			SET deletedDate = NOW()
+			WHERE userId = #{userId}
+			AND mapId = #{mapId}
+			""")
+	int updateTripMapDelete(@Param("userId") String userId, @Param("mapId") Long mapId);
+
+	
+	@Select("""
+		    SELECT EXISTS (
+			   SELECT 1
+			   FROM TripMap
+			   WHERE userId = #{userId}
+			   AND mapId = #{mapId}
+			   AND deletedDate IS NULL
+			)
+			""")
+	boolean existsMapByUserIdAndMapId(@Param("userId") String userId, @Param("mapId") Long mapId);
+	
 	
 }
