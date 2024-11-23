@@ -8,6 +8,7 @@ public class UpcomingTripResponse {
 	private Long tripId;
 	private Integer regionId;
 	private String tripName;
+	private String thumbnailUrl;
 	private LocalDate departureDate;
 	
 	
@@ -51,6 +52,16 @@ public class UpcomingTripResponse {
 
 	public void setTripName(String tripName) {
 		this.tripName = tripName;
+	}
+
+	
+	public String getThumbnailUrl() {
+		return thumbnailUrl;
+	}
+
+
+	public void setThumbnailUrl(String thumbnailUrl) {
+		this.thumbnailUrl = thumbnailUrl;
 	}
 
 
