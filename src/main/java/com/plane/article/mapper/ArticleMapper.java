@@ -27,7 +27,7 @@ import com.plane.common.dto.PageRequest;
 public interface ArticleMapper {
 	
 	@Select("""
-	        SELECT b.articleId, u.nickName, b.tripId, b.articleType, b.title, b.content, b.articlePictureUrl, b.likeCount, b.viewCount, b.createdDate, b.deletedDate,
+	        SELECT b.articleId, b.authorId, b.tripId, b.articleType, b.title, b.content, b.articlePictureUrl, b.likeCount, b.viewCount, b.createdDate, b.deletedDate,
             CASE 
                 WHEN EXISTS (
                     SELECT 1 
@@ -48,11 +48,9 @@ public interface ArticleMapper {
                 ) THEN true 
                 ELSE false 
             END as isRecommand,
-	        p.accompanyNum, r.sigungu, p.departureDate, p.arrivedDate
+	        p.accompanyNum, p.regionId, p.departureDate, p.arrivedDate
 	        FROM Board b
-	        LEFT JOIN Users u ON b.authorId = u.userId
 	        LEFT JOIN PLANe p ON b.tripId = p.tripId
-	        LEFT JOIN Region r ON p.regionId = r.regionId
 	        WHERE b.articleId = #{articleId}
 	        AND b.deletedDate IS NULL
 		    """)

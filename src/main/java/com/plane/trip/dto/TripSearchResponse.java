@@ -19,6 +19,7 @@ public class TripSearchResponse {
     private boolean isPublic;
     private boolean isReviewed;
     private List<Integer> tripThema;
+    private String thumbnailUrl;
     
     
 	public TripSearchResponse() {}
@@ -142,5 +143,16 @@ public class TripSearchResponse {
 	public void setTripThema(List<Integer> tripThema) {
 		this.tripThema = tripThema;
 	}
+
+
+	public String getThumbnailUrl() {
+		return thumbnailUrl;
+	}
+
+
+	public void setThumbnailUrl(String thumbnailUrl) {
+		this.thumbnailUrl = thumbnailUrl;
+	}
+	
     
 }

@@ -250,7 +250,15 @@ public interface TripMapper {
 	@Select("""
 			<script>
 			SELECT tripId, userId, regionId, tripName, departureDate, arrivedDate,
-			      state, accompanyNum, tripDays, isLiked, isPublic, isReviewed
+			      state, accompanyNum, tripDays, isLiked, isPublic, isReviewed,
+			      (
+			      	SELECT url
+			      	FROM TripPlan tp
+			      	WHERE tp.tripId = p.tripId 
+			      	AND tp.url IS NOT NULL
+			      	ORDER BY RAND() 
+			      	LIMIT 1
+			      ) as thumbnailUrl
 			FROM PLANe
 			<where>
 			   deletedDate IS NULL
@@ -317,7 +325,15 @@ public interface TripMapper {
 
 
 	@Select("""
-		    SELECT p.tripId, p.regionId, p.tripName, p.departureDate
+		    SELECT p.tripId, p.regionId, p.tripName, p.departureDate, 
+			      (
+			      	SELECT url
+			      	FROM TripPlan tp
+			      	WHERE tp.tripId = p.tripId 
+			      	AND tp.url IS NOT NULL
+			      	ORDER BY RAND() 
+			      	LIMIT 1
+			      ) as thumbnailUrl
 		    FROM PLANe p
 		    INNER JOIN Accompany a ON p.tripId = a.tripId
 		    WHERE a.userId = #{userId}
