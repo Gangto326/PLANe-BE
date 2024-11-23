@@ -10,7 +10,7 @@ public class ArticleDetailResponse {
 	
 	// articleId로 Board테이블에서 탐색
 	private Long articleId;
-	private Long authorId;
+	private String authorId;
     private Long tripId;
     private String articleType;
     private String title;
@@ -48,12 +48,12 @@ public class ArticleDetailResponse {
 	}
 
 
-	public Long getAuthorId() {
+	public String getAuthorId() {
 		return authorId;
 	}
 
 
-	public void setAuthorId(Long authorId) {
+	public void setAuthorId(String authorId) {
 		this.authorId = authorId;
 	}
 
