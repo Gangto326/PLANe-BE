@@ -97,7 +97,7 @@ public interface AfterTripMapper {
 			INSERT INTO AfterTrip (`tripId`, `tripDay`, `content`)
             VALUES (#{tripId}, #{dayDto.tripDay}, #{dayDto.content})
 			""")
-	int insertAfterTrip(@Param("tripId") Long tripId, @Param("dayDto") TripDayUpdateDto tripDayUpdateDto);
+	int insertAfterTripUpdate(@Param("tripId") Long tripId, @Param("dayDto") TripDayUpdateDto tripDayUpdateDto);
 
     
 }

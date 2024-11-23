@@ -19,6 +19,6 @@ public interface AfterTripRepository {
 
 	int deleteAfterTrip(Long tripId);
 
-	int insertAfterTrip(Long tripId, TripDayUpdateDto tripDayUpdateDto);
+	int updateAfterTrip(Long tripId, TripDayUpdateDto tripDayUpdateDto);
 
 }

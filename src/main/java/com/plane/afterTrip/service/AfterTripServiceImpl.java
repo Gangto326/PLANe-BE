@@ -129,7 +129,7 @@ public class AfterTripServiceImpl implements AfterTripService {
 //			}
 			
 			// 후기 먼저 Insert
-			if (afterTripRepository.insertAfterTrip(afterTripUpdateRequest.getTripId(), tripDayUpdateDto) != 1) {
+			if (afterTripRepository.updateAfterTrip(afterTripUpdateRequest.getTripId(), tripDayUpdateDto) != 1) {
 				throw new CreationFailedException("여행 정보 삽입 중 오류가 발생했습니다.");
 			}
 			
