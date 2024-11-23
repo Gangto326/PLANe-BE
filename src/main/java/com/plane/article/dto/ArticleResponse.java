@@ -13,6 +13,7 @@ public class ArticleResponse {
 	
 	// Board테이블에서 탐색
 	private Long articleId;
+	private Long tripId;
 	private String articleType;
 	private String title;
 	private String articlePictureUrl;
@@ -50,6 +51,16 @@ public class ArticleResponse {
 	public void setArticleId(Long articleId) {
 		this.articleId = articleId;
 	}
+	
+	public Long getTripId() {
+		return tripId;
+	}
+
+
+	public void setTripId(Long tripId) {
+		this.tripId = tripId;
+	}
+
 
 	public String getArticleType() {
 		return articleType;
