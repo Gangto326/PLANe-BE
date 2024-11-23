@@ -22,6 +22,7 @@ import com.plane.trip.dto.TripResponse;
 import com.plane.trip.dto.TripSearchRequest;
 import com.plane.trip.dto.TripSearchResponse;
 import com.plane.trip.dto.TripUpdateRequest;
+import com.plane.trip.dto.UpcomingTripResponse;
 import com.plane.trip.service.TripService;
 
 import jakarta.validation.Valid;
@@ -123,5 +124,14 @@ public class TripController {
 		return ResponseEntity.ok(ApiResponse.success(pageResponse, "여행 목록을 불러왔습니다."));
 	}
 
+	
+	@GetMapping("/upcomingTrip")
+	public ResponseEntity<ApiResponse<UpcomingTripResponse>> upcomingTrip(
+			@UserId String userId
+			) {
+		
+		UpcomingTripResponse upcomingTripResponse = tripService.getUpcomingTrip(userId);
+		return ResponseEntity.ok(ApiResponse.success(upcomingTripResponse, "곧 출발할 여행 반환 성공."));
+	}
 	
 }

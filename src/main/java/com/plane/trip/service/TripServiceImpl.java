@@ -36,6 +36,7 @@ import com.plane.trip.dto.TripSearchRequest;
 import com.plane.trip.dto.TripSearchResponse;
 import com.plane.trip.dto.TripPlanDto;
 import com.plane.trip.dto.TripUpdateRequest;
+import com.plane.trip.dto.UpcomingTripResponse;
 import com.plane.trip.repository.TripRepository;
 import com.plane.user.repository.AuthRepository;
 
@@ -270,6 +271,11 @@ public class TripServiceImpl implements TripService {
         
         return new PageResponse<>(tripList, pageInfo);
 	}
-	
-	
+
+
+	@Override
+	public UpcomingTripResponse getUpcomingTrip(String userId) {
+		
+		return tripRepository.selectUpcomingTrip(userId);
+	}
 }
