@@ -58,9 +58,9 @@ public class AfterTripRepositoryImpl implements AfterTripRepository {
 
 
 	@Override
-	public int insertAfterTrip(Long tripId, TripDayUpdateDto tripDayUpdateDto) {
+	public int updateAfterTrip(Long tripId, TripDayUpdateDto tripDayUpdateDto) {
 
-		return afterTripMapper.insertAfterTrip(tripId, tripDayUpdateDto);
+		return afterTripMapper.insertAfterTripUpdate(tripId, tripDayUpdateDto);
 	}
 	
 	
