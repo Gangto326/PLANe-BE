@@ -1,5 +1,7 @@
 package com.plane.tripMap.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ import com.plane.common.annotation.UserId;
 import com.plane.common.response.ApiResponse;
 import com.plane.trip.dto.UpcomingTripResponse;
 import com.plane.tripMap.dto.TripMapCreateRequest;
+import com.plane.tripMap.dto.TripMapListResponse;
 import com.plane.tripMap.service.TripMapService;
 
 import jakarta.validation.Valid;
@@ -30,7 +33,7 @@ public class TripMapController {
 	}
 	
 	
-	@PostMapping
+	@PostMapping("")
 	public ResponseEntity<ApiResponse<Boolean>> tripMapCreate(
 		    @UserId String userId,
 		    @Valid @ModelAttribute TripMapCreateRequest tripMapCreateRequest
@@ -41,5 +44,14 @@ public class TripMapController {
 	}
 	
 	
-
+	@GetMapping("/list")
+	public ResponseEntity<ApiResponse<List<TripMapListResponse>>> tripMapList(
+		    @UserId String userId
+			) {
+		
+		List<TripMapListResponse> tripMapList = tripMapService.getTripMapList(userId);
+		return ResponseEntity.ok(ApiResponse.success(tripMapList, "여행 지도를 성공적으로 가져왔습니다."));
+	}
+	
+	
 }
