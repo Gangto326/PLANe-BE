@@ -24,6 +24,7 @@ public class ArticleDetailResponse {
     // userId와 articleId로 Saved테이블에서 탐색
     private boolean isSaved;
     private boolean isRecommand;
+    private boolean isAuthor;
     
     // tripId로 PLANe테이블에서 탐색
     private Integer accompanyNum;
@@ -165,6 +166,16 @@ public class ArticleDetailResponse {
 
 	public void setRecommand(boolean isRecommand) {
 		this.isRecommand = isRecommand;
+	}
+	
+
+	public boolean isAuthor() {
+		return isAuthor;
+	}
+
+
+	public void setAuthor(boolean isAuthor) {
+		this.isAuthor = isAuthor;
 	}
 
 

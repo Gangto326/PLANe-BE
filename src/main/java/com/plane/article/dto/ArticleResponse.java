@@ -22,12 +22,15 @@ public class ArticleResponse {
     // userId와 articleId로 Saved테이블에서 탐색
 	private boolean isSaved;
 	private boolean isRecommand;
+	private boolean isAuthor;
     
     // tripId로 PLANe테이블에서 탐색
 	private Integer accompanyNum;
+	private Integer accompanyCount;
 	private Integer regionId;
 	private LocalDate departureDate;
 	private LocalDate arrivedDate;
+	private Integer tripDays;
 	
     // tripId로 PLANeTripThema테이블에서 탐색
 	private List<Integer> tripThema;
@@ -43,7 +46,7 @@ public class ArticleResponse {
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
 	}
-
+	
 	public Long getArticleId() {
 		return articleId;
 	}
@@ -109,7 +112,15 @@ public class ArticleResponse {
 	public void setRecommand(boolean isRecommand) {
 		this.isRecommand = isRecommand;
 	}
+	
+	public boolean isAuthor() {
+		return isAuthor;
+	}
 
+	public void setAuthor(boolean isAuthor) {
+		this.isAuthor = isAuthor;
+	}
+	
 	public Integer getAccompanyNum() {
 		return accompanyNum;
 	}
@@ -117,17 +128,22 @@ public class ArticleResponse {
 	public void setAccompanyNum(Integer accompanyNum) {
 		this.accompanyNum = accompanyNum;
 	}
-	
+
+	public Integer getAccompanyCount() {
+		return accompanyCount;
+	}
+
+	public void setAccompanyCount(Integer accompanyCount) {
+		this.accompanyCount = accompanyCount;
+	}
 
 	public Integer getRegionId() {
 		return regionId;
 	}
 
-
 	public void setRegionId(Integer regionId) {
 		this.regionId = regionId;
 	}
-
 
 	public LocalDate getDepartureDate() {
 		return departureDate;
@@ -144,6 +160,17 @@ public class ArticleResponse {
 	public void setArrivedDate(LocalDate arrivedDate) {
 		this.arrivedDate = arrivedDate;
 	}
+	
+	
+	public Integer getTripDays() {
+		return tripDays;
+	}
+
+
+	public void setTripDays(Integer tripDays) {
+		this.tripDays = tripDays;
+	}
+
 
 	public List<Integer> getTripThema() {
 		return tripThema;

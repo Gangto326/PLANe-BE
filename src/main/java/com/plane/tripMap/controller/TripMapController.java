@@ -16,6 +16,7 @@ import com.plane.common.annotation.UserId;
 import com.plane.common.response.ApiResponse;
 import com.plane.trip.dto.UpcomingTripResponse;
 import com.plane.tripMap.dto.TripMapCreateRequest;
+import com.plane.tripMap.dto.TripMapDetailResponse;
 import com.plane.tripMap.dto.TripMapListResponse;
 import com.plane.tripMap.service.TripMapService;
 
@@ -53,5 +54,15 @@ public class TripMapController {
 		return ResponseEntity.ok(ApiResponse.success(tripMapList, "여행 지도를 성공적으로 가져왔습니다."));
 	}
 	
+	
+	@GetMapping("/{mapId}")
+	public ResponseEntity<ApiResponse<List<TripMapDetailResponse>>> tripMapDetail(
+		    @UserId String userId,
+		    @PathVariable Integer regionId
+			) {
+		
+		List<TripMapDetailResponse> tripMapDetailList = tripMapService.getTripMapDetail(userId, regionId);
+		return ResponseEntity.ok(ApiResponse.success(tripMapDetailList, "해당 지역의 정보를 성공적으로 가져왔습니다."));
+	}
 	
 }
