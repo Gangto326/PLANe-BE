@@ -93,12 +93,12 @@ public class GlobalExceptionHandler {
         	
             return ResponseEntity
                 .status(ErrorCode.DATABASE_ERROR.getStatus())
-                .body(ApiResponse.error(ErrorCode.DATABASE_ERROR, "데이터베이스 제약조건 위반이 발생했습니다"));
+                .body(ApiResponse.error(ErrorCode.DATABASE_ERROR, "알 수 없는 오류가 발생했습니다."));
         }
         
         // 일반적인 트랜잭션 예외
         return ResponseEntity
             .status(ErrorCode.SYSTEM_ERROR.getStatus())
-            .body(ApiResponse.error(ErrorCode.SYSTEM_ERROR, "트랜잭션 처리 중 오류가 발생했습니다"));
+            .body(ApiResponse.error(ErrorCode.SYSTEM_ERROR, "알 수 없는 오류가 발생했습니다."));
     }
 }

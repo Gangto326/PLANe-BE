@@ -211,4 +211,17 @@ public interface AccompanyMapper {
 			AND deletedDate IS NULL
 			""")
 	int updateAccompanyApplyStatus(@Param("applyId") Long applyId);
+	
+	
+	@Select("""
+			SELECT EXISTS (
+	            SELECT 1
+		        FROM Accompany a
+		        JOIN PLANe p ON a.tripId = p.tripId
+		        WHERE a.tripId = #{tripId}
+		        AND a.userId = #{userId}
+		        AND p.deletedDate IS NULL
+	        )
+			""")
+	boolean existsAccompanyByUserIdAndTripId(@Param("userId") String userId, @Param("tripId") Long tripId);
 }

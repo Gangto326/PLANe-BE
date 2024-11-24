@@ -126,6 +126,13 @@ public class AccompanyRepositoryImpl implements AccompanyRepository {
 	}
 
 
+	@Override
+	public boolean existsAccompanyByUserIdAndTripId(String userId, Long tripId) {
+		
+		return accompanyMapper.existsAccompanyByUserIdAndTripId(userId, tripId);
+	}
+
+
 	
 	
 }

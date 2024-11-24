@@ -75,6 +75,12 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 
 		notificationMapper.save(notification);
 	}
+
+	@Override
+	public void updateNotificationRead(String userId, Long noId) {
+
+		notificationMapper.updateNotificationRead(userId, noId);
+	}
 	
 	
 }

@@ -18,6 +18,7 @@ import com.plane.notification.dto.NotificationResponse;
 public interface NotificationMapper {
 
 	@Select("""
+			<script>
 			SELECT n.noId, n.isRead, n.notificationType, n.contentId, n.title, n.createdDate
 			FROM Notification n
 			WHERE n.userId = #{userId}
@@ -26,9 +27,10 @@ public interface NotificationMapper {
 				AND n.isRead = false
 			</if>
 			ORDER BY n.createdDate DESC
+			</script>
 			""")
 	List<NotificationResponse> selectNotificationsByType(@Param("userId") String userId, @Param("type") String type);
-
+	
 	
 	@Select("""
 			SELECT COUNT(*)
@@ -49,10 +51,10 @@ public interface NotificationMapper {
 	        )
 			""")
 	boolean existsNotificationByUserIdAndNoId(@Param("userId") String userId, @Param("noId") Long noId);
-
-
+	
+	
 	@Select("""
-			SELECT noId, notificationType, contentId, details, createdDate
+			SELECT noId, notificationType, contentId, title, createdDate
 			FROM Notification
 			WHERE userId = #{userId}
 			AND noId = #{noId}
@@ -68,6 +70,15 @@ public interface NotificationMapper {
 			AND noId = #{noId}
 			""")
 	int updateNotificationDelete(String userId, Long noId);
+	
+	
+	@Update("""
+			UPDATE Notification
+			SET isRead = true
+			WHERE userId = #{userId}
+			AND noId = #{noId}
+			""")
+	void updateNotificationRead(String userId, Long noId);
 
 	
 	@Insert("""

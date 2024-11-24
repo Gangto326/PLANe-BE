@@ -145,7 +145,7 @@ public interface ArticleMapper {
 	            ELSE false 
 	        END as isRecommand,
 	        CASE 
-               WHEN b.authorId = #{currentUserId} THEN true 
+               WHEN b.authorId = #{userId} THEN true 
                ELSE false 
             END as isAuthor,
             p.accompanyNum,

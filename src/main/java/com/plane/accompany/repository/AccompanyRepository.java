@@ -2,6 +2,8 @@ package com.plane.accompany.repository;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.plane.accompany.dto.AccompanyApplyDto;
 import com.plane.accompany.dto.AccompanyDetailRequest;
 import com.plane.accompany.dto.AccompanyDetailResponse;
@@ -41,6 +43,6 @@ public interface AccompanyRepository {
 
 	int updateAccompanyApplyStatus(Long applyId);
 	
-	
+	boolean existsAccompanyByUserIdAndTripId(String userId, Long tripId);
 
 }
