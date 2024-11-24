@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.plane.accompany.dto.AccompanyAcceptRequest;
 import com.plane.accompany.dto.AccompanyApplyDto;
 import com.plane.accompany.dto.AccompanyDetailRequest;
 import com.plane.accompany.dto.AccompanyDetailResponse;
@@ -12,6 +13,7 @@ import com.plane.accompany.dto.AccompanyResponse;
 import com.plane.accompany.dto.AccompanyTripInfo;
 import com.plane.accompany.dto.ApplyType;
 import com.plane.accompany.mapper.AccompanyMapper;
+import com.plane.notification.dto.AccompanyNotificationDto;
 
 @Repository
 public class AccompanyRepositoryImpl implements AccompanyRepository {
@@ -133,6 +135,11 @@ public class AccompanyRepositoryImpl implements AccompanyRepository {
 	}
 
 
-	
+	@Override
+	public List<AccompanyNotificationDto> findAllArrivedAccompany() {
+		
+		return accompanyMapper.findAllArrivedAccompany();
+	}
+
 	
 }

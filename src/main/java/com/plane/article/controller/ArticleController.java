@@ -27,6 +27,7 @@ import com.plane.article.dto.ArticleReportRequest;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
+import com.plane.article.dto.ChangePublicRequest;
 import com.plane.article.service.ArticleService;
 import com.plane.common.annotation.UserId;
 import com.plane.common.dto.PageRequest;
@@ -140,10 +141,10 @@ public class ArticleController {
 	}
 	
 	
-	@DeleteMapping("/delete")
+	@DeleteMapping("/delete/{articleId}")
 	public ResponseEntity<ApiResponse<Boolean>> articleDelete(
 			@UserId String userId,
-			@RequestBody Long articleId
+			@PathVariable Long articleId
 			) {
 		
 		articleService.deleteArticle(userId, articleId);
@@ -181,6 +182,17 @@ public class ArticleController {
 		
 		articleService.createArticle(userId, articleCreateRequest);
 		return ResponseEntity.ok(ApiResponse.success(true, "게시글 생성이 완료되었습니다."));
+	}
+	
+	
+	@PostMapping("/changePublic")
+	public ResponseEntity<ApiResponse<Boolean>> changeArticlePublic(
+			@UserId String userId,
+			@Valid @RequestBody ChangePublicRequest changePublicRequest
+			) {
+		
+		articleService.changeArticlePublic(userId, changePublicRequest);
+		return ResponseEntity.ok(ApiResponse.success(true, "게시글 전환이 완료되었습니다."));
 	}
 	
 }

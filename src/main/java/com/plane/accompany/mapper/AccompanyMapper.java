@@ -13,6 +13,7 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.plane.accompany.dto.AccompanyAcceptRequest;
 import com.plane.accompany.dto.AccompanyApplyDto;
 import com.plane.accompany.dto.AccompanyDetailDto;
 import com.plane.accompany.dto.AccompanyDetailRequest;
@@ -20,6 +21,7 @@ import com.plane.accompany.dto.AccompanyDetailResponse;
 import com.plane.accompany.dto.AccompanyResponse;
 import com.plane.accompany.dto.AccompanyTripInfo;
 import com.plane.accompany.dto.ApplyType;
+import com.plane.notification.dto.AccompanyNotificationDto;
 
 @Mapper
 public interface AccompanyMapper {
@@ -224,4 +226,16 @@ public interface AccompanyMapper {
 	        )
 			""")
 	boolean existsAccompanyByUserIdAndTripId(@Param("userId") String userId, @Param("tripId") Long tripId);
+
+
+	@Select("""
+		    SELECT a.userId, p.tripId, p.tripName, p.arrivedDate
+		    FROM PLANe p
+		    JOIN Accompany a ON p.tripId = a.tripId
+		    WHERE p.deletedDate IS NULL
+		    AND p.accompanyNum > 1
+		    AND p.arrivedDate = CURDATE()
+		    """)
+	List<AccompanyNotificationDto> findAllArrivedAccompany();
+	
 }

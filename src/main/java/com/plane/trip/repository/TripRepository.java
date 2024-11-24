@@ -52,4 +52,6 @@ public interface TripRepository {
 	List<TripSearchResponse> selectTripsByPageRequest(String userId, TripSearchRequest tripSearchRequest);
 
 	UpcomingTripResponse selectUpcomingTrip(String userId);
+
+	int updatePlaneIsReviewed(String userId, Long tripId);
 }

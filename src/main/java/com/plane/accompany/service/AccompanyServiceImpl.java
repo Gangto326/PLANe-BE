@@ -174,7 +174,7 @@ public class AccompanyServiceImpl implements AccompanyService {
 		if (tripInfo == null) {
 			throw new RegistNotFoundException("해당 동행 신청을 찾을 수 없습니다.");
 		}
-		
+			
 		int currentCount = accompanyRepository.countAccompanyByTripId(tripInfo.getTripId());
 		
 		if (currentCount >= tripInfo.getAccompanyNum()) {

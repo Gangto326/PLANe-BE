@@ -62,10 +62,10 @@ public class NotificationController {
 	}
 	
 	
-	@DeleteMapping("/delete")
+	@DeleteMapping("/delete/{noId}")
 	public ResponseEntity<ApiResponse<Boolean>> notificationDelete(
 			@UserId String userId,
-			@RequestBody Long noId
+			@PathVariable Long noId
 			) {
 		
 		notificationService.deleteNotification(userId, noId);

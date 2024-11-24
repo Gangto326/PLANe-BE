@@ -8,6 +8,7 @@ import com.plane.article.dto.ArticleReportRequest;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
+import com.plane.article.dto.ChangePublicRequest;
 import com.plane.common.dto.PageRequest;
 import com.plane.common.dto.PageResponse;
 
@@ -30,5 +31,7 @@ public interface ArticleService {
 	boolean reportArticle(String userId, ArticleReportRequest articleReportRequest);
 
 	boolean createArticle(String userId, ArticleCreateRequest articleCreateRequest);
+
+	boolean changeArticlePublic(String userId, ChangePublicRequest changePublicRequest);
 
 }

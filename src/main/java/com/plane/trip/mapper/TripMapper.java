@@ -130,7 +130,7 @@ public interface TripMapper {
 
 	
 	@Select("""
-    		SELECT tripId, regionId, tripName, departureDate, arrivedDate, state, accompanyNum, tripDays, isLiked, isPublic, isReviewed
+    		SELECT tripId, regionId, tripName, departureDate, arrivedDate, state, accompanyNum, tripDays, isLiked, isReviewed
     		FROM PLANe
     		WHERE tripId = #{tripId}
     		AND deletedDate IS NULL
@@ -145,7 +145,6 @@ public interface TripMapper {
         @Result(property = "accompanyNum", column = "accompanyNum"),
         @Result(property = "tripDays", column = "tripDays"),
         @Result(property = "isLiked", column = "isLiked"),
-        @Result(property = "isPublic", column = "isPublic"),
         @Result(property = "isReviewed", column = "isReviewed"),
         @Result(property = "themaList", column = "tripId", many = @Many(select = "selectTripThemasByTripId")),
         @Result(property = "planList", column = "tripId", many = @Many(select = "selectTripPlans"))
@@ -344,5 +343,14 @@ public interface TripMapper {
 		    LIMIT 1
 			""")
 	UpcomingTripResponse selectUpcomingTrip(String userId);
+
+	
+	@Update("""
+			UPDATE PLANe
+			SET isReviewed = true
+			WHERE userId = #{userId}
+			AND tripId = #{tripId}
+			""")
+	int updatePlaneIsReviewed(@Param("userId") String userId, @Param("tripId") Long tripId);
 	
 }

@@ -30,7 +30,9 @@ public class ArticleCreateRequest {
 	private String articlePictureUrl;
 	
 	private MultipartFile file;
-
+	
+	private boolean isPublic;
+	
 	
 	public ArticleCreateRequest() {}
 
@@ -93,5 +95,16 @@ public class ArticleCreateRequest {
 	public void setFile(MultipartFile file) {
 		this.file = file;
 	}
+
+
+	public boolean isPublic() {
+		return isPublic;
+	}
+
+
+	public void setPublic(boolean isPublic) {
+		this.isPublic = isPublic;
+	}
+	
 	
 }

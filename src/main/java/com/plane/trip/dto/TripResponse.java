@@ -16,7 +16,6 @@ public class TripResponse {
     private int accompanyNum;
     private int tripDays;
     private boolean isLiked;
-    private boolean isPublic;
     private boolean isReviewed;
     private List<TripThema> themaList;
     private List<TripPlanDto> planList;
@@ -112,16 +111,6 @@ public class TripResponse {
 
 	public void setLiked(boolean isLiked) {
 		this.isLiked = isLiked;
-	}
-
-
-	public boolean isPublic() {
-		return isPublic;
-	}
-
-
-	public void setPublic(boolean isPublic) {
-		this.isPublic = isPublic;
 	}
 
 

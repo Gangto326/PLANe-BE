@@ -31,7 +31,7 @@ public class ArticleSearchRequest {
     
 	@Min(value = 0, message = "여행 일수는 0 이상이어야 합니다")
 	private Integer tripDays;
-    
+	
 	private boolean isRecommand;
 
      

@@ -13,6 +13,7 @@ import com.plane.article.dto.ArticleReportRequest;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
+import com.plane.article.dto.ChangePublicRequest;
 import com.plane.common.dto.PageRequest;
 
 import jakarta.validation.Valid;
@@ -46,5 +47,7 @@ public interface ArticleRepository {
 	ArticleNotificationInfo selectArticleNotificationInfo(Long articleId);
 
 	int insertArticle(String userId, ArticleCreateRequest articleCreateRequest);
+
+	int updateArticlePublic(String userId, ChangePublicRequest changePublicRequest);
 
 }
