@@ -27,4 +27,6 @@ public interface NotificationRepository {
 	void updateStatus(Long tripId);
 	
 	void save(ScheduledNotification notification);
+
+	void updateNotificationRead(String userId, Long noId);
 }

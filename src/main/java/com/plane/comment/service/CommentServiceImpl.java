@@ -147,7 +147,7 @@ public class CommentServiceImpl implements CommentService {
 				CommentNotificationInfo notificationInfo = commentRepository.selectCommentNotificationInfo(commentReportRequest.getCommentId());
 				
 				NotificationCreateRequest notificationCreateRequest = new NotificationCreateRequest();
-				notificationCreateRequest.setNotificationType("comment");
+				notificationCreateRequest.setNotificationType("댓글");
 				notificationCreateRequest.setContentId(notificationInfo.getArticleId());
 				notificationCreateRequest.setDetails(notificationInfo.getCommentContents());
 				notificationCreateRequest.setType(NotificationTargetType.COMMENT);

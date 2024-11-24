@@ -44,7 +44,7 @@ public class NotificationScheduler {
                 // 알림 발송 로직
                 NotificationCreateRequest notificationCreateRequest = new NotificationCreateRequest();
                 notificationCreateRequest.setContentId(notification.getTripId());
-                notificationCreateRequest.setNotificationType("trip");
+                notificationCreateRequest.setNotificationType("여행");
                 
                 NotificationTarget target = new NotificationTarget();
         		target.setType(NotificationTargetType.REVIEW);

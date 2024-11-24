@@ -67,6 +67,8 @@ public class NotificationServiceImpl implements NotificationService {
 			throw new ArticleNotFoundException("해당 알림을 찾을 수 없습니다.");
 		}
 		
+		notificationRepository.updateNotificationRead(userId, noId);
+		
 		NotificationDetailResponse notificationDetailResponse = notificationRepository.getNotificationDetail(userId, noId);
 		return notificationDetailResponse;
 	}

@@ -7,7 +7,7 @@ public class NotificationDetailResponse {
 	private Long noId;
 	private String notificationType;
 	private Long contentId;
-	private String details;
+	private String title;
 	private LocalDateTime createdDate;
 	
 	
@@ -44,13 +44,13 @@ public class NotificationDetailResponse {
 	}
 
 
-	public String getDetails() {
-		return details;
+	public String getTitle() {
+		return title;
 	}
 
 
-	public void setDetails(String details) {
-		this.details = details;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 
