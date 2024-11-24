@@ -352,5 +352,94 @@ public interface TripMapper {
 			AND tripId = #{tripId}
 			""")
 	int updatePlaneIsReviewed(@Param("userId") String userId, @Param("tripId") Long tripId);
+
+	
+	@Update("""
+			UPDATE PLANe
+			SET accompanyNum = #{accompanyNum}
+			WHERE tripId = #{tripId}
+			""")
+	int updateAccompanyNum(@Param("tripId") Long tripId, @Param("accompanyNum") Integer accompanyNum);
+
+
+	@Select("""
+			<script>
+			SELECT COUNT(*)
+			FROM PLANe p
+	        INNER JOIN Accompany a ON p.tripId = a.tripId
+	        <where>
+	           p.deletedDate IS NULL
+	           AND a.deletedDate IS NULL
+	           AND a.userId = #{userId}
+	           <if test="tripSearchRequest.regionId != null">
+	               AND p.regionId = #{tripSearchRequest.regionId}
+	           </if>
+	           <if test="tripSearchRequest.state != null">
+	               AND p.state = #{tripSearchRequest.state}
+	           </if>
+	           <if test="tripSearchRequest.accompanyNum != null">
+	               AND p.accompanyNum = #{tripSearchRequest.accompanyNum}
+	           </if>
+	           <if test="tripSearchRequest.tripDays != null">
+	               AND p.tripDays = #{tripSearchRequest.tripDays}
+	           </if>
+	           <if test="tripSearchRequest.isLiked != null">
+	               AND p.isLiked = #{tripSearchRequest.isLiked}
+	           </if>
+	           <if test="tripSearchRequest.isReviewed != null">
+	               AND p.isReviewed = #{tripSearchRequest.isReviewed}
+	           </if>
+	        </where>
+			</script>
+			""")
+	long countAllAccompanyTrips(String userId, TripSearchRequest tripSearchRequest);
+	
+	
+	@Select("""
+			<script>
+	        SELECT p.tripId, p.userId, p.regionId, p.tripName, p.departureDate, p.arrivedDate,
+	              p.state, p.accompanyNum, p.tripDays, p.isLiked, p.isReviewed,
+	              (
+	                SELECT url
+	                FROM TripPlan tp
+	                WHERE tp.tripId = p.tripId 
+	                AND tp.url IS NOT NULL
+	                ORDER BY RAND() 
+	                LIMIT 1
+	              ) as thumbnailUrl
+	        FROM PLANe p
+	        INNER JOIN Accompany a ON p.tripId = a.tripId
+	        <where>
+	           p.deletedDate IS NULL
+	           AND a.deletedDate IS NULL
+	           AND a.userId = #{userId}
+	           <if test="tripSearchRequest.regionId != null">
+	               AND p.regionId = #{tripSearchRequest.regionId}
+	           </if>
+	           <if test="tripSearchRequest.state != null">
+	               AND p.state = #{tripSearchRequest.state}
+	           </if>
+	           <if test="tripSearchRequest.accompanyNum != null">
+	               AND p.accompanyNum = #{tripSearchRequest.accompanyNum}
+	           </if>
+	           <if test="tripSearchRequest.tripDays != null">
+	               AND p.tripDays = #{tripSearchRequest.tripDays}
+	           </if>
+	           <if test="tripSearchRequest.isLiked != null">
+	               AND p.isLiked = #{tripSearchRequest.isLiked}
+	           </if>
+	           <if test="tripSearchRequest.isReviewed != null">
+	               AND p.isReviewed = #{tripSearchRequest.isReviewed}
+	           </if>
+	        </where>
+	        ORDER BY ${tripSearchRequest.pageRequest.sortBy} ${tripSearchRequest.pageRequest.sortDirection}
+	        LIMIT #{tripSearchRequest.pageRequest.offset}, #{tripSearchRequest.pageRequest.size}
+	        </script>
+	        """)
+	@Results({
+	    @Result(property = "tripId", column = "tripId"),
+	    @Result(property = "tripThema", column = "tripId", many = @Many(select = "com.plane.trip.mapper.TripMapper.selectTripThemasByTripId"))
+	})
+	List<TripSearchResponse> selectAccompanyTripsByPageRequest(@Param("userId") String userId, @Param("tripSearchRequest") TripSearchRequest tripSearchRequest);
 	
 }

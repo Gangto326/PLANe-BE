@@ -103,7 +103,8 @@ public class ArticleController {
 	        @RequestParam(required = false)
 	        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate tripPeriod,
 	        @RequestParam(required = false) @Min(0) Integer tripDays,
-	        @RequestParam(required = false) boolean recommend
+	        @RequestParam(required = false) boolean recommend,
+	        @RequestParam(required = false) String searchTitle
 			) {
 		
 		// 페이지네이션 관련 정보 삽입 무조건 필수 정보들이어야 함.
@@ -134,6 +135,7 @@ public class ArticleController {
         articleSearchRequest.setTripPeriod(tripPeriod);
         articleSearchRequest.setTripDays(tripDays);
         articleSearchRequest.setRecommand(recommend);
+        articleSearchRequest.setSearchTitle(searchTitle);
         
 		
 		PageResponse<ArticleResponse> pageResponse = articleService.getArticleList(userId, articleSearchRequest);		

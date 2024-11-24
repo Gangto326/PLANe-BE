@@ -33,6 +33,8 @@ public class ArticleSearchRequest {
 	private Integer tripDays;
 	
 	private boolean isRecommand;
+	
+	private String searchTitle;
 
      
 	public ArticleSearchRequest() {}
@@ -107,4 +109,15 @@ public class ArticleSearchRequest {
 		this.isRecommand = isRecommand;
 	}
 
+
+	public String getSearchTitle() {
+		return searchTitle;
+	}
+
+
+	public void setSearchTitle(String searchTitle) {
+		this.searchTitle = searchTitle;
+	}
+	
+	
 }

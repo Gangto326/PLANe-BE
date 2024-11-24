@@ -1,5 +1,7 @@
 package com.plane.trip.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,13 +18,16 @@ import com.plane.common.annotation.UserId;
 import com.plane.common.dto.PageRequest;
 import com.plane.common.dto.PageResponse;
 import com.plane.common.response.ApiResponse;
+import com.plane.trip.dto.CoordinateDto;
 import com.plane.trip.dto.TripCreateRequest;
 import com.plane.trip.dto.TripDetailResponse;
+import com.plane.trip.dto.TripMakeResponse;
 import com.plane.trip.dto.TripResponse;
 import com.plane.trip.dto.TripSearchRequest;
 import com.plane.trip.dto.TripSearchResponse;
 import com.plane.trip.dto.TripUpdateRequest;
 import com.plane.trip.dto.UpcomingTripResponse;
+import com.plane.trip.service.TripMakeService;
 import com.plane.trip.service.TripService;
 
 import jakarta.validation.Valid;
@@ -35,10 +40,12 @@ import jakarta.validation.constraints.Pattern;
 public class TripController {
 	
 	private final TripService tripService;
+	private final TripMakeService tripMakeService;
 
 	@Autowired
-	public TripController(TripService tripService) {
+	public TripController(TripService tripService, TripMakeService tripMakeService) {
 		this.tripService = tripService;
+		this.tripMakeService = tripMakeService;
 	}
 	
 	
@@ -53,10 +60,21 @@ public class TripController {
 	}
 	
 	
-	@DeleteMapping("")
+	@PostMapping("/makeTrip")
+	public ResponseEntity<ApiResponse<TripMakeResponse>> tripMake(
+			@UserId String userId,
+			@RequestBody List<CoordinateDto> coordinateDtoList
+			) {
+		
+		TripMakeResponse tripMakeResponse = tripMakeService.assignTripOrder(coordinateDtoList);
+		return ResponseEntity.ok(ApiResponse.success(tripMakeResponse, "여행 반환 성공."));
+	}
+	
+	
+	@DeleteMapping("/{tripId}")
 	public ResponseEntity<ApiResponse<Boolean>> planeDelete(
 			@UserId String userId,
-			@RequestBody Long tripId
+			@PathVariable Long tripId
 			) {
 		
 		tripService.deletePlane(userId, tripId);
@@ -97,12 +115,13 @@ public class TripController {
 		    @RequestParam(required = false, defaultValue = "DESC") 
 		    @Pattern(regexp = "^(ASC|DESC)$") String sortDirection,
 		   
-		    @RequestParam(required = false) Long regionId,
+		    @RequestParam(required = false) Integer regionId,
 		    @RequestParam(required = false) @Pattern(regexp = "^(임시저장|저장)$") String state,
 		    @RequestParam(required = false) @Min(1) @Max(6) Integer accompanyNum,
 		    @RequestParam(required = false) @Min(1) Integer tripDays,
 		    @RequestParam(required = false) Boolean isLiked,
-		    @RequestParam(required = false) Boolean isReviewed
+		    @RequestParam(required = false) Boolean isReviewed,
+		    @RequestParam(required = false) String type
 	) {
 		
 		PageRequest pageRequest = new PageRequest();
@@ -118,6 +137,7 @@ public class TripController {
 		tripSearchRequest.setTripDays(tripDays);
 		tripSearchRequest.setIsLiked(isLiked);
 		tripSearchRequest.setIsReviewed(isReviewed);
+		tripSearchRequest.setType(type);
 		tripSearchRequest.setPageRequest(pageRequest);
 
 		PageResponse<TripSearchResponse> pageResponse = tripService.getTripList(userId, tripSearchRequest);
@@ -133,5 +153,6 @@ public class TripController {
 		UpcomingTripResponse upcomingTripResponse = tripService.getUpcomingTrip(userId);
 		return ResponseEntity.ok(ApiResponse.success(upcomingTripResponse, "곧 출발할 여행 반환 성공."));
 	}
+	
 	
 }

@@ -4,12 +4,13 @@ import com.plane.common.dto.PageRequest;
 
 public class TripSearchRequest {
 	
-	private Long regionId;
+	private Integer regionId;
 	private String state;
 	private Integer accompanyNum;
 	private Integer tripDays;
 	private Boolean isLiked;
 	private Boolean isReviewed;
+	private String type;
 	
 	private PageRequest pageRequest;
 
@@ -17,12 +18,12 @@ public class TripSearchRequest {
 	public TripSearchRequest() {}
 
 
-	public Long getRegionId() {
+	public Integer getRegionId() {
 		return regionId;
 	}
 
 
-	public void setRegionId(Long regionId) {
+	public void setRegionId(Integer regionId) {
 		this.regionId = regionId;
 	}
 
@@ -74,6 +75,16 @@ public class TripSearchRequest {
 
 	public void setIsReviewed(Boolean isReviewed) {
 		this.isReviewed = isReviewed;
+	}
+	
+
+	public String getType() {
+		return type;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 

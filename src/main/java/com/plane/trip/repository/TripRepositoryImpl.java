@@ -167,5 +167,27 @@ public class TripRepositoryImpl implements TripRepository {
 		return tripMapper.updatePlaneIsReviewed(userId, tripId);
 	}
 
+
+	@Override
+	public int updateAccompanyNum(Long tripId, Integer accompanyNum) {
+		
+		return tripMapper.updateAccompanyNum(tripId, accompanyNum);
+	}
+
+
+	@Override
+	public long countAllAccompanyTrips(String userId, TripSearchRequest tripSearchRequest) {
+		
+		return tripMapper.countAllAccompanyTrips(userId, tripSearchRequest);
+	}
+
+
+	@Override
+	public List<TripSearchResponse> selectAccompanyTripsByPageRequest(String userId,
+			TripSearchRequest tripSearchRequest) {
+		
+		return tripMapper.selectAccompanyTripsByPageRequest(userId, tripSearchRequest);
+	}
+
 	
 }

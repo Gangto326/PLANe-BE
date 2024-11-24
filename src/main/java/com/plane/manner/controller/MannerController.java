@@ -43,16 +43,16 @@ public class MannerController {
 	}
 	
 	
-	@GetMapping("/{tripId}")
+	@GetMapping("/{articleId}")
 	public ResponseEntity<ApiResponse<MannerDetailResponse>> mannerDetail(
 			@UserId String userId,
-			@PathVariable Long tripId
+			@PathVariable Long articleId
 			) {
 		
-		List<MannerUserResponse> userList = mannerService.getMannerDetail(userId, tripId);
+		List<MannerUserResponse> userList = mannerService.getMannerDetail(userId, articleId);
 		
 		MannerDetailResponse mannerDetailResponse = new MannerDetailResponse();
-		mannerDetailResponse.setTripId(tripId);
+		mannerDetailResponse.setArticleId(articleId);
 		mannerDetailResponse.setUserList(userList);
 		
 		return ResponseEntity.ok(ApiResponse.success(mannerDetailResponse, "매너 상세페이지를 반환하였습니다."));

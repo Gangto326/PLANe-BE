@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.plane.accompany.repository.AccompanyRepository;
+import com.plane.article.repository.ArticleRepository;
 import com.plane.common.exception.custom.CreationFailedException;
 import com.plane.common.exception.custom.TripNotFoundException;
 import com.plane.common.exception.custom.UpdateFailedException;
@@ -25,11 +26,13 @@ public class MannerServiceImpl implements MannerService {
 
 	private final MannerRepository mannerRepository;
 	private final AccompanyRepository accompanyRepository;
+	private final ArticleRepository articleRepository;
 	
 	@Autowired
-	public MannerServiceImpl(MannerRepository mannerRepository, AccompanyRepository accompanyRepository) {
+	public MannerServiceImpl(MannerRepository mannerRepository, AccompanyRepository accompanyRepository, ArticleRepository articleRepository) {
 		this.mannerRepository = mannerRepository;
 		this.accompanyRepository = accompanyRepository;
+		this.articleRepository = articleRepository;
 	}
 
 	
@@ -69,16 +72,15 @@ public class MannerServiceImpl implements MannerService {
 
 
 	@Override
-	public List<MannerUserResponse> getMannerDetail(String userId, Long tripId) {
+	public List<MannerUserResponse> getMannerDetail(String userId, Long articleId) {
 		
-		if (!accompanyRepository.existsAccompanyByUserIdAndTripId(userId, tripId)) {
+		Long tripId = articleRepository.selectTripIdByArticleId(articleId);
+		
+		if (tripId == null || !accompanyRepository.existsAccompanyByUserIdAndTripId(userId, tripId)) {
 			throw new TripNotFoundException("함께 간 동행 정보를 찾을 수 없습니다.");
 		}
 		
 		return accompanyRepository.findAllAccompany(tripId);
 	}
-	
-	
-	
 	
 }

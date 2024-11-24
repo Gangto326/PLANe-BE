@@ -27,6 +27,10 @@ public class ArticleUpdateRequest {
 	@URL(message = "올바른 URL 형식이 아닙니다")
 	private String articlePictureUrl;
 	
+	
+//	private String articleType;
+//	private Integer accompanyNum;
+	
 	private MultipartFile file;
 	
 //	private LocalDateTime updatedDate;
@@ -73,6 +77,26 @@ public class ArticleUpdateRequest {
 	public void setArticlePictureUrl(String articlePictureUrl) {
 		this.articlePictureUrl = articlePictureUrl;
 	}
+	
+
+//	public String getArticleType() {
+//		return articleType;
+//	}
+//
+//
+//	public void setArticleType(String articleType) {
+//		this.articleType = articleType;
+//	}
+//
+//
+//	public Integer getAccompanyNum() {
+//		return accompanyNum;
+//	}
+//
+//
+//	public void setAccompanyNum(Integer accompanyNum) {
+//		this.accompanyNum = accompanyNum;
+//	}
 
 
 	public MultipartFile getFile() {

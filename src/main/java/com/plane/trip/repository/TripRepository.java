@@ -54,4 +54,10 @@ public interface TripRepository {
 	UpcomingTripResponse selectUpcomingTrip(String userId);
 
 	int updatePlaneIsReviewed(String userId, Long tripId);
+
+	int updateAccompanyNum(Long tripId, Integer accompanyNum);
+
+	long countAllAccompanyTrips(String userId, TripSearchRequest tripSearchRequest);
+
+	List<TripSearchResponse> selectAccompanyTripsByPageRequest(String userId, TripSearchRequest tripSearchRequest);
 }

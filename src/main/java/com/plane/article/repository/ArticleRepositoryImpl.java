@@ -121,5 +121,23 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 		return articleMapper.updateArticlePublic(userId, changePublicRequest);
 	}
 
+	@Override
+	public int updateAccompanyNum(Long articleId, Integer accompanyNum) {
+		
+		return articleMapper.updateAccompanyNum(articleId, accompanyNum);
+	}
+
+	@Override
+	public Long selectArticleIdByTripId(Long tripId) {
+
+		return articleMapper.selectArticleIdByTripId(tripId);
+	}
+
+	@Override
+	public Long selectTripIdByArticleId(Long articleId) {
+
+		return articleMapper.selectTripIdByArticleId(articleId);
+	}
+
 	
 }

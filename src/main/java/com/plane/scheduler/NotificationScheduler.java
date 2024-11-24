@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.plane.article.repository.ArticleRepository;
 import com.plane.common.dto.ScheduledNotification;
 import com.plane.common.util.NotificationTitleGenerator;
 import com.plane.notification.dto.NotificationAction;
@@ -21,12 +22,14 @@ public class NotificationScheduler {
 	private final NotificationRepository notificationRepository;
 	private final NotificationTitleGenerator notificationTitleGenerator;
 	private final UserRepository userRepository;
+	private final ArticleRepository articleRepository;
 	
 	@Autowired
-	public NotificationScheduler(NotificationRepository notificationRepository, NotificationTitleGenerator notificationTitleGenerator, UserRepository userRepository) {
+	public NotificationScheduler(NotificationRepository notificationRepository, NotificationTitleGenerator notificationTitleGenerator, UserRepository userRepository, ArticleRepository articleRepository) {
         this.notificationRepository = notificationRepository;
         this.notificationTitleGenerator = notificationTitleGenerator;
         this.userRepository = userRepository;
+        this.articleRepository = articleRepository;
     }
 	
 	
@@ -70,7 +73,9 @@ public class NotificationScheduler {
 				try {
 	                // 알림 발송 로직
 	                NotificationCreateRequest notificationCreateRequest = new NotificationCreateRequest();
-	                notificationCreateRequest.setContentId(notification.getTripId());
+//	                notificationCreateRequest.setContentId(notification.getTripId());
+	                
+	                notificationCreateRequest.setContentId(articleRepository.selectArticleIdByTripId(notification.getTripId()));
 	                notificationCreateRequest.setNotificationType("매너");
 	                
 	                NotificationTarget target = new NotificationTarget();
