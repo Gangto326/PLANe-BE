@@ -249,7 +249,7 @@ public interface TripMapper {
 	@Select("""
 			<script>
 			SELECT tripId, userId, regionId, tripName, departureDate, arrivedDate,
-			      state, accompanyNum, tripDays, isLiked, isPublic, isReviewed,
+			      state, accompanyNum, tripDays, isLiked, isReviewed,
 			      (
 			      	SELECT url
 			      	FROM TripPlan tp

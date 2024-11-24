@@ -182,11 +182,11 @@ public class AccompanyServiceImpl implements AccompanyService {
 				throw new InvalidStateException("동행 인원이 초과되었습니다.");
 			}
 			
+			// 승낙처리
+			accompanyRepository.updateApplyStatus(accompanyAcceptRequest.getApplyId(), accompanyAcceptRequest.getStatus());
+			
 			// 동행원 데이터 추가
 			if (accompanyRepository.insertAccompany(tripInfo.getTripId(), tripInfo.getApplicantId(), accompanyAcceptRequest.getRole()) == 1) {
-				
-				// 승낙처리
-				accompanyRepository.updateApplyStatus(accompanyAcceptRequest.getApplyId(), accompanyAcceptRequest.getStatus());
 				
 				try {
 					ArticleNotificationInfo articleNotificationInfo = articleRepository.selectArticleNotificationInfo(tripInfo.getArticleId());
@@ -202,11 +202,12 @@ public class AccompanyServiceImpl implements AccompanyService {
 				} catch (Exception e) {
 					return true;
 				}
+				
+				return true;
 			}
 		}
 		
 		else {
-			
 			// 거절 처리
 			accompanyRepository.updateApplyStatus(accompanyAcceptRequest.getApplyId(), accompanyAcceptRequest.getStatus());
 			return true;
