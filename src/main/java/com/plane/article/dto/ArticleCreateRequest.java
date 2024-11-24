@@ -26,6 +26,9 @@ public class ArticleCreateRequest {
 	private String content;
 	
 	
+	private Integer accompanyNum;
+	
+	
 	@URL(message = "올바른 URL 형식이 아닙니다")
 	private String articlePictureUrl;
 	
@@ -74,6 +77,16 @@ public class ArticleCreateRequest {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+	
+
+	public Integer getAccompanyNum() {
+		return accompanyNum;
+	}
+
+
+	public void setAccompanyNum(Integer accompanyNum) {
+		this.accompanyNum = accompanyNum;
 	}
 
 

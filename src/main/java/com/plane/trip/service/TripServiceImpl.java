@@ -253,10 +253,25 @@ public class TripServiceImpl implements TripService {
 	@Override
 	public PageResponse<TripSearchResponse> getTripList(String userId, TripSearchRequest tripSearchRequest) {
 		
-		long total = tripRepository.countAllTrips(userId, tripSearchRequest);
-		
-		List<TripSearchResponse> tripList = tripRepository.selectTripsByPageRequest(userId, tripSearchRequest);
+//		long total = tripRepository.countAllTrips(userId, tripSearchRequest);
+//		List<TripSearchResponse> tripList = tripRepository.selectTripsByPageRequest(userId, tripSearchRequest);
         
+		long total = 0;
+		List<TripSearchResponse> tripList = null;
+		
+		// 내가 동행으로 참여하는 여행의 경우만 반환
+		if (tripSearchRequest.getType().equals("accompany")) {
+			total = tripRepository.countAllAccompanyTrips(userId, tripSearchRequest);
+			tripList = tripRepository.selectAccompanyTripsByPageRequest(userId, tripSearchRequest);
+		}
+		
+		// 내가 만든 여행을 반환
+		else {
+			total = tripRepository.countAllTrips(userId, tripSearchRequest);
+			tripList = tripRepository.selectTripsByPageRequest(userId, tripSearchRequest);
+		}
+		
+		
 		PageRequest pageRequest = tripSearchRequest.getPageRequest();
         // 페이지 정보 생성
         int totalPages = (int) Math.ceil((double) total / pageRequest.getSize());

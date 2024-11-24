@@ -17,7 +17,6 @@ public class TripCreateRequest {
 	
 	@NotNull(message = "지역 코드는 필수입니다.")
     @Min(value = 1, message = "올바르지 않은 지역 코드입니다.")
-    @Max(value = 39, message = "올바르지 않은 지역 코드입니다.")
 	private Integer regionId;
 	
 	

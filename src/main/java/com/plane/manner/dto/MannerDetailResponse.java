@@ -4,20 +4,20 @@ import java.util.List;
 
 public class MannerDetailResponse {
 
-	private Long tripId;
+	private Long articleId;
 	private List<MannerUserResponse> userList;
 	
 	
 	public MannerDetailResponse() {}
 
 
-	public Long getTripId() {
-		return tripId;
+	public Long getArticleId() {
+		return articleId;
 	}
 
 
-	public void setTripId(Long tripId) {
-		this.tripId = tripId;
+	public void setArticleId(Long articleId) {
+		this.articleId = articleId;
 	}
 
 

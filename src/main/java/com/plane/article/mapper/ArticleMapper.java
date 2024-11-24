@@ -79,6 +79,7 @@ public interface ArticleMapper {
 			UPDATE Board
 		    SET title = #{articleUpdateRequest.title},
 		        content = #{articleUpdateRequest.content},
+		        articlePictureUrl = #{articleUpdateRequest.articlePictureUrl},
 		        updatedDate = CURRENT_TIMESTAMP
 		    WHERE articleId = #{articleUpdateRequest.articleId}
 		    AND authorId = #{userId}
@@ -116,6 +117,9 @@ public interface ArticleMapper {
 			        	AND i.type = 'RECOMMAND'
 			        	)
 			    </if>
+			    <if test="articleSearchRequest.searchTitle != null">
+		            AND b.title LIKE CONCAT('%', #{articleSearchRequest.searchTitle}, '%')
+		        </if>
 	        </where>
 	        </script>
 			""")
@@ -170,7 +174,7 @@ public interface ArticleMapper {
 		            AND p.regionId = #{articleSearchRequest.regionId}
 		        </if>
 		        <if test="articleSearchRequest.tripPeriod != null">
-		            AND p.departureDate = #{articleSearchRequest.tripPeriod}
+		            AND p.departureDate >= #{articleSearchRequest.tripPeriod}
 		        </if>
 		        <if test="articleSearchRequest.tripDays != null">
 		            AND p.tripDays = #{articleSearchRequest.tripDays}
@@ -184,6 +188,9 @@ public interface ArticleMapper {
 			        	AND i.type = 'RECOMMAND'
 			        	)
 			    </if>
+			    <if test="articleSearchRequest.searchTitle != null">
+		            AND b.title LIKE CONCAT('%', #{articleSearchRequest.searchTitle}, '%')
+		        </if>
 	        </where>
 		    ORDER BY ${articleSearchRequest.pageRequest.sortBy} ${articleSearchRequest.pageRequest.sortDirection}
 		    LIMIT #{articleSearchRequest.pageRequest.offset}, #{articleSearchRequest.pageRequest.size}
@@ -281,6 +288,35 @@ public interface ArticleMapper {
 			AND articleId = #{request.articleId}
 			""")
 	int updateArticlePublic(@Param("userId") String userId, @Param("request") ChangePublicRequest changePublicRequest);
+
+	
+	@Update("""
+			UPDATE PLANe p
+			SET p.accompanyNum = #{accompanyNum}
+			WHERE p.tripId = (
+			    SELECT b.tripId 
+			    FROM Board b 
+			    WHERE b.articleId = #{articleId}
+			    AND b.articleType = '동행'
+			)
+			""")
+	int updateAccompanyNum(@Param("articleId") Long articleId, @Param("accompanyNum") Integer accompanyNum);
+
+	
+	@Select("""
+			SELECT articleId
+			FROM Board
+			WHERE tripId = #{tripId}
+			""")
+	Long selectArticleIdByTripId(@Param("tripId") Long tripId);
+	
+	
+	@Select("""
+			SELECT tripId
+			FROM Board
+			WHERE articleId = #{articleId}
+			""")
+	Long selectTripIdByArticleId(@Param("articleId") Long articleId);
 
 
 }

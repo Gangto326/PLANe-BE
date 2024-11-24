@@ -8,7 +8,7 @@ import com.plane.trip.domain.TripThema;
 public class TripSearchResponse {
 	
 	private Long tripId;
-	private Long regionId;
+	private Integer regionId;
 	private String tripName;
     private LocalDate departureDate;
     private LocalDate arrivedDate;
@@ -34,12 +34,12 @@ public class TripSearchResponse {
 	}
 
 
-	public Long getRegionId() {
+	public Integer getRegionId() {
 		return regionId;
 	}
 
 
-	public void setRegionId(Long regionId) {
+	public void setRegionId(Integer regionId) {
 		this.regionId = regionId;
 	}
 

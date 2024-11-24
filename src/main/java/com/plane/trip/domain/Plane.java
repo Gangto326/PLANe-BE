@@ -15,7 +15,6 @@ public class Plane {
 	private Integer accompanyNum;
 	private Integer tripDays;
 	private boolean isLiked;
-	private boolean isPublic;
 	private boolean isReviewed;
 	private LocalDateTime deletedDate;
 	
@@ -120,16 +119,6 @@ public class Plane {
 
 	public void setLiked(boolean isLiked) {
 		this.isLiked = isLiked;
-	}
-
-
-	public boolean isPublic() {
-		return isPublic;
-	}
-
-
-	public void setPublic(boolean isPublic) {
-		this.isPublic = isPublic;
 	}
 
 

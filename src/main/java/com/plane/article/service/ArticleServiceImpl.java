@@ -122,6 +122,13 @@ public class ArticleServiceImpl implements ArticleService {
 			articleUpdateRequest.setArticlePictureUrl(imageUrl);
 		}
 		
+//		if (articleUpdateRequest.getArticleType().equals("동행") && articleUpdateRequest.getAccompanyNum() != null &&
+//				articleUpdateRequest.getAccompanyNum() > 1 && articleUpdateRequest.getAccompanyNum() <= 6) {
+//			
+//			
+//			articleRepository.updateAccompanyNum(articleUpdateRequest.getArticleId(), articleUpdateRequest.getAccompanyNum());
+//		}
+		
 		if (articleRepository.updateArticle(userId, articleUpdateRequest) == 1) {
 			return true;
 		}
@@ -237,16 +244,21 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public boolean createArticle(String userId, ArticleCreateRequest articleCreateRequest) {
 		
-		 Plane plane = tripRepository.selectPlaneByUserIdAndTripId(userId, articleCreateRequest.getTripId());
-		 
-		 Integer accompanyNum = plane.getAccompanyNum();
+		Plane plane = tripRepository.selectPlaneByUserIdAndTripId(userId, articleCreateRequest.getTripId());
 		
-		if (accompanyNum == null || accompanyNum < 1) {
+		if (plane == null) {
 			throw new InvalidParameterException("여행을 찾을 수 없습니다.");
 		}
 		
-		if (accompanyNum == 1 && articleCreateRequest.getArticleType().equals("동행")) {
-			throw new InvalidParameterException("동행 글에는 동행 인원이 있어야 합니다.");
+		if (articleCreateRequest.getArticleType().equals("동행")) {
+			
+			if (articleCreateRequest.getAccompanyNum() <= 1) {
+				throw new InvalidParameterException("동행 글에는 동행 인원이 있어야 합니다.");
+			}
+			
+			else if (articleCreateRequest.getAccompanyNum() <= 6) {
+				tripRepository.updateAccompanyNum(plane.getTripId(), articleCreateRequest.getAccompanyNum());
+			}
 		}
 		
 		if (articleCreateRequest.getArticleType().equals("후기")) {

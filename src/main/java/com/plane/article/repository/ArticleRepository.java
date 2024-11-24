@@ -50,4 +50,9 @@ public interface ArticleRepository {
 
 	int updateArticlePublic(String userId, ChangePublicRequest changePublicRequest);
 
+	int updateAccompanyNum(Long articleId, Integer accompanyNum);
+
+	Long selectArticleIdByTripId(Long tripId);
+
+	Long selectTripIdByArticleId(Long articleId);
 }
