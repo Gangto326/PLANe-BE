@@ -14,6 +14,7 @@ import com.plane.common.exception.custom.UpdateFailedException;
 import com.plane.common.exception.custom.UserNotFoundException;
 import com.plane.manner.dto.MannerEvaluateRequest;
 import com.plane.manner.dto.MannerTagRequest;
+import com.plane.manner.dto.MannerUserResponse;
 import com.plane.manner.repository.MannerRepository;
 
 import jakarta.validation.Valid;
@@ -64,6 +65,17 @@ public class MannerServiceImpl implements MannerService {
 		}
 		
 		throw new UpdateFailedException("매너 점수 변경에서 문제가 발생하였습니다.");
+	}
+
+
+	@Override
+	public List<MannerUserResponse> getMannerDetail(String userId, Long tripId) {
+		
+		if (!accompanyRepository.existsAccompanyByUserIdAndTripId(userId, tripId)) {
+			throw new TripNotFoundException("함께 간 동행 정보를 찾을 수 없습니다.");
+		}
+		
+		return accompanyRepository.findAllAccompany(tripId);
 	}
 	
 	

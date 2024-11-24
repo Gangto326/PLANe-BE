@@ -8,6 +8,7 @@ public class AccompanyDetailResponse {
 	private Long articleId;
 	private String nickName;
 	private List<AccompanyDetailDto> detailList;
+	private String status;
 	
 	
 	public AccompanyDetailResponse() {}
@@ -50,6 +51,16 @@ public class AccompanyDetailResponse {
 
 	public void setDetailList(List<AccompanyDetailDto> detailList) {
 		this.detailList = detailList;
+	}
+
+
+	public String getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 }

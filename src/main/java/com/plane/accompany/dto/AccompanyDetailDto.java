@@ -2,34 +2,23 @@ package com.plane.accompany.dto;
 
 public class AccompanyDetailDto {
 
-	private Long id;
-	private String content;
+	private Integer askId;
 	private String answer;
 	
 	
 	public AccompanyDetailDto() {}
 
 
-	public Long getId() {
-		return id;
+	public Integer getAskId() {
+		return askId;
 	}
 
-
-	public void setId(Long id) {
-		this.id = id;
+	
+	public void setAskId(Integer askId) {
+		this.askId = askId;
 	}
 
-
-	public String getContent() {
-		return content;
-	}
-
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-
+	
 	public String getAnswer() {
 		return answer;
 	}
