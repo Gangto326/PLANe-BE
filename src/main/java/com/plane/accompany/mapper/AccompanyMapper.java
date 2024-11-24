@@ -126,7 +126,7 @@ public interface AccompanyMapper {
 			AND applyId = #{applyId}
 			""")
 	int updateApplyStatusDelete(@Param("userId") String userId, @Param("applyId") Long applyId);
-
+	
 
 	@Select("""
 			SELECT EXISTS (
