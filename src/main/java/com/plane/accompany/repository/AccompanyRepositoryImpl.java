@@ -13,6 +13,7 @@ import com.plane.accompany.dto.AccompanyResponse;
 import com.plane.accompany.dto.AccompanyTripInfo;
 import com.plane.accompany.dto.ApplyType;
 import com.plane.accompany.mapper.AccompanyMapper;
+import com.plane.manner.dto.MannerUserResponse;
 import com.plane.notification.dto.AccompanyNotificationDto;
 
 @Repository
@@ -73,9 +74,9 @@ public class AccompanyRepositoryImpl implements AccompanyRepository {
 
 
 	@Override
-	public int updateApplyStatus(String userId, Long applyId, String status) {
+	public int updateApplyStatus(Long applyId, String status) {
 		
-		return accompanyMapper.updateApplyStatus(userId, applyId, status);
+		return accompanyMapper.updateApplyStatus(applyId, status);
 	}
 
 
@@ -122,13 +123,6 @@ public class AccompanyRepositoryImpl implements AccompanyRepository {
 
 
 	@Override
-	public int updateAccompanyApplyStatus(Long applyId) {
-
-		return accompanyMapper.updateAccompanyApplyStatus(applyId);
-	}
-
-
-	@Override
 	public boolean existsAccompanyByUserIdAndTripId(String userId, Long tripId) {
 		
 		return accompanyMapper.existsAccompanyByUserIdAndTripId(userId, tripId);
@@ -139,6 +133,13 @@ public class AccompanyRepositoryImpl implements AccompanyRepository {
 	public List<AccompanyNotificationDto> findAllArrivedAccompany() {
 		
 		return accompanyMapper.findAllArrivedAccompany();
+	}
+
+
+	@Override
+	public List<MannerUserResponse> findAllAccompany(Long tripId) {
+		
+		return accompanyMapper.findAllAccompany(tripId);
 	}
 
 	

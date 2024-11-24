@@ -21,6 +21,7 @@ import com.plane.accompany.dto.AccompanyDetailResponse;
 import com.plane.accompany.dto.AccompanyResponse;
 import com.plane.accompany.dto.AccompanyTripInfo;
 import com.plane.accompany.dto.ApplyType;
+import com.plane.manner.dto.MannerUserResponse;
 import com.plane.notification.dto.AccompanyNotificationDto;
 
 @Mapper
@@ -113,10 +114,9 @@ public interface AccompanyMapper {
 	@Update("""
 			UPDATE AccompanyApply 
 	        SET status = #{status}
-			WHERE userId = #{userId}
-			AND applyId = #{applyId}
+			WHERE applyId = #{applyId}
 			""")
-	int updateApplyStatus(@Param("userId") String userId, @Param("applyId") Long applyId, @Param("status") String status);
+	int updateApplyStatus(@Param("applyId") Long applyId, @Param("status") String status);
 
 
 	@Update("""
@@ -145,7 +145,7 @@ public interface AccompanyMapper {
 	                WHEN #{type} = 'RECEIVED' THEN a.userId
 	                ELSE b.authorId
 	            END as userId,
-	            b.articleId, u.nickName
+	            b.articleId, u.nickName, a.applyId, a.status
 	        FROM AccompanyApply a
 	        JOIN Board b ON a.articleId = b.articleId
 	        JOIN Users u ON u.userId = CASE 
@@ -204,15 +204,6 @@ public interface AccompanyMapper {
 			VALUES (#{tripId}, #{applicantId}, #{role})
 			""")
 	int insertAccompany(@Param("tripId") Long tripId, @Param("applicantId") String applicantId, @Param("role") String role);
-
-
-	@Update("""
-			UPDATE AccompanyApply
-			SET isOk = 1
-			WHERE applyId = #{applyId}
-			AND deletedDate IS NULL
-			""")
-	int updateAccompanyApplyStatus(@Param("applyId") Long applyId);
 	
 	
 	@Select("""
@@ -237,5 +228,15 @@ public interface AccompanyMapper {
 		    AND p.arrivedDate = CURDATE()
 		    """)
 	List<AccompanyNotificationDto> findAllArrivedAccompany();
+
+	
+	@Select("""
+			SELECT u.userId, u.nickName
+			FROM Accompany a
+			JOIN Users u ON a.userId = u.userId
+			WHERE a.tripId = #{tripId}
+			ORDER BY FIELD(a.role, '팀장', '동행원', '일반'), u.nickName
+			""")
+	List<MannerUserResponse> findAllAccompany(Long tripId);
 	
 }

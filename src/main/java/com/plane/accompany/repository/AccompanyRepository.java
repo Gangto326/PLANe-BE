@@ -11,6 +11,7 @@ import com.plane.accompany.dto.AccompanyDetailResponse;
 import com.plane.accompany.dto.AccompanyResponse;
 import com.plane.accompany.dto.AccompanyTripInfo;
 import com.plane.accompany.dto.ApplyType;
+import com.plane.manner.dto.MannerUserResponse;
 import com.plane.notification.dto.AccompanyNotificationDto;
 
 public interface AccompanyRepository {
@@ -29,7 +30,7 @@ public interface AccompanyRepository {
 
 	int deleteAllApplyDetails(Long applyId);
 
-	int updateApplyStatus(String userId, Long applyId, String status);
+	int updateApplyStatus(Long applyId, String status);
 
 	int deleteAccompany(String userId, Long applyId);
 
@@ -42,11 +43,11 @@ public interface AccompanyRepository {
 	int countAccompanyByTripId(Long tripId);
 
 	int insertAccompany(Long tripId, String applicantId, String role);
-
-	int updateAccompanyApplyStatus(Long applyId);
 	
 	boolean existsAccompanyByUserIdAndTripId(String userId, Long tripId);
 
 	List<AccompanyNotificationDto> findAllArrivedAccompany();
+
+	List<MannerUserResponse> findAllAccompany(Long tripId);
 
 }

@@ -122,7 +122,7 @@ public class AccompanyServiceImpl implements AccompanyService {
         }
 		
 		// 상태 변경 (수정)
-		if (accompanyRepository.updateApplyStatus(userId, accompanyUpdateRequest.getApplyId(), "수정") == 1) {
+		if (accompanyRepository.updateApplyStatus(accompanyUpdateRequest.getApplyId(), "수정") == 1) {
 			return true;
 		}
 		
@@ -160,7 +160,7 @@ public class AccompanyServiceImpl implements AccompanyService {
 		
 		// 나에게 온 동행 신청을 확인한 경우 상태 변경
 		if (accompanyArticleDetailRequest.getType().equals("RECEIVED")) {
-			accompanyRepository.updateApplyStatus(userId, accompanyArticleDetailRequest.getApplyId(), "확인");
+			accompanyRepository.updateApplyStatus(accompanyArticleDetailRequest.getApplyId(), "확인");
 		}
 		
 		return accompanyDetailResponse;
@@ -174,34 +174,41 @@ public class AccompanyServiceImpl implements AccompanyService {
 		if (tripInfo == null) {
 			throw new RegistNotFoundException("해당 동행 신청을 찾을 수 없습니다.");
 		}
-			
-		int currentCount = accompanyRepository.countAccompanyByTripId(tripInfo.getTripId());
 		
-		if (currentCount >= tripInfo.getAccompanyNum()) {
-			throw new InvalidStateException("동행 인원이 초과되었습니다.");
-		}
-		
-		// 동행원 데이터 추가
-		if (accompanyRepository.insertAccompany(tripInfo.getTripId(), tripInfo.getApplicantId(), accompanyAcceptRequest.getRole()) == 1) {
+		if (accompanyAcceptRequest.getStatus().equals("수락")) {
+			int currentCount = accompanyRepository.countAccompanyByTripId(tripInfo.getTripId());
 			
-			// 승낙처리
-			accompanyRepository.updateAccompanyApplyStatus(accompanyAcceptRequest.getApplyId());
-			
-			try {
-				ArticleNotificationInfo articleNotificationInfo = articleRepository.selectArticleNotificationInfo(tripInfo.getArticleId());
-				
-				NotificationCreateRequest notificationCreateRequest = new NotificationCreateRequest();
-				notificationCreateRequest.setNotificationType("accompany");
-				notificationCreateRequest.setContentId(accompanyAcceptRequest.getApplyId());
-				notificationCreateRequest.setDetails(articleNotificationInfo.getTitle());
-				notificationCreateRequest.setType(NotificationTargetType.ACCOMPANY);
-				notificationCreateRequest.setAction(NotificationAction.ACCEPT);
-				
-				notificationService.createNotification(tripInfo.getApplicantId(), notificationCreateRequest);
-			} catch (Exception e) {
-				return true;
+			if (currentCount >= tripInfo.getAccompanyNum()) {
+				throw new InvalidStateException("동행 인원이 초과되었습니다.");
 			}
 			
+			// 동행원 데이터 추가
+			if (accompanyRepository.insertAccompany(tripInfo.getTripId(), tripInfo.getApplicantId(), accompanyAcceptRequest.getRole()) == 1) {
+				
+				// 승낙처리
+				accompanyRepository.updateApplyStatus(accompanyAcceptRequest.getApplyId(), accompanyAcceptRequest.getStatus());
+				
+				try {
+					ArticleNotificationInfo articleNotificationInfo = articleRepository.selectArticleNotificationInfo(tripInfo.getArticleId());
+					
+					NotificationCreateRequest notificationCreateRequest = new NotificationCreateRequest();
+					notificationCreateRequest.setNotificationType("accompany");
+					notificationCreateRequest.setContentId(accompanyAcceptRequest.getApplyId());
+					notificationCreateRequest.setDetails(articleNotificationInfo.getTitle());
+					notificationCreateRequest.setType(NotificationTargetType.ACCOMPANY);
+					notificationCreateRequest.setAction(NotificationAction.ACCEPT);
+					
+					notificationService.createNotification(tripInfo.getApplicantId(), notificationCreateRequest);
+				} catch (Exception e) {
+					return true;
+				}
+			}
+		}
+		
+		else {
+			
+			// 거절 처리
+			accompanyRepository.updateApplyStatus(accompanyAcceptRequest.getApplyId(), accompanyAcceptRequest.getStatus());
 			return true;
 		}
 		
