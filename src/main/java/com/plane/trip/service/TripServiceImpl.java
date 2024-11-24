@@ -221,7 +221,6 @@ public class TripServiceImpl implements TripService {
 		tripDetailResponse.setAccompanyNum(tripResponse.getAccompanyNum());
 		tripDetailResponse.setTripDays(tripResponse.getTripDays());
 		tripDetailResponse.setLiked(tripResponse.isLiked());
-		tripDetailResponse.setPublic(tripResponse.isPublic());
 		tripDetailResponse.setReviewed(tripResponse.isReviewed());
 		tripDetailResponse.setThemaList(tripResponse.getThemaList());
 		

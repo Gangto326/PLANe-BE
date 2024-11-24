@@ -35,33 +35,60 @@ public class NotificationScheduler {
 	public void checkAndSendNotifications() {
 		
 		LocalDateTime now = LocalDateTime.now();
-        
 		List<ScheduledNotification> notifications = notificationRepository.findByScheduledTimeBeforeAndIsSentFalseAndIsActiveTrue(now);
         
 		for (ScheduledNotification notification : notifications) {
 			
-            try {
-                // 알림 발송 로직
-                NotificationCreateRequest notificationCreateRequest = new NotificationCreateRequest();
-                notificationCreateRequest.setContentId(notification.getTripId());
-                notificationCreateRequest.setNotificationType("여행");
-                
-                NotificationTarget target = new NotificationTarget();
-        		target.setType(NotificationTargetType.REVIEW);
-        		target.setNickname(userRepository.selectUserNicknameByUserId(notification.getUserId()));
-        		target.setContent(notification.getTitle());
-        		
-        		String title = notificationTitleGenerator.generateTitle(target, NotificationAction.REQUEST);
-        		notificationCreateRequest.setTitle(title);
-                
-                notificationRepository.insertNotification(notification.getUserId(), notificationCreateRequest);
-                notificationRepository.updateStatus(notification.getTripId());
-                
-            } catch (Exception e) {
-            	
-            }
+			// 후기 등록 알림인 경우
+			if (notification.getType().equals("후기")) {
+				
+				try {
+	                // 알림 발송 로직
+	                NotificationCreateRequest notificationCreateRequest = new NotificationCreateRequest();
+	                notificationCreateRequest.setContentId(notification.getTripId());
+	                notificationCreateRequest.setNotificationType("여행");
+	                
+	                NotificationTarget target = new NotificationTarget();
+	        		target.setType(NotificationTargetType.REVIEW);
+	        		target.setNickname(userRepository.selectUserNicknameByUserId(notification.getUserId()));
+	        		target.setContent(notification.getTitle());
+	        		
+	        		String title = notificationTitleGenerator.generateTitle(target, NotificationAction.REQUEST);
+	        		notificationCreateRequest.setTitle(title);
+	                
+	                notificationRepository.insertNotification(notification.getUserId(), notificationCreateRequest);
+	                notificationRepository.updateStatus(notification.getTripId());
+	                
+		            } catch (Exception e) {
+		            	
+		            }
+				
+			}
+			// 매너 평가 관련 알림인 경우
+			else if (notification.getType().equals("매너")) {
+				
+				try {
+	                // 알림 발송 로직
+	                NotificationCreateRequest notificationCreateRequest = new NotificationCreateRequest();
+	                notificationCreateRequest.setContentId(notification.getTripId());
+	                notificationCreateRequest.setNotificationType("매너");
+	                
+	                NotificationTarget target = new NotificationTarget();
+	        		target.setType(NotificationTargetType.MANNER);
+	        		target.setNickname(userRepository.selectUserNicknameByUserId(notification.getUserId()));
+	        		target.setContent(notification.getTitle());
+	        		
+	        		String title = notificationTitleGenerator.generateTitle(target, NotificationAction.REQUEST);
+	        		notificationCreateRequest.setTitle(title);
+	                
+	                notificationRepository.insertNotification(notification.getUserId(), notificationCreateRequest);
+	                notificationRepository.updateStatus(notification.getTripId());
+	                
+		            } catch (Exception e) {
+		            	
+		            }
+				
+			}
         }
-		
     }
-	
 }

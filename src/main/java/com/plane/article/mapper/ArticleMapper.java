@@ -21,6 +21,7 @@ import com.plane.article.dto.ArticleReportRequest;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
+import com.plane.article.dto.ChangePublicRequest;
 import com.plane.common.dto.PageRequest;
 
 @Mapper
@@ -161,6 +162,7 @@ public interface ArticleMapper {
 		    LEFT JOIN Region r ON p.regionId = r.regionId
 		    <where>
 			    b.deletedDate IS NULL
+			    AND b.isPublic = true
 				<if test="articleSearchRequest.articleType != null">
 					AND b.articleType = #{articleSearchRequest.articleType}
 		        </if>
@@ -266,10 +268,19 @@ public interface ArticleMapper {
 
 	
 	@Insert("""
-			INSERT INTO Board (`authorId`, `tripId`, `articleType`, `title`, `content`, `articlePictureUrl`)
-			VALUES (#{userId}, #{request.tripId}, #{request.articleType}, #{request.title}, #{request.content}, #{request.articlePictureUrl})
+			INSERT INTO Board (`authorId`, `tripId`, `articleType`, `title`, `content`, `articlePictureUrl`, `isPublic`)
+			VALUES (#{userId}, #{request.tripId}, #{request.articleType}, #{request.title}, #{request.content}, #{request.articlePictureUrl}, #{request.isPublic})
 			""")
 	int insertArticle(@Param("userId") String userId, @Param("request") ArticleCreateRequest articleCreateRequest);
+
+	
+	@Update("""
+			UPDATE Board
+			SET isPublic = #{request.isPublic}
+			WHERE authorId = #{userId}
+			AND articleId = #{request.articleId}
+			""")
+	int updateArticlePublic(@Param("userId") String userId, @Param("request") ChangePublicRequest changePublicRequest);
 
 
 }

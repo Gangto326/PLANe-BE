@@ -34,5 +34,6 @@ public class AccompanyAcceptRequest {
 	public void setRole(String role) {
 		this.role = role;
 	}
+
 	
 }

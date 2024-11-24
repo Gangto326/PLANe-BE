@@ -17,6 +17,7 @@ import com.plane.article.dto.ArticleReportRequest;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.article.dto.ArticleSearchRequest;
 import com.plane.article.dto.ArticleUpdateRequest;
+import com.plane.article.dto.ChangePublicRequest;
 import com.plane.article.repository.ArticleRepository;
 import com.plane.comment.dto.CommentNotificationInfo;
 import com.plane.common.dto.PageInfo;
@@ -31,6 +32,7 @@ import com.plane.common.exception.custom.CreationFailedException;
 import com.plane.common.exception.custom.DuplicateException;
 import com.plane.common.exception.custom.InvalidParameterException;
 import com.plane.common.exception.custom.UnauthorizedException;
+import com.plane.common.exception.custom.UpdateFailedException;
 import com.plane.common.exception.custom.UserNotFoundException;
 import com.plane.common.service.S3Service;
 import com.plane.notification.dto.NotificationAction;
@@ -247,8 +249,16 @@ public class ArticleServiceImpl implements ArticleService {
 			throw new InvalidParameterException("동행 글에는 동행 인원이 있어야 합니다.");
 		}
 		
-		if (plane.getArrivedDate().isAfter(LocalDate.now()) && articleCreateRequest.getArticleType().equals("후기")) {
-			throw new InvalidParameterException("후기 글은 여행이 끝난 이후여야 합니다.");
+		if (articleCreateRequest.getArticleType().equals("후기")) {
+			
+			if (plane.getArrivedDate().isAfter(LocalDate.now())) {
+				throw new InvalidParameterException("후기 글은 여행이 끝난 이후여야 합니다.");
+			}
+			
+			if (tripRepository.updatePlaneIsReviewed(userId, articleCreateRequest.getTripId()) != 1) {
+				throw new UpdateFailedException("후기 처리 중 오류가 발생하였습니다.");
+			}
+			
 		}
 		
 		if (articleCreateRequest.getFile() != null && !articleCreateRequest.getFile().isEmpty()) {
@@ -263,6 +273,21 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 		
 		throw new ArticleCreateException("게시글 생성 중 오류가 발생했습니다.");
+	}
+
+
+	@Override
+	public boolean changeArticlePublic(String userId, ChangePublicRequest changePublicRequest) {
+		
+		if (!articleRepository.existsArticleByArticleId(changePublicRequest.getArticleId())) {
+			throw new ArticleNotFoundException("게시글을 찾을 수 없습니다.");
+		}
+		
+		if (articleRepository.updateArticlePublic(userId, changePublicRequest) == 1) {
+			return true;
+		}
+		
+		throw new ArticleUpdateException("공개여부 전환 중 오류가 발생했습니다.");
 	}
 
 	

@@ -160,5 +160,12 @@ public class TripRepositoryImpl implements TripRepository {
 		return tripMapper.selectUpcomingTrip(userId);
 	}
 
+
+	@Override
+	public int updatePlaneIsReviewed(String userId, Long tripId) {
+		
+		return tripMapper.updatePlaneIsReviewed(userId, tripId);
+	}
+
 	
 }

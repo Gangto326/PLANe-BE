@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.plane.accompany.dto.AccompanyAcceptRequest;
 import com.plane.accompany.dto.AccompanyApplyDto;
 import com.plane.accompany.dto.AccompanyDetailRequest;
 import com.plane.accompany.dto.AccompanyDetailResponse;
 import com.plane.accompany.dto.AccompanyResponse;
 import com.plane.accompany.dto.AccompanyTripInfo;
 import com.plane.accompany.dto.ApplyType;
+import com.plane.notification.dto.AccompanyNotificationDto;
 
 public interface AccompanyRepository {
 	
@@ -44,5 +46,7 @@ public interface AccompanyRepository {
 	int updateAccompanyApplyStatus(Long applyId);
 	
 	boolean existsAccompanyByUserIdAndTripId(String userId, Long tripId);
+
+	List<AccompanyNotificationDto> findAllArrivedAccompany();
 
 }
