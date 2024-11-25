@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.plane.ai.dto.AiGenerateRequest;
 import com.plane.ai.service.AiService;
 import com.plane.common.annotation.UserId;
+import com.plane.common.response.ApiResponse;
 
 @RestController
 @RequestMapping("/api/ai")
@@ -23,14 +24,12 @@ public class AiController {
     }
 
     @PostMapping("/generate")
-    public ResponseEntity<String> generateText(
+    public ResponseEntity<ApiResponse<String>> generateText(
     		@UserId String userId,
     		@RequestBody AiGenerateRequest aiGenerateRequest) {
     	
         String response = aiService.generateWithTemplate(userId, aiGenerateRequest);
-        
-        System.out.println(response);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ApiResponse.success(response, "AI 응답이 성공적으로 반환되었습니다."));
     }
 	
 }
