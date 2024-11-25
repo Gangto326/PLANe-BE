@@ -267,9 +267,6 @@ public class ArticleServiceImpl implements ArticleService {
 				throw new InvalidParameterException("후기 글은 여행이 끝난 이후여야 합니다.");
 			}
 			
-			if (tripRepository.updatePlaneIsReviewed(userId, articleCreateRequest.getTripId()) != 1) {
-				throw new UpdateFailedException("후기 처리 중 오류가 발생하였습니다.");
-			}
 			
 		}
 		

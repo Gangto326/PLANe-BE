@@ -54,7 +54,7 @@ public class AfterTripServiceImpl implements AfterTripService {
 			throw new TripNotFoundException("해당 여행을 찾을 수 없습니다.");
 		}
 		
-		if (plane.getArrivedDate().isBefore(LocalDate.now())) {
+		if (plane.getArrivedDate().isAfter(LocalDate.now())) {
 			throw new InvalidParameterException("후기는 여행 종료 후 작성할 수 있습니다.");
 		}
 		
@@ -78,6 +78,10 @@ public class AfterTripServiceImpl implements AfterTripService {
 					fileList.add(afterPic);
 				}
 			}
+		}
+		
+		if (tripRepository.updatePlaneIsReviewed(userId, afterTripCreateRequest.getTripId()) != 1) {
+			throw new UpdateFailedException("후기 처리 중 오류가 발생하였습니다.");
 		}
 		
 		if (afterTripRepository.insertAfterPic(fileList) != fileList.size()) {

@@ -34,11 +34,30 @@ public interface TripMapMapper {
 	boolean existsMapByUserIdAndRegionId(@Param("userId") String userId, @Param("regionId") Integer regionId);
 
 	
+//	@Select("""
+//			SELECT tripId, regionId, ST_X(mapLocate) AS mapx, ST_Y(mapLocate) AS mapy, mapPictureUrl, mapContent
+//			FROM TripMap
+//			WHERE userId = #{userId}
+//			AND deletedDate IS NULL
+//			""")
+//	List<TripMapListResponse> selectAllTripMapByUserId(@Param("userId") String userId);
+	
+	
 	@Select("""
-			SELECT tripId, regionId, ST_X(mapLocate) AS mapx, ST_Y(mapLocate) AS mapy, mapPictureUrl, mapContent
-			FROM TripMap
-			WHERE userId = #{userId}
-			AND deletedDate IS NULL
+			SELECT DISTINCT main.regionId,
+			(
+				SELECT p.afterPictureUrl 
+				FROM PLANe e
+				INNER JOIN AfterTrip t ON e.tripId = t.tripId
+				INNER JOIN AfterPic p ON t.afterTripId = p.afterTripId
+				WHERE e.userId = #{userId} AND e.regionId = main.regionId
+				ORDER BY RAND() LIMIT 1
+			) AS afterPictureUrl
+			FROM (
+			SELECT e.regionId
+			FROM PLANe e
+			WHERE e.userId = #{userId}
+			) main
 			""")
 	List<TripMapListResponse> selectAllTripMapByUserId(@Param("userId") String userId);
 
