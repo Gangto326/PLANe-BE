@@ -117,6 +117,15 @@ public interface ArticleMapper {
 			        	AND i.type = 'RECOMMAND'
 			        	)
 			    </if>
+			    <if test="articleSearchRequest.isSaved">
+			        AND EXISTS (
+			        	SELECT 1
+			        	FROM Interactions i
+			        	WHERE i.articleId = b.articleId 
+			        	AND i.userId = #{userId}
+			        	AND i.type = 'SAVE'
+			        	)
+			    </if>
 			    <if test="articleSearchRequest.searchTitle != null">
 		            AND b.title LIKE CONCAT('%', #{articleSearchRequest.searchTitle}, '%')
 		        </if>
@@ -186,6 +195,15 @@ public interface ArticleMapper {
 			        	WHERE i.articleId = b.articleId 
 			        	AND i.userId = #{userId}
 			        	AND i.type = 'RECOMMAND'
+			        	)
+			    </if>
+			    <if test="articleSearchRequest.isSaved">
+			        AND EXISTS (
+			        	SELECT 1
+			        	FROM Interactions i
+			        	WHERE i.articleId = b.articleId 
+			        	AND i.userId = #{userId}
+			        	AND i.type = 'SAVE'
 			        	)
 			    </if>
 			    <if test="articleSearchRequest.searchTitle != null">

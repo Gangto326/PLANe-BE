@@ -103,6 +103,7 @@ public class ArticleController {
 	        @RequestParam(required = false)
 	        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate tripPeriod,
 	        @RequestParam(required = false) @Min(0) Integer tripDays,
+	        @RequestParam(required = false) boolean saved,
 	        @RequestParam(required = false) boolean recommend,
 	        @RequestParam(required = false) String searchTitle
 			) {
@@ -134,6 +135,7 @@ public class ArticleController {
         articleSearchRequest.setTripThema(themaList);
         articleSearchRequest.setTripPeriod(tripPeriod);
         articleSearchRequest.setTripDays(tripDays);
+        articleSearchRequest.setSaved(saved);
         articleSearchRequest.setRecommand(recommend);
         articleSearchRequest.setSearchTitle(searchTitle);
         
