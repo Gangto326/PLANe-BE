@@ -279,7 +279,7 @@ public interface TripMapper {
 			   </if>
 			   <if test="tripSearchRequest.isReviewed != null">
 			       AND isReviewed = #{tripSearchRequest.isReviewed}
-			       AND arrivedDate < CURDATE()
+			       AND arrivedDate &lt; CURDATE()
 			   </if>
 			</where>
 			ORDER BY ${tripSearchRequest.pageRequest.sortBy} ${tripSearchRequest.pageRequest.sortDirection}
@@ -317,7 +317,7 @@ public interface TripMapper {
 			   </if>
 			   <if test="tripSearchRequest.isReviewed != null">
 			       AND isReviewed = #{tripSearchRequest.isReviewed}
-			       AND arrivedDate < CURDATE()
+			       AND arrivedDate &lt; CURDATE()
 			   </if>
 			</where>
 			</script>
@@ -390,7 +390,7 @@ public interface TripMapper {
 	           </if>
 	           <if test="tripSearchRequest.isReviewed != null">
 	               AND p.isReviewed = #{tripSearchRequest.isReviewed}
-	               AND p.arrivedDate < CURDATE()
+	               AND p.arrivedDate &lt; CURDATE()
 	           </if>
 	        </where>
 			</script>
@@ -433,7 +433,7 @@ public interface TripMapper {
 	           </if>
 	           <if test="tripSearchRequest.isReviewed != null">
 	               AND p.isReviewed = #{tripSearchRequest.isReviewed}
-	               AND p.arrivedDate < CURDATE()
+	               AND p.arrivedDate &lt; CURDATE()
 	           </if>
 	        </where>
 	        ORDER BY ${tripSearchRequest.pageRequest.sortBy} ${tripSearchRequest.pageRequest.sortDirection}
