@@ -87,24 +87,28 @@ public class TripServiceImpl implements TripService {
         	tripRepository.insertTripThemaByTripId(tripCreateRequest.getTripId(), tripCreateRequest.getTripThema());
         }
         
-        // 동행 정보에 팀장 정보 추가
-        if (accompanyRepository.insertAccompany(tripCreateRequest.getTripId(), userId, "팀장") == 1) {
-        	
-        	// 후기 알림 발송 예약
-//        	notificationSchedulerService.scheduleTripReviewNotification(tripCreateRequest.getTripId(), tripCreateRequest.getTripName(), tripCreateRequest.getArrivedDate(), userId);
-        	
-        	ScheduledNotification notification = new ScheduledNotification();
-            notification.setTripId(tripCreateRequest.getTripId());
-            notification.setUserId(userId);
-            notification.setTitle(tripCreateRequest.getTripName());
-            notification.setScheduledTime(tripCreateRequest.getArrivedDate().plusDays(1).atStartOfDay());
-        	
-        	notificationService.save(notification);
-        	
-        	return tripCreateRequest.getTripId();
+        if (tripCreateRequest.getState().equals("저장")) {
+        	// 동행 정보에 팀장 정보 추가
+            if (accompanyRepository.insertAccompany(tripCreateRequest.getTripId(), userId, "팀장") == 1) {
+            	
+            	// 후기 알림 발송 예약
+//            	notificationSchedulerService.scheduleTripReviewNotification(tripCreateRequest.getTripId(), tripCreateRequest.getTripName(), tripCreateRequest.getArrivedDate(), userId);
+            	
+            	ScheduledNotification notification = new ScheduledNotification();
+                notification.setTripId(tripCreateRequest.getTripId());
+                notification.setUserId(userId);
+                notification.setTitle(tripCreateRequest.getTripName());
+                notification.setScheduledTime(tripCreateRequest.getArrivedDate().plusDays(1).atStartOfDay());
+            	
+            	notificationService.save(notification);
+            	
+            	return tripCreateRequest.getTripId();
+            }
+            
+            throw new CreationFailedException("여행 생성에 실패하였습니다.");
         }
-        
-        throw new CreationFailedException("여행 생성에 실패하였습니다.");
+        	
+        return tripCreateRequest.getTripId();
 	}
 	
 	
@@ -260,7 +264,7 @@ public class TripServiceImpl implements TripService {
 		List<TripSearchResponse> tripList = null;
 		
 		// 내가 동행으로 참여하는 여행의 경우만 반환
-		if (tripSearchRequest.getType().equals("accompany")) {
+		if (tripSearchRequest.getType() != null && tripSearchRequest.getType().equals("accompany")) {
 			total = tripRepository.countAllAccompanyTrips(userId, tripSearchRequest);
 			tripList = tripRepository.selectAccompanyTripsByPageRequest(userId, tripSearchRequest);
 		}
