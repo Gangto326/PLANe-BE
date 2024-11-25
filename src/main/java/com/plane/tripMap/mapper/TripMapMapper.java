@@ -44,20 +44,16 @@ public interface TripMapMapper {
 	
 	
 	@Select("""
-			SELECT DISTINCT main.regionId,
+			SELECT DISTINCT e.regionId,
 			(
 				SELECT p.afterPictureUrl 
-				FROM PLANe e
-				INNER JOIN AfterTrip t ON e.tripId = t.tripId
+				FROM AfterTrip t
 				INNER JOIN AfterPic p ON t.afterTripId = p.afterTripId
-				WHERE e.userId = #{userId} AND e.regionId = main.regionId
+				WHERE t.tripId = e.tripId
 				ORDER BY RAND() LIMIT 1
 			) AS afterPictureUrl
-			FROM (
-			SELECT e.regionId
 			FROM PLANe e
 			WHERE e.userId = #{userId}
-			) main
 			""")
 	List<TripMapListResponse> selectAllTripMapByUserId(@Param("userId") String userId);
 
