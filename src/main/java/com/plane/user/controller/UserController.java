@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.plane.common.annotation.UserId;
 import com.plane.common.response.ApiResponse;
@@ -45,26 +46,12 @@ public class UserController {
 		this.userEmailService = userEmailService;
 	}
 	
-	// 로그인 & 인증 관련
-//	@PostMapping("/login")
-//	public ResponseEntity<ApiResponse<UserLoginResponse>> login(UserLoginRequest userLoginRequest) {
-//		
-//		
-//		return null;
-//	}
 	
 //	@PostMapping("/login/social")
 //	public ResponseEntity<ApiResponse<?>> socialLogin() {
 //		
 //		return null;
 //	}
-	
-//	@PostMapping("/logout")
-//	public ResponseEntity<ApiResponse<?>> logout() {
-//		
-//		return null;
-//	}
-//	
 	
 	// 회원 관련
 	@PostMapping("/signup")
@@ -101,16 +88,20 @@ public class UserController {
 	
 	// 인증 관련
 	@PostMapping("/authentication")
-	public ResponseEntity<ApiResponse<?>> authentication() {
+	public ResponseEntity<ApiResponse<Boolean>> authentication(
+			@UserId String userId,
+			@ModelAttribute MultipartFile file
+			) {
 		
-		return null;
+		userService.uploadAuthenticationfile(userId, file);
+		return ResponseEntity.ok(ApiResponse.success(true, "마이페이지 수정이 정상적으로 처리되었습니다."));
 	}
 	
-	@PostMapping("/authenticationData")
-	public ResponseEntity<ApiResponse<?>> authenticationData() {
-		
-		return null;
-	}
+//	@PostMapping("/authenticationData")
+//	public ResponseEntity<ApiResponse<?>> authenticationData() {
+//		
+//		return null;
+//	}
 	
 	
 	// 계정 찾기 & 변경, 탈퇴

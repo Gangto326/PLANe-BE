@@ -3,8 +3,12 @@ package com.plane.user.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.plane.common.exception.custom.CreationFailedException;
+import com.plane.common.exception.custom.DuplicateException;
 import com.plane.common.exception.custom.DuplicateUserException;
+import com.plane.common.exception.custom.InvalidParameterException;
 import com.plane.common.exception.custom.InvalidPasswordException;
 import com.plane.common.exception.custom.UserNotFoundException;
 import com.plane.common.exception.custom.UserUpdateException;
@@ -211,6 +215,36 @@ public class UserServiceImpl implements UserService{
 		userIdResponse.setIdList(userRepository.selectIdByEmail(findIdRequest));
 		
 		return userIdResponse;
+	}
+
+
+	@Override
+	public boolean uploadAuthenticationfile(String userId, MultipartFile file) {
+		
+		User user = userRepository.selectUserByUserId(userId);
+		
+		if (user == null) {
+			throw new UserNotFoundException("사용자를 찾을 수 없습니다.");
+		}
+		
+		if (user.getAuthentication()) {
+			throw new DuplicateException("이미 인증된 회원입니다.");
+		}
+		
+		if (userRepository.existsAuthenticationfileByUserId(userId)) {
+			throw new DuplicateException("하나의 파일만 요청을 보낼 수 있습니다.");
+		}
+		
+		if (file != null && !file.isEmpty()) {
+			String authenticationfileUrl = s3Service.uploadDocumentFile(file);
+			String originalFilename = file.getOriginalFilename();
+			
+			if (userRepository.insertAuthenticationfile(userId, authenticationfileUrl, originalFilename) == 1) {
+				return true;
+			}
+		}
+		
+		throw new CreationFailedException("동행 인증 정보 저장 중 문제가 발생했습니다.");
 	}
 	
 }

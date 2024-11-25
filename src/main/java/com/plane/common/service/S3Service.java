@@ -50,11 +50,34 @@ public class S3Service {
         this.amazonS3Client = amazonS3Client;
         this.bucket = bucket;
     }
+    
+    
+    public String uploadDocumentFile(MultipartFile file) {
+    	
+        try {
+        	validateDocumentFile(file);
+            String fileName = createFileName(file.getOriginalFilename());
+            
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentType(file.getContentType());
+            metadata.setContentLength(file.getSize());
+            
+            amazonS3Client.putObject(
+                new PutObjectRequest(bucket, fileName, file.getInputStream(), metadata)
+            );
+
+            return amazonS3Client.getUrl(bucket, fileName).toString();
+            
+        } catch (Exception e) {
+            throw new FileUploadException("파일 업로드에 실패했습니다." + e.getMessage());
+        }
+    }
 
 
     public String uploadFile(MultipartFile file) {
     	
         try {
+        	validateImageFile(file);
             String fileName = createFileName(file.getOriginalFilename());
             
             ObjectMetadata metadata = new ObjectMetadata();
@@ -76,11 +99,6 @@ public class S3Service {
     public List<S3PicDto> uploadFiles(List<MultipartFile> files) {
     	
         List<S3PicDto> urls = new ArrayList<>();
-        
-        // 검증이 모두 끝나면
-        for (MultipartFile file : files) {
-        	validateImageFile(file);
-        }
         
         // 이후 전부 삽입
         for (MultipartFile file : files) {
