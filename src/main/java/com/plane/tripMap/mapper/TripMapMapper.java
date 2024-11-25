@@ -50,10 +50,12 @@ public interface TripMapMapper {
 				FROM AfterTrip t
 				INNER JOIN AfterPic p ON t.afterTripId = p.afterTripId
 				WHERE t.tripId = e.tripId
+				AND t.deletedDate IS NULL
 				ORDER BY RAND() LIMIT 1
 			) AS afterPictureUrl
 			FROM PLANe e
 			WHERE e.userId = #{userId}
+			AND e.deletedDate IS NULL
 			""")
 	List<TripMapListResponse> selectAllTripMapByUserId(@Param("userId") String userId);
 

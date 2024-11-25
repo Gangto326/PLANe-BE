@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.plane.user.domain.User;
 import com.plane.user.dto.FindIdRequest;
@@ -56,7 +57,6 @@ public class UserRepositoryImpl implements UserRepository{
 		return userMapper.updateUser(userId, userMyPageRequest);
 	}
 
-	
 
 	@Override
 	public int findUserById(String userId) {
@@ -122,6 +122,18 @@ public class UserRepositoryImpl implements UserRepository{
 	public int deleteVerificationCodes() {
 
 		return userMapper.deleteVerificationCodes();
+	}
+
+	@Override
+	public int insertAuthenticationfile(String userId, String authenticationfileUrl, String originalFilename) {
+		
+		return userMapper.insertAuthenticationfile(userId, authenticationfileUrl, originalFilename);
+	}
+
+	@Override
+	public boolean existsAuthenticationfileByUserId(String userId) {
+
+		return userMapper.existsAuthenticationfileByUserId(userId);
 	}
 
 	

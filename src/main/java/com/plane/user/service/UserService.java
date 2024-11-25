@@ -12,6 +12,8 @@ import jakarta.validation.Valid;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 
 public interface UserService {
 	
@@ -28,5 +30,7 @@ public interface UserService {
 	boolean changePassword(String userId, ChangePasswordRequest changePasswordRequest);
 
 	UserIdResponse findId(FindIdRequest findIdRequest);
+
+	boolean uploadAuthenticationfile(String userId, MultipartFile file);
 	
 }

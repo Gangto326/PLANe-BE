@@ -3,6 +3,8 @@ package com.plane.user.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.plane.trip.domain.TripStyle;
 import com.plane.user.domain.User;
 import com.plane.user.dto.FindIdRequest;
@@ -45,4 +47,9 @@ public interface UserRepository {
 	int updateVerificationCodeDelete(String email);
 	
 	int deleteVerificationCodes();
+
+	int insertAuthenticationfile(String userId, String authenticationfileUrl, String originalFilename);
+
+	boolean existsAuthenticationfileByUserId(String userId);
+	
 }

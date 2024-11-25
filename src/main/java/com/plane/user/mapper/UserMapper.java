@@ -175,4 +175,22 @@ public interface UserMapper {
 	        OR deletedDate IS NOT NULL
 	        """)
 	int deleteVerificationCodes();
+
+	
+	@Insert("""
+			INSERT INTO AuthenticationData (userId, authenticationfileUrl, originalFilename)
+			VALUES (#{userId}, #{url}, #{originalFilename})
+			""")
+	int insertAuthenticationfile(@Param("userId") String userId, @Param("url") String authenticationfileUrl, @Param("originalFilename") String originalFilename);
+
+	
+	@Select("""
+		    SELECT EXISTS (
+			   SELECT 1
+			   FROM AuthenticationData
+			   WHERE userId = #{userId}
+			   AND deletedDate IS NULL
+			)
+			""")
+	boolean existsAuthenticationfileByUserId(String userId);
 }
