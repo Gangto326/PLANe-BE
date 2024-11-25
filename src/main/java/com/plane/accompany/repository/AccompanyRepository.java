@@ -50,4 +50,6 @@ public interface AccompanyRepository {
 
 	List<MannerUserResponse> findAllAccompany(Long tripId);
 
+	List<String> findAllAccompanyUserId(String userId, Long tripId);
+
 }

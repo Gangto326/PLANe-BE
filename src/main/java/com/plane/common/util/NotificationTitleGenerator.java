@@ -13,6 +13,7 @@ public class NotificationTitleGenerator {
             case REPORT -> generateReportTitle(target);
             case REQUEST -> generateRequestTitle(target);
             case ACCEPT -> generateAcceptTitle(target);
+            case UPDATE -> generateUpdateTitle(target);
             default -> throw new IllegalArgumentException("지원하지 않는 알림 액션입니다: " + action);
         };
     }
@@ -42,6 +43,13 @@ public class NotificationTitleGenerator {
         return switch (target.getType()) {
         	case ARTICLE, COMMENT, REVIEW, MANNER -> throw new IllegalArgumentException("Unexpected value: " + target.getType());
             case ACCOMPANY -> String.format("%s님의 '%s' 동행 신청이 수락되었습니다", target.getNickname(), target.getContent());
+        };
+    }
+    
+    private String generateUpdateTitle(NotificationTarget target) {
+        return switch (target.getType()) {
+        	case ARTICLE, COMMENT, REVIEW, MANNER -> throw new IllegalArgumentException("Unexpected value: " + target.getType());
+            case ACCOMPANY -> String.format("'%s' 동행의 계획이 수정되었습니다. 여행을 확인해주세요", target.getContent());
         };
     }
 	

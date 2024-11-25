@@ -142,5 +142,14 @@ public class AccompanyRepositoryImpl implements AccompanyRepository {
 		return accompanyMapper.findAllAccompany(tripId);
 	}
 
+
+	@Override
+	public List<String> findAllAccompanyUserId(String userId, Long tripId) {
+		
+		return accompanyMapper.findAllAccompanyUserId(userId, tripId);
+	}
+
+
+
 	
 }

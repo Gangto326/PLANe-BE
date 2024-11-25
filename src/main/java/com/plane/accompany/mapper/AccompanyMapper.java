@@ -238,5 +238,14 @@ public interface AccompanyMapper {
 			ORDER BY FIELD(a.role, '팀장', '동행원', '일반'), u.nickName
 			""")
 	List<MannerUserResponse> findAllAccompany(Long tripId);
+
+	
+	@Select("""
+			SELECT userId
+			FROM Accompany
+			WHERE tripId = #{tripId}
+			AND userId != #{userId}
+			""")
+	List<String> findAllAccompanyUserId(String userId, Long tripId);
 	
 }
