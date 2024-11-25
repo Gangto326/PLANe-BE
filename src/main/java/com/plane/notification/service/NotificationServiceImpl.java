@@ -90,7 +90,8 @@ public class NotificationServiceImpl implements NotificationService {
 
 	
 	@Override
-	@Transactional(propagation = Propagation.REQUIRES_NEW)  // 알림이 메인 서비스 로직에 영향을 주지 않도록 새로운 트랜잭션으로 처리
+	@Async // 알림이 메인 서비스 로직에 영향을 주지 않도록 새로운 트랜잭션으로 처리, 비동기 처리로 사용자 경험 향상
+	@Transactional  
 	public boolean createNotification(String receiverId, NotificationCreateRequest notificationCreateRequest) {
 		
 		NotificationTarget target = new NotificationTarget();

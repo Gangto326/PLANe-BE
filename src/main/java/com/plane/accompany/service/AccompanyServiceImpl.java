@@ -123,6 +123,7 @@ public class AccompanyServiceImpl implements AccompanyService {
 		
 		// 상태 변경 (수정)
 		if (accompanyRepository.updateApplyStatus(accompanyUpdateRequest.getApplyId(), "수정") == 1) {
+			
 			return true;
 		}
 		
@@ -188,6 +189,7 @@ public class AccompanyServiceImpl implements AccompanyService {
 			// 동행원 데이터 추가
 			if (accompanyRepository.insertAccompany(tripInfo.getTripId(), tripInfo.getApplicantId(), accompanyAcceptRequest.getRole()) == 1) {
 				
+				// 알림 발송
 				try {
 					ArticleNotificationInfo articleNotificationInfo = articleRepository.selectArticleNotificationInfo(tripInfo.getArticleId());
 					

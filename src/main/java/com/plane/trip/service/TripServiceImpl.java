@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.plane.accompany.repository.AccompanyRepository;
+import com.plane.article.dto.ArticleNotificationInfo;
 import com.plane.article.dto.ArticleResponse;
 import com.plane.common.dto.PageInfo;
 import com.plane.common.dto.PageRequest;
@@ -26,6 +27,10 @@ import com.plane.common.exception.custom.UnauthorizedException;
 import com.plane.common.exception.custom.UpdateFailedException;
 import com.plane.common.exception.custom.UserNotFoundException;
 import com.plane.common.service.S3Service;
+import com.plane.manner.dto.MannerUserResponse;
+import com.plane.notification.dto.NotificationAction;
+import com.plane.notification.dto.NotificationCreateRequest;
+import com.plane.notification.dto.NotificationTargetType;
 import com.plane.notification.service.NotificationSchedulerService;
 import com.plane.notification.service.NotificationService;
 import com.plane.trip.domain.TripThema;
@@ -184,6 +189,33 @@ public class TripServiceImpl implements TripService {
         	tripRepository.insertTripThemaByTripId(tripUpdateRequest.getTripId(), tripUpdateRequest.getTripThema());
         }
         
+        
+        // 수정되는 Trip의 AccompanyNum이 1 이상인 경우 (동행인 경우) 알림 발송
+        if (tripUpdateRequest.getAccompanyNum() > 1) {
+        	
+        	try {
+    			// 자기 자신을 제외한 모든 동행원들의 Id로 수정 알림 발송
+    			List<String> accompanyUserIdList = accompanyRepository.findAllAccompanyUserId(userId, tripUpdateRequest.getTripId());
+    			
+    			for (String applicantId: accompanyUserIdList) {
+    				
+    				NotificationCreateRequest notificationCreateRequest = new NotificationCreateRequest();
+    				notificationCreateRequest.setNotificationType("accompanyUpdate");
+    				notificationCreateRequest.setContentId(tripUpdateRequest.getTripId());
+    				notificationCreateRequest.setDetails(tripUpdateRequest.getTripName());
+    				notificationCreateRequest.setType(NotificationTargetType.ACCOMPANY);
+    				notificationCreateRequest.setAction(NotificationAction.UPDATE);
+    				
+    				notificationService.createNotification(applicantId, notificationCreateRequest);
+    			}
+    			
+    			
+    		} catch (Exception e) {
+    			return true;
+    		}
+        }
+        
+        // 후기 알림 정보를 수정된 정보로 갱신
         try {
         	ScheduledNotification notification = new ScheduledNotification();
             notification.setTripId(tripUpdateRequest.getTripId());
