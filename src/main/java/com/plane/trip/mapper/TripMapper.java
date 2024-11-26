@@ -248,38 +248,41 @@ public interface TripMapper {
 	
 	@Select("""
 			<script>
-			SELECT tripId, userId, regionId, tripName, departureDate, arrivedDate,
-			      state, accompanyNum, tripDays, isLiked, isReviewed,
-			      (
-			      	SELECT url
-			      	FROM TripPlan tp
-			      	WHERE tp.tripId = tripId 
-			      	AND tp.url IS NOT NULL
-			      	ORDER BY RAND() 
-			      	LIMIT 1
-			      ) as thumbnailUrl
-			FROM PLANe
+			SELECT p.tripId, p.userId, p.regionId, p.tripName, p.departureDate, p.arrivedDate,
+			       p.state, p.accompanyNum, p.tripDays, p.isLiked, p.isReviewed,
+			       (
+			         SELECT url 
+			         FROM (
+			           SELECT tp.tripId, tp.url,
+			                  ROW_NUMBER() OVER (PARTITION BY tp.tripId ORDER BY RAND()) as rn
+			           FROM TripPlan tp
+			           WHERE tp.url IS NOT NULL
+			         ) ranked
+			         WHERE ranked.tripId = p.tripId 
+			         AND ranked.rn = 1
+			       ) as thumbnailUrl
+			FROM PLANe p
 			<where>
-			   deletedDate IS NULL
-			   AND userId = #{userId}
+			   p.deletedDate IS NULL
+			   AND p.userId = #{userId}
 			   <if test="tripSearchRequest.regionId != null">
-			       AND regionId = #{tripSearchRequest.regionId}
+			       AND p.regionId = #{tripSearchRequest.regionId}
 			   </if>
 			   <if test="tripSearchRequest.state != null">
-			       AND state = #{tripSearchRequest.state}
+			       AND p.state = #{tripSearchRequest.state}
 			   </if>
 			   <if test="tripSearchRequest.accompanyNum != null">
-			       AND accompanyNum = #{tripSearchRequest.accompanyNum}
+			       AND p.accompanyNum = #{tripSearchRequest.accompanyNum}
 			   </if>
 			   <if test="tripSearchRequest.tripDays != null">
-			       AND tripDays = #{tripSearchRequest.tripDays}
+			       AND p.tripDays = #{tripSearchRequest.tripDays}
 			   </if>
 			   <if test="tripSearchRequest.isLiked != null">
-			       AND isLiked = #{tripSearchRequest.isLiked}
+			       AND p.isLiked = #{tripSearchRequest.isLiked}
 			   </if>
 			   <if test="tripSearchRequest.isReviewed != null">
-			       AND isReviewed = #{tripSearchRequest.isReviewed}
-			       AND arrivedDate &lt; CURDATE()
+			       AND p.isReviewed = #{tripSearchRequest.isReviewed}
+			       AND p.arrivedDate &lt; CURDATE()
 			   </if>
 			</where>
 			ORDER BY ${tripSearchRequest.pageRequest.sortBy} ${tripSearchRequest.pageRequest.sortDirection}
@@ -403,13 +406,16 @@ public interface TripMapper {
 	        SELECT p.tripId, p.userId, p.regionId, p.tripName, p.departureDate, p.arrivedDate,
 	              p.state, p.accompanyNum, p.tripDays, p.isLiked, p.isReviewed,
 	              (
-	                SELECT url
-	                FROM TripPlan tp
-	                WHERE tp.tripId = p.tripId 
-	                AND tp.url IS NOT NULL
-	                ORDER BY RAND() 
-	                LIMIT 1
-	              ) as thumbnailUrl
+	              SELECT url
+	              FROM (
+			            SELECT tp.tripId, tp.url,
+			            ROW_NUMBER() OVER (PARTITION BY tp.tripId ORDER BY RAND()) as rn
+			            FROM TripPlan tp
+			            WHERE tp.url IS NOT NULL
+			            ) ranked
+			      WHERE ranked.tripId = p.tripId 
+			      AND ranked.rn = 1
+			      ) as thumbnailUrl
 	        FROM PLANe p
 	        INNER JOIN Accompany a ON p.tripId = a.tripId
 	        <where>

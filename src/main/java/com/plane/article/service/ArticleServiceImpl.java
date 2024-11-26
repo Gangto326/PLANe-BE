@@ -239,7 +239,7 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		throw new CreationFailedException("신고글 생성에 실패하였습니다");
 	}
-
+	
 
 	@Override
 	public boolean createArticle(String userId, ArticleCreateRequest articleCreateRequest) {
@@ -248,6 +248,10 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		if (plane == null) {
 			throw new InvalidParameterException("여행을 찾을 수 없습니다.");
+		}
+		
+		if (plane.getState().equals("임시저장")) {
+			throw new InvalidParameterException("확정된 여행만 게시글을 작성할 수 있습니다.");
 		}
 		
 		if (articleCreateRequest.getArticleType().equals("동행")) {
@@ -262,12 +266,9 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 		
 		if (articleCreateRequest.getArticleType().equals("후기")) {
-			
 			if (plane.getArrivedDate().isAfter(LocalDate.now())) {
 				throw new InvalidParameterException("후기 글은 여행이 끝난 이후여야 합니다.");
 			}
-			
-			
 		}
 		
 		if (articleCreateRequest.getFile() != null && !articleCreateRequest.getFile().isEmpty()) {
