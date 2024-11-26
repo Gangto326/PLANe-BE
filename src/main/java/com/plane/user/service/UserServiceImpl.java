@@ -236,7 +236,7 @@ public class UserServiceImpl implements UserService{
 		}
 		
 		if (file != null && !file.isEmpty()) {
-			String authenticationfileUrl = s3Service.uploadDocumentFile(file);
+			String authenticationfileUrl = s3Service.uploadFile(file);
 			String originalFilename = file.getOriginalFilename();
 			
 			if (userRepository.insertAuthenticationfile(userId, authenticationfileUrl, originalFilename) == 1) {

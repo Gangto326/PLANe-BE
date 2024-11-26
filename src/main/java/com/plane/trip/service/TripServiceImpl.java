@@ -162,7 +162,8 @@ public class TripServiceImpl implements TripService {
 		}
 		
 		// 여행 수정 권한 확인 ('일반'은 권한 없음)
-		if (!tripRepository.checkUpdatePermission(userId, tripUpdateRequest.getTripId())) {
+		if (!tripRepository.existsTripByIdAndTripId(userId, tripUpdateRequest.getTripId())
+				&& !tripRepository.checkUpdatePermission(userId, tripUpdateRequest.getTripId())) {
 			throw new UnauthorizedException("수정 권한이 없습니다.");
 		}
 		
