@@ -96,6 +96,8 @@ public interface ArticleMapper {
 		    LEFT JOIN Region r ON p.regionId = r.regionId
 		    <where>
 			    b.deletedDate IS NULL
+			    AND b.isPublic = true
+			    AND u.deletedDate IS NULL
 				<if test="articleSearchRequest.articleType != null">
 					AND b.articleType = #{articleSearchRequest.articleType}
 		        </if>
@@ -176,6 +178,7 @@ public interface ArticleMapper {
 		    <where>
 			    b.deletedDate IS NULL
 			    AND b.isPublic = true
+			    AND u.deletedDate IS NULL
 				<if test="articleSearchRequest.articleType != null">
 					AND b.articleType = #{articleSearchRequest.articleType}
 		        </if>

@@ -88,6 +88,7 @@ public interface AccompanyMapper {
 	        JOIN Users u ON ${type.userColumn} = u.userId
 	        WHERE ${type.whereCondition} = #{userId}
 	        AND a.deletedDate IS NULL
+	        AND u.deletedDate IS NULL
 	        """)
 	List<AccompanyResponse> findAccompanyList(@Param("userId") String userId, @Param("type") ApplyType type);
 
@@ -156,6 +157,7 @@ public interface AccompanyMapper {
 	        AND ${type.whereCondition} = #{userId}
 	        AND a.deletedDate IS NULL
 	        AND b.deletedDate IS NULL
+	        AND u.deletedDate IS NULL
 	        """)
 	@Results({
 	    @Result(property = "userId", column = "userId"),
@@ -235,6 +237,8 @@ public interface AccompanyMapper {
 			FROM Accompany a
 			JOIN Users u ON a.userId = u.userId
 			WHERE a.tripId = #{tripId}
+			AND u.deletedDate IS NULL
+			AND a.deletedDate IS NULL
 			ORDER BY FIELD(a.role, '팀장', '동행원', '일반'), u.nickName
 			""")
 	List<MannerUserResponse> findAllAccompany(Long tripId);
@@ -245,6 +249,7 @@ public interface AccompanyMapper {
 			FROM Accompany
 			WHERE tripId = #{tripId}
 			AND userId != #{userId}
+			AND deletedDate IS NULL
 			""")
 	List<String> findAllAccompanyUserId(String userId, Long tripId);
 	
