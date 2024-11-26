@@ -44,5 +44,5 @@ public class AccompanyScheduler {
 		}
 	}
 	
-	// 한 달이 지난 알림은 전부 삭제.
+	
 }
